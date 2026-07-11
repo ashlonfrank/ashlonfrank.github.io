@@ -1,0 +1,1373 @@
+/* ==========================================================================
+   2026 Portfolio — layout framework (Figma 1685w default)
+   Typography: Untitled Sans · Tile media via projects.json
+   ========================================================================== */
+
+@import url("./fonts.css");
+
+:root {
+  /* Color */
+  --color-bg: #ffffff;
+  --color-text: #000000;
+  --color-index: #999999;
+  --color-tile-border: rgba(60, 60, 67, 0.18);
+  --color-tile-border-hover: rgba(60, 60, 67, 0.29);
+  --color-tile-hover-overlay: rgba(120, 120, 128, 0.08);
+
+  /* Layout — derived from Figma artboard 1685px */
+  --page-max: 1685px;
+  --page-padding: 16px;
+  --nav-height: 40px;
+  --sticky-top: 40px;
+  --nav-text-bottom: calc((var(--nav-height) + var(--text-nav-lh)) / 2);
+  --lightbox-chrome-top: calc((var(--nav-height) + var(--text-nav-lh)) / 2 + 32px);
+  --fold-peek: 143px; /* Figma reference — fixed peek band, not viewport-relative */
+  --viewport-h: 100dvh;
+  --hero-min-h: 450px;
+  --header-rule-size: 2px;
+  --header-text-gap: 16px;
+  --header-text-offset: calc(var(--header-rule-size) + var(--header-text-gap));
+  --meta-desc-lines: 5;
+  --meta-desc-h: calc(var(--text-meta-lh) * var(--meta-desc-lines));
+  --meta-copy-gap: 24px;
+  --meta-block-h: calc(var(--header-rule-size) + var(--header-text-gap) + var(--meta-desc-h) + 8px);
+  --meta-to-grid-gap: 24px;
+  --grid-row-gap: var(--meta-to-grid-gap);
+  --grid-cols: 12;
+  --grid-col-gap: 8px;
+  --sidebar-cols: 4;
+  --header-scroll-hold: 0px; /* set per project — centers meta + tiles in fold band */
+  --color-tile-fill: #e8e8e8;
+  --index-title-gap: 10px;
+  --index-cap-nudge: 2px;
+  --meta-cap-nudge: 0px;
+  --tile-radius: 2px;
+  --tile-cols: 4;
+  --tile-grid-rows: 3;
+  --tile-gap: 4px;
+  --tile-aspect-w: 16;
+  --tile-aspect-h: 10;
+  --lightbox-scale: 0.75;
+
+  /* Typography */
+  --font-sans: "Untitled Sans", system-ui, sans-serif;
+  --text-nav: 13px;
+  --text-nav-lh: 13px;
+  --text-meta: 12.6px;
+  --text-meta-lh: 19.5px;
+  --text-title: 80px;
+  --text-title-lh: 72px;
+  --text-title-tracking: -5px;
+  --text-switcher: 24px;
+  --text-footer: 12.8px;
+
+  /* Motion — instant for high-frequency switcher (Emil: no anim on repeated actions) */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-odometer: cubic-bezier(0.38, 0, 0.18, 1);
+  --index-digit-step: calc(var(--text-title) * 0.85);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-padding-top: var(--nav-height);
+  scroll-snap-type: none;
+}
+
+html.is-calibrating {
+  overflow: hidden;
+}
+
+html.is-calibrating .nav-shell,
+html.is-calibrating .page,
+html.is-calibrating .project-index {
+  visibility: hidden;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  overflow-x: clip;
+  font-size: var(--text-meta);
+  line-height: var(--text-meta-lh);
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   Page shell
+   -------------------------------------------------------------------------- */
+
+.page {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 0 var(--page-padding);
+}
+
+/* --------------------------------------------------------------------------
+   Fixed nav shell (ryry.io .steve pattern)
+   -------------------------------------------------------------------------- */
+
+.nav-shell {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100000;
+  background: var(--color-bg);
+}
+
+.nav-shell .page {
+  padding-left: var(--page-padding);
+  padding-right: var(--page-padding);
+}
+
+/* --------------------------------------------------------------------------
+   Nav — 40px, 12-col grid
+   -------------------------------------------------------------------------- */
+
+.nav {
+  height: var(--nav-height);
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+  column-gap: var(--grid-col-gap);
+  align-items: center;
+}
+
+.nav__brand {
+  grid-column: 1 / span var(--sidebar-cols);
+  font-size: var(--text-nav);
+  line-height: var(--text-nav-lh);
+}
+
+.nav__role {
+  grid-column: 5 / span 4;
+  font-size: var(--text-nav);
+  line-height: var(--text-nav-lh);
+}
+
+.nav__end {
+  grid-column: 9 / -1;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav__links {
+  display: flex;
+  justify-content: flex-end;
+  gap: 24px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav__link {
+  font-size: var(--text-nav);
+  line-height: var(--text-nav-lh);
+  cursor: pointer;
+  transition: opacity 160ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nav__link:hover {
+    opacity: 0.55;
+  }
+}
+
+.nav__link:active {
+  transform: scale(0.97);
+}
+
+/* --------------------------------------------------------------------------
+   Hero — min 450px, ~745px total in Figma
+   -------------------------------------------------------------------------- */
+
+.hero {
+  min-height: max(var(--hero-min-h), calc(var(--viewport-h) - var(--fold-peek)));
+  height: max(var(--hero-min-h), calc(var(--viewport-h) - var(--fold-peek)));
+  padding: var(--page-padding) 0;
+}
+
+/* --------------------------------------------------------------------------
+   Project section
+   -------------------------------------------------------------------------- */
+
+.project {
+  position: relative;
+  z-index: 1;
+  padding: 100px var(--page-padding) 0;
+  margin-left: calc(-1 * var(--page-padding));
+  margin-right: calc(-1 * var(--page-padding));
+  min-height: calc(var(--viewport-h) - var(--fold-peek));
+}
+
+/* Extra runway so the final section can land in the fold band */
+.project:last-of-type {
+  padding-bottom: var(--last-section-scroll-pad, 0px);
+}
+
+.project.is-index-active {
+  z-index: 3;
+}
+
+.project__inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+  column-gap: var(--grid-col-gap);
+  row-gap: var(--grid-row-gap);
+}
+
+/* Full-height anchor so the meta row can stick for the whole section */
+.project__meta-shell {
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Metadata row — full-width 12-col grid (ryry.io twelvyy pattern) */
+.project__meta {
+  position: sticky;
+  top: var(--sticky-top);
+  z-index: 1;
+  pointer-events: none;
+  background: transparent;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+  grid-template-rows: var(--header-rule-size) auto;
+  align-items: start;
+  column-gap: var(--grid-col-gap);
+  row-gap: 0;
+  padding: 0 0 8px;
+  margin-bottom: 0;
+}
+
+/* Divider over meta content cols — moves with sticky meta row */
+.project__meta::before {
+  content: "";
+  grid-column: 5 / -1;
+  grid-row: 1;
+  align-self: start;
+  height: 0;
+  border-top: var(--header-rule-size) solid var(--color-text);
+  pointer-events: none;
+  position: relative;
+  z-index: 2;
+  transition: opacity 180ms var(--ease-out), visibility 180ms var(--ease-out);
+}
+
+/* Solid white plate behind line + subtext (cols 5–12) */
+.project__meta::after {
+  content: "";
+  grid-column: 5 / -1;
+  grid-row: 1 / -1;
+  background: var(--color-bg);
+  pointer-events: none;
+  z-index: 0;
+  margin-top: calc(-1 * var(--header-text-offset));
+  padding-top: var(--header-text-offset);
+  margin-bottom: -8px;
+  padding-bottom: 8px;
+}
+
+.project.is-meta-hidden .project__meta::before,
+.project.is-meta-hidden .project__meta::after,
+.project.is-meta-hidden .project__meta-copy,
+.project.is-meta-hidden .project__meta-desc {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.project__meta-desc p {
+  margin: 0;
+}
+
+.project__meta-copy {
+  grid-column: 5 / -1;
+  grid-row: 2;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--meta-copy-gap);
+  align-items: start;
+  min-width: 0;
+  padding-top: var(--header-text-gap);
+  pointer-events: auto;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.project__meta-desc {
+  max-width: none;
+  height: var(--meta-desc-h);
+  min-height: var(--meta-desc-h);
+  overflow: hidden;
+  font-size: var(--text-meta);
+  line-height: var(--text-meta-lh);
+  background: transparent;
+  position: relative;
+  z-index: 1;
+  text-box-trim: trim-end;
+  text-box-edge: cap alphabetic;
+  transform: translateY(var(--meta-cap-nudge));
+}
+
+/* Body overlays meta row + tile row */
+.project__body {
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+  grid-template-rows: calc(var(--meta-block-h) + var(--header-scroll-hold, 220px)) auto;
+  column-gap: var(--grid-col-gap);
+  row-gap: var(--grid-row-gap);
+  z-index: 2;
+  min-width: 0;
+}
+
+/* Sticky sidebar — cols 1–4, full section height */
+.project__sidebar {
+  grid-column: 1 / span var(--sidebar-cols);
+  grid-row: 1 / -1;
+  align-self: stretch;
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow: clip;
+}
+
+/* Title block — sticky so sections stack under the nav (ryry.io pattern) */
+.project__top-content {
+  position: sticky;
+  top: var(--sticky-top);
+  z-index: 2;
+  align-self: start;
+  width: 100%;
+  padding-top: var(--header-text-offset);
+  background: var(--color-bg);
+}
+
+/* Mask any meta row / divider bleed in the sidebar column while sticky */
+.project__top-content::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  height: var(--header-text-offset);
+  background: var(--color-bg);
+}
+
+/* Bridge the 8px gutter between sidebar and meta columns */
+.project__top-content::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 100%;
+  width: var(--grid-col-gap);
+  background: var(--color-bg);
+}
+
+.project__title-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--index-title-gap);
+  width: 100%;
+}
+
+.project__index-slot {
+  flex: 0 0 var(--index-slot-w, 0.75em);
+  min-height: calc(var(--text-title) * 0.85);
+  background: transparent;
+}
+
+.project__index-spacer {
+  display: block;
+  width: 100%;
+  min-height: 1px;
+}
+
+.project__name-box {
+  flex: 1;
+  min-width: 0;
+  padding-right: 24px;
+  background: transparent;
+}
+
+.project__name {
+  margin: 0;
+  margin-left: -2px;
+  font-size: var(--text-title);
+  font-weight: 500;
+  line-height: 0.85;
+  letter-spacing: var(--text-title-tracking);
+  background: transparent;
+  overflow-wrap: break-word;
+  text-box-trim: trim-end;
+  text-box-edge: cap alphabetic;
+}
+
+/* Hidden for now — re-enable when grid density switching returns */
+.size-switcher {
+  display: none;
+}
+
+/* Future: "View full case study" — shown when section has caseStudyUrl in JSON */
+.project__case-study[hidden] {
+  display: none;
+}
+
+.project__case-study-link {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 16px;
+  font-size: var(--text-meta);
+  line-height: var(--text-meta-lh);
+  cursor: pointer;
+  transition: opacity 160ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .project__case-study-link:hover {
+    opacity: 0.55;
+  }
+}
+
+.project__name-line {
+  display: block;
+}
+
+/* Case study index — fixed in index slot, aligned to title cap height */
+.project-index {
+  position: fixed;
+  z-index: 10;
+  margin: 0;
+  padding: 0;
+  font-size: var(--text-title);
+  font-weight: 500;
+  line-height: 0.85;
+  letter-spacing: 0;
+  color: var(--color-index);
+  background: var(--color-bg);
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 220ms var(--ease-out), visibility 220ms var(--ease-out);
+  text-box-trim: trim-end;
+  text-box-edge: cap alphabetic;
+}
+
+.project-index__value {
+  display: block;
+  transform: translateY(var(--index-cap-nudge));
+}
+
+.project-index__digits {
+  display: inline-flex;
+  align-items: flex-start;
+}
+
+.project-index__digit {
+  display: block;
+  flex: 0 0 var(--index-digit-w, 0.65em);
+  width: var(--index-digit-w, 0.65em);
+  height: var(--index-digit-step);
+  overflow: hidden;
+}
+
+.project-index__digit + .project-index__digit {
+  margin-left: var(--text-title-tracking);
+}
+
+.project-index__digit-strip {
+  display: block;
+  transition: transform var(--index-odometer-ms, 640ms) var(--ease-odometer);
+  will-change: transform;
+}
+
+.project-index__digit-strip.is-instant {
+  transition: none;
+}
+
+.project-index__digit-char {
+  display: block;
+  width: 100%;
+  height: var(--index-digit-step);
+  line-height: var(--index-digit-step);
+  letter-spacing: 0;
+  font-variant-numeric: normal;
+}
+
+.project-index::before {
+  content: "";
+  position: absolute;
+  left: -4px;
+  right: -4px;
+  bottom: 100%;
+  height: var(--header-text-offset);
+  background: var(--color-bg);
+}
+
+.project-index.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Media grid — row 2, cols 5–12; slides over meta copy while scrolling (ryry pattern) */
+.project__grid-wrap {
+  grid-column: 5 / -1;
+  grid-row: 2;
+  align-self: start;
+  min-width: 0;
+  min-height: 0;
+  position: relative;
+  z-index: 2;
+  background: var(--color-bg);
+}
+
+.project__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--tile-cols), minmax(0, 1fr));
+  grid-auto-rows: auto;
+  gap: var(--tile-gap);
+  align-content: start;
+  width: 100%;
+  min-width: 0;
+  background: var(--color-bg);
+}
+
+/* Tile — 16:10 frames with solid white gutters */
+.tile-wrap {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  aspect-ratio: var(--tile-aspect-w) / var(--tile-aspect-h);
+  min-height: 0;
+  height: auto;
+  border-radius: var(--tile-radius);
+  overflow: hidden;
+  transition: transform 100ms cubic-bezier(0, 0, 0.58, 1);
+}
+
+/* Hover — subtle fill overlay, no border */
+.tile-wrap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--color-tile-hover-overlay);
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 200ms cubic-bezier(0, 0, 0.58, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .tile-wrap:hover::before {
+    opacity: 1;
+  }
+
+  /* Press — scale the whole tile; hide hover overlay so it doesn't offset (Apple HIG) */
+  .tile-wrap:has(.tile-inner:active)::before {
+    opacity: 0;
+  }
+}
+
+.tile-wrap:has(.tile-inner:active) {
+  transform: scale(0.98);
+}
+
+.tile-wrap:has(.tile-inner:focus-visible)::before {
+  opacity: 1;
+}
+
+.tile-wrap:has(.tile-inner.is-lightbox-source)::before {
+  display: none;
+}
+
+.tile-inner {
+  aspect-ratio: auto;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  background-color: var(--color-tile-fill);
+  opacity: 1;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+  appearance: none;
+}
+
+.tile-inner:active,
+.tile-inner:focus-visible {
+  background-color: var(--color-tile-fill);
+}
+
+.tile-inner:focus-visible {
+  outline: none;
+}
+
+.tile-inner__media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+.tile-inner__placeholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-tile-fill);
+}
+
+/* Lightbox — centered 16:10 frame at 75% scale, page stays visible behind */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: max(24px, var(--page-padding));
+  cursor: default;
+  pointer-events: none;
+}
+
+.lightbox[hidden] {
+  display: none;
+}
+
+.lightbox__backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: rgba(0, 0, 0, 0.733);
+  cursor: default;
+  pointer-events: auto;
+}
+
+.lightbox__chrome {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.lightbox__control {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.92);
+  background: rgba(58, 58, 60, 0.68);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 1px 2px rgba(0, 0, 0, 0.18);
+  transition:
+    opacity 160ms var(--ease-out),
+    transform 120ms var(--ease-out),
+    background-color 160ms var(--ease-out);
+}
+
+.lightbox__control:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.88);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lightbox__control:hover {
+    background: rgba(72, 72, 74, 0.78);
+  }
+}
+
+.lightbox__control:active {
+  transform: scale(0.96);
+  opacity: 0.88;
+}
+
+.lightbox__control--back {
+  position: absolute;
+  top: var(--lightbox-chrome-top);
+  left: max(16px, var(--page-padding));
+  border-radius: 50%;
+}
+
+.lightbox__nav {
+  position: absolute;
+  top: var(--lightbox-chrome-top);
+  right: max(16px, var(--page-padding));
+  display: inline-flex;
+  align-items: stretch;
+  pointer-events: auto;
+  border-radius: 22px;
+  overflow: hidden;
+  background: rgba(58, 58, 60, 0.68);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 1px 2px rgba(0, 0, 0, 0.18);
+}
+
+.lightbox__nav .lightbox__control {
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.lightbox__nav .lightbox__control + .lightbox__control {
+  box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.12);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lightbox__nav .lightbox__control:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+}
+
+.lightbox__icon {
+  display: block;
+  flex: 0 0 auto;
+}
+
+.lightbox__stage {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.lightbox__frame {
+  aspect-ratio: var(--tile-aspect-w) / var(--tile-aspect-h);
+  width: min(
+    calc((100vw - (max(24px, var(--page-padding)) * 2)) * var(--lightbox-scale)),
+    calc(
+      (100vh - (max(24px, var(--page-padding)) * 2)) *
+        var(--tile-aspect-w) / var(--tile-aspect-h) *
+        var(--lightbox-scale)
+    )
+  );
+  max-height: calc((100vh - (max(24px, var(--page-padding)) * 2)) * var(--lightbox-scale));
+  overflow: hidden;
+  background: var(--color-tile-fill);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.12);
+  pointer-events: auto;
+}
+
+.lightbox__media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: auto;
+}
+
+.lightbox__placeholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-tile-fill);
+}
+
+@media (max-width: 479px) {
+  .lightbox {
+    padding: 16px;
+  }
+
+  .lightbox__frame {
+    width: min(
+      calc((100vw - 32px) * var(--lightbox-scale)),
+      calc((100vh - 32px) * var(--tile-aspect-w) / var(--tile-aspect-h) * var(--lightbox-scale))
+    );
+    max-height: calc((100vh - 32px) * var(--lightbox-scale));
+  }
+}
+
+body.is-lightbox-open {
+  overflow: hidden;
+}
+
+html.lenis body.is-lightbox-open {
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   Footer
+   -------------------------------------------------------------------------- */
+
+.footer {
+  padding: 100px var(--page-padding) 16px;
+  margin-left: calc(-1 * var(--page-padding));
+  margin-right: calc(-1 * var(--page-padding));
+}
+
+.footer--static {
+  padding-top: 48px;
+}
+
+/* Top row — visible in fold peek after the final project */
+.footer__peek {
+  pointer-events: auto;
+}
+
+.footer__peek-inner {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+  column-gap: var(--grid-col-gap);
+  align-items: start;
+  border-top: var(--header-rule-size) solid var(--color-text);
+  padding-top: var(--header-text-gap);
+}
+
+.footer__peek-inner .footer__note {
+  grid-column: 1 / span 3;
+  grid-row: 1;
+  margin: 0;
+  justify-self: start;
+  align-self: start;
+  font-size: var(--text-footer);
+  line-height: var(--text-meta-lh);
+}
+
+.footer__peek-inner .footer__social-link {
+  grid-column: 6 / span 2;
+  grid-row: 1;
+  justify-self: center;
+  align-self: start;
+  font-size: var(--text-footer);
+  line-height: var(--text-meta-lh);
+  color: var(--color-text);
+  opacity: 1;
+  transition: opacity 160ms var(--ease-out), transform 120ms var(--ease-out);
+}
+
+.footer__peek-inner .footer__credit-wrap {
+  grid-column: 9 / -1;
+  grid-row: 1;
+  margin: 0;
+  justify-self: end;
+  align-self: start;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 12px;
+  white-space: nowrap;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .footer__peek-inner .footer__social-link:hover {
+    opacity: 0.55;
+  }
+}
+
+.footer__peek-inner .footer__social-link:active {
+  transform: scale(0.92);
+}
+
+.footer__peek-inner .footer__social-link[hidden] {
+  display: none;
+}
+
+.footer__email-group {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.footer__peek-inner .footer__credit {
+  margin: 0;
+  text-align: left;
+}
+
+.social-icon {
+  display: block;
+}
+
+.footer__copy {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-text);
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity 160ms var(--ease-out), transform 120ms var(--ease-out);
+}
+
+.footer__copy-icon {
+  display: block;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .footer__copy:hover {
+    opacity: 0.85;
+  }
+}
+
+.footer__copy:active {
+  transform: scale(0.92);
+}
+
+.footer__copy.is-copied {
+  opacity: 0.85;
+}
+
+.footer__grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 8px;
+  row-gap: 48px;
+  padding-top: 48px;
+}
+
+.footer__col-left {
+  grid-column: 1 / span 3;
+}
+
+.footer__col-right {
+  grid-column: 7 / span 6;
+}
+
+.footer__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  padding-top: 0;
+  font-size: 12.9px;
+  line-height: 13px;
+  cursor: pointer;
+  transition: opacity 160ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .footer__link:hover {
+    opacity: 0.55;
+  }
+}
+
+.footer__link:active {
+  transform: scale(0.97);
+}
+
+.footer__social-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer__social-item {
+  padding-top: 0;
+}
+
+.footer__social-list .footer__social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.6px;
+  line-height: 13px;
+  cursor: pointer;
+  transition: opacity 160ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .footer__social-list .footer__social-link:hover {
+    opacity: 0.55;
+  }
+}
+
+.footer__social-list .footer__social-link:active {
+  transform: scale(0.97);
+}
+
+.footer__arrow {
+  display: inline-block;
+  width: 7px;
+  height: 18px;
+  margin-left: 6px;
+  position: relative;
+  top: -2px;
+}
+
+.footer__arrow::after {
+  content: "↗";
+  font-size: 11px;
+  line-height: 1;
+}
+
+.footer__note {
+  font-size: var(--text-footer);
+  line-height: var(--text-meta-lh);
+}
+
+.footer__credit {
+  font-size: var(--text-footer);
+  line-height: var(--text-meta-lh);
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 160ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .footer__credit:hover {
+    opacity: 0.55;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   About — empty first fold, editorial text column on the right
+   -------------------------------------------------------------------------- */
+
+.about {
+  --about-line-size: 48px;
+  --about-line-lh: 44px;
+  --about-line-gap: calc(var(--about-line-size) * 0.55);
+  /* First fold: full line 1 + ~33% of line 2 visible at the bottom */
+  --about-fold-peek: calc(
+    var(--about-line-lh) + var(--about-line-gap) + var(--about-line-lh) * 0.33
+  );
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+  column-gap: var(--grid-col-gap);
+}
+
+.about__fold {
+  grid-column: 1 / -1;
+  height: calc(100dvh - var(--about-fold-peek));
+}
+
+.about__text {
+  grid-column: 7 / -1;
+  padding-bottom: 80px;
+}
+
+.about__contact {
+  position: fixed;
+  left: max(var(--page-padding), calc((100vw - var(--page-max)) / 2 + var(--page-padding)));
+  bottom: 16px;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  font-size: var(--text-nav);
+  line-height: var(--text-nav-lh);
+  pointer-events: auto;
+}
+
+.about__contact-link {
+  color: var(--color-text);
+  transition: opacity 160ms var(--ease-out);
+}
+
+.about__contact-link[hidden] {
+  display: none;
+}
+
+.about__contact-location {
+  color: var(--color-text);
+}
+
+.about__contact-location[hidden] {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .about__contact-link:hover {
+    opacity: 0.55;
+  }
+}
+
+@media (max-width: 900px) {
+  .about__contact {
+    left: max(var(--page-padding), calc((100vw - var(--page-max)) / 2 + var(--page-padding)));
+    right: max(var(--page-padding), calc((100vw - var(--page-max)) / 2 + var(--page-padding)));
+  }
+}
+
+.about__line {
+  margin: 0 0 0.55em;
+  font-size: 48px;
+  line-height: 44px;
+  letter-spacing: -2px;
+  font-weight: 500;
+  color: var(--color-index);
+}
+
+.about__line--strong {
+  color: var(--color-text);
+}
+
+.about__line a {
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-thickness: 3px;
+  transition: opacity 160ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .about__line a:hover {
+    opacity: 0.55;
+  }
+}
+
+@media (max-width: 900px) {
+  .about__text {
+    grid-column: 1 / -1;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Contact — Reach out
+   -------------------------------------------------------------------------- */
+
+.reach-out {
+  min-height: calc(100dvh - var(--nav-height));
+  padding: calc(var(--sticky-top) + 48px) 0 80px;
+  display: flex;
+  flex-direction: column;
+}
+
+.reach-out__title {
+  margin: 0 0 32px;
+  font-size: clamp(56px, 10vw, 112px);
+  font-weight: 500;
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+}
+
+.reach-out__lede {
+  margin: 0 0 8px;
+  max-width: 42ch;
+  font-size: var(--text-meta);
+  line-height: var(--text-meta-lh);
+  font-weight: 500;
+}
+
+.reach-out__body {
+  margin: 0;
+  max-width: 42ch;
+  font-size: var(--text-meta);
+  line-height: var(--text-meta-lh);
+  color: var(--color-index);
+}
+
+.reach-out__contacts {
+  margin-top: auto;
+  padding-top: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.reach-out__email {
+  font-size: var(--text-meta);
+  line-height: var(--text-meta-lh);
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--color-text);
+  transition: opacity 160ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .reach-out__email:hover {
+    opacity: 0.55;
+  }
+}
+
+.reach-out__linkedin {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text);
+  transition: opacity 160ms var(--ease-out), transform 120ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .reach-out__linkedin:hover {
+    opacity: 0.55;
+  }
+}
+
+.reach-out__linkedin:active {
+  transform: scale(0.92);
+}
+
+/* --------------------------------------------------------------------------
+   Reduced motion
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Responsive — structure collapse (refine later)
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 1200px) {
+  :root {
+    --text-title: 64px;
+    --text-title-lh: 60px;
+  }
+}
+
+@media (max-width: 900px) {
+  .project-index {
+    display: none;
+  }
+
+  .project {
+    min-height: auto;
+  }
+
+  .project__inner {
+    display: block;
+  }
+
+  .project__body {
+    display: block;
+    grid-column: auto;
+    grid-row: auto;
+    grid-template-rows: auto auto;
+  }
+
+  .project__meta-shell {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .project__meta {
+    position: relative;
+    top: auto;
+    grid-column: auto;
+  }
+
+  .project__sidebar {
+    grid-column: auto;
+    display: block;
+  }
+
+  .project__grid-wrap {
+    grid-column: auto;
+    grid-row: auto;
+    margin-top: var(--meta-to-grid-gap);
+  }
+
+  .project__top-content {
+    position: relative;
+    top: auto;
+  }
+
+  .project__meta-copy {
+    grid-column: 1 / -1;
+    grid-template-columns: 1fr;
+  }
+
+  .project__meta-desc {
+    max-width: none;
+  }
+
+  .nav__end {
+    gap: 16px;
+  }
+
+  .nav__role {
+    display: none;
+  }
+
+  .footer__col-left,
+  .footer__col-right {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 600px) {
+  :root {
+    --text-title: 48px;
+    --text-title-lh: 44px;
+    --text-title-tracking: -2px;
+  }
+
+  .project__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hero {
+    --hero-min-h: 320px;
+  }
+}

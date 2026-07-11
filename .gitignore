@@ -1,0 +1,4 @@
+.DS_Store
+.preview-server.log
+.preview-server.pid
+*.log

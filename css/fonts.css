@@ -1,0 +1,23 @@
+@font-face {
+  font-family: "Untitled Sans";
+  src: url("../assets/fonts/UNTITLEDSANS-REGULAR.OTF") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Untitled Sans";
+  src: url("../assets/fonts/UNTITLED-SANS-LIGHT.TTF") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Untitled Sans";
+  src: url("../assets/fonts/UNTITLED-SANS-MEDIUM.TTF") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}

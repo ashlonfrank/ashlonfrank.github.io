@@ -1,0 +1,130 @@
+{
+  "site": {
+    "name": "Ashlon Frank",
+    "email": "frankshlon@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/ashlonfrank/",
+    "role": "Product Designer",
+    "location": "New York",
+    "hero": [
+      "I work on hard problems in complex domains — using design craft",
+      "and product thinking to turn ambiguity into clarity."
+    ]
+  },
+  "sections": [
+    {
+      "id": "column",
+      "title": "Onboarding, Unlocking Cross-Product Adoption",
+      "titleLines": ["Onboarding,", "Unlocking Cross-Product Adoption"],
+      "description": [
+        "Column is the only nationally chartered bank built to enable",
+        "developers and builders to create new financial products. It is",
+        "also where I currently lead product and brand design. It's",
+        "pretty neat."
+      ],
+      "description2": [
+        "Logo / Brand System / Web / Icons /",
+        "Product / Code / UI / Etc."
+      ],
+      "media": [
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Onboarding 1.png",
+          "alt": "Column — onboarding 1"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Onboarding 2.png",
+          "alt": "Column — onboarding 2"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Onboarding 3.png",
+          "alt": "Column — onboarding 3"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Onboarding 4.png",
+          "alt": "Column — onboarding 4"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Onboarding 5.png",
+          "alt": "Column — onboarding 5"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Onboarding 6.png",
+          "alt": "Column — onboarding 6"
+        }
+      ]
+    },
+    {
+      "id": "webflow-brand",
+      "title": "Webflow Brand",
+      "titleLines": ["Webflow Brand"],
+      "description": [
+        "Webflow is a tool for designing and building websites without",
+        "code. Sites like the one you're on. I joined Webflow when there",
+        "was about 25-ish people, and over the course of five years",
+        "started and scaled the Brand Studio team."
+      ],
+      "description2": [
+        "Brand System / Typography / Color /",
+        "Illustration / Icon / Etc. (not the logo)"
+      ]
+    },
+    {
+      "id": "samsung",
+      "title": "Samsung",
+      "titleLines": ["Samsung"],
+      "description": [
+        "Collection of some old websites I designed for Samsung,",
+        "typically for the launch of their flagship phones, and typically in",
+        "a couple of days from an undisclosed secure location."
+      ],
+      "description2": ["Web Design"]
+    },
+    {
+      "id": "assorted-sites",
+      "title": "Assorted Sites",
+      "titleLines": ["Assorted Sites"],
+      "description": [
+        "A collection of random sites and side projects from over the",
+        "years. Some client work, some personal, some just for fun."
+      ],
+      "description2": ["Web Design / Brand / Illustration /", "Etc."]
+    },
+    {
+      "id": "webflow-dot-com",
+      "title": "Webflow Dot Com",
+      "titleLines": ["Webflow Dot", "Com"],
+      "description": [
+        "Marketing site work for webflow.com — landing pages, feature",
+        "sections, and campaign pages built in Webflow."
+      ],
+      "description2": ["Web Design / Marketing /", "Animation / Etc."]
+    },
+    {
+      "id": "ecom-site",
+      "title": "Ecom Site",
+      "titleLines": ["Ecom Site"],
+      "description": [
+        "E-commerce UI explorations — product pages, cart flows, and",
+        "checkout experiences with bold visual direction."
+      ],
+      "description2": ["UI Design / E-commerce /", "Web Design / Etc."]
+    },
+    {
+      "id": "archive-scraps",
+      "title": "Archive & Scraps",
+      "titleLines": ["Archive &", "Scraps"],
+      "description": ["Some truly random stuff."],
+      "description2": ["Type Design / Illustration / Branding /", "3D / Etc."]
+    }
+  ],
+  "social": [
+    { "label": "Twitter", "href": "#" },
+    { "label": "LinkedIn", "href": "#" },
+    { "label": "Instagram", "href": "#" }
+  ]
+}

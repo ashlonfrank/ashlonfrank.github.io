@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ashlon Frank — Portfolio</title>
+    <meta name="description" content="Design portfolio — Ashlon Frank" />
+    <link
+      rel="preload"
+      href="./assets/fonts/UNTITLED-SANS-MEDIUM.TTF"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="./assets/fonts/UNTITLEDSANS-REGULAR.OTF"
+      as="font"
+      type="font/otf"
+      crossorigin
+    />
+    <style>
+      html.is-calibrating .nav-shell,
+      html.is-calibrating .page,
+      html.is-calibrating .project-index {
+        visibility: hidden;
+      }
+
+      html.is-calibrating {
+        overflow: hidden;
+      }
+    </style>
+    <script>
+      if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+      document.documentElement.classList.add("is-calibrating");
+      window.scrollTo(0, 0);
+    </script>
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
+  <body>
+    <div class="nav-shell">
+      <div class="page">
+        <header class="nav" aria-label="Site navigation">
+          <a class="nav__brand" href="./index.html">Ashlon Frank</a>
+          <span class="nav__role">Product Designer</span>
+          <div class="nav__end">
+            <ul class="nav__links">
+              <li><a class="nav__link" href="./about.html">About</a></li>
+              <li><a class="nav__link" href="./contact.html">Contact</a></li>
+            </ul>
+          </div>
+        </header>
+      </div>
+    </div>
+
+    <div class="page">
+      <div id="project-index" class="project-index" aria-hidden="true">
+        <span class="project-index__value"></span>
+      </div>
+
+      <section class="hero" id="intro" aria-label="Introduction"></section>
+
+      <main id="projects" aria-label="Work"></main>
+
+      <footer class="footer" id="contact">
+        <div class="footer__peek">
+          <div class="footer__peek-inner">
+            <p class="footer__note">2026 Portfolio</p>
+            <a class="footer__social-link" id="footer-linkedin" href="" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"></a>
+            <div class="footer__credit-wrap">
+              <span class="footer__email-group">
+                <button type="button" class="footer__copy" id="footer-copy" aria-label="Copy email address">
+                  <svg class="footer__copy-icon" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+                    <rect x="4" y="4" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1" />
+                    <path d="M3 8V2.5A.5.5 0 0 1 3.5 2H8" fill="none" stroke="currentColor" stroke-width="1" />
+                  </svg>
+                </button>
+                <a class="footer__credit" id="footer-email" href=""></a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <div id="lightbox" class="lightbox" hidden>
+      <button type="button" class="lightbox__backdrop" aria-label="Close preview"></button>
+      <div class="lightbox__chrome" aria-hidden="false">
+        <button type="button" class="lightbox__control lightbox__control--back" aria-label="Close preview">
+          <svg class="lightbox__icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+            <path
+              d="M10 3.5 5.5 8 10 12.5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+        <div class="lightbox__nav" role="group" aria-label="Preview navigation">
+          <button type="button" class="lightbox__control lightbox__control--prev" aria-label="Previous preview">
+            <svg class="lightbox__icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+              <path
+                d="M3.5 10 8 5.5 12.5 10"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          <button type="button" class="lightbox__control lightbox__control--next" aria-label="Next preview">
+            <svg class="lightbox__icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+              <path
+                d="M3.5 6 8 10.5 12.5 6"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="lightbox__stage" role="dialog" aria-modal="true" aria-label="Project preview"></div>
+    </div>
+
+    <script src="./js/main.js" type="module"></script>
+  </body>
+</html>

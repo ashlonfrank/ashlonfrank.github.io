@@ -1,0 +1,43 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Preview Server",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/start-preview-server.sh",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "preview",
+        "pattern": {
+          "regexp": "^$"
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".",
+          "endsPattern": "Serving HTTP on"
+        }
+      },
+      "presentation": {
+        "reveal": "never",
+        "panel": "dedicated",
+        "close": false
+      }
+    },
+    {
+      "label": "Preview",
+      "dependsOn": ["Preview Server"],
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/open-preview-in-cursor.sh",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared",
+        "close": true
+      },
+      "problemMatcher": []
+    }
+  ]
+}
