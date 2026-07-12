@@ -5,6 +5,7 @@
 import Lenis from "./vendor/lenis.mjs";
 import { initNavHome, initNavBrand } from "./site-nav.js";
 import { initFooter } from "./footer.js";
+import { initHeroIntro } from "./hero-intro.js";
 
 const landingSettleHandlers = new Set();
 
@@ -21,7 +22,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json");
+  const response = await fetch("./data/projects.json?v=dining-loyalty");
   const data = await response.json();
 
   data.sections.forEach((section) => {
@@ -40,10 +41,24 @@ async function init() {
   initNavBrand(data.site);
 
   const scroll = initSmoothScroll();
+  // Hero click ritual paused — keep project bleed visible by default while portfolio work continues.
+  const ENABLE_HERO_INTRO = false;
+  if (ENABLE_HERO_INTRO && data.site?.intro) {
+    initHeroIntro(data, scroll, {
+      onStepChange: () => {
+        measureFoldPeek();
+        scheduleMeasureSectionLayout();
+      },
+    });
+  } else {
+    document.documentElement.classList.add("hero--bleed");
+    scheduleMeasureSectionLayout();
+  }
   initNavHome(scroll.lenis);
   initTileLightbox(scroll);
   initTileVideos();
   initProjectIndex(scroll);
+  initHeaderCover(scroll);
 
   endCalibration(scroll);
 }
@@ -210,6 +225,9 @@ function createLandingStepController() {
     onVirtualScroll({ deltaY, event }) {
       if (!lenis || !getSectionLandingYs().length) return;
       if (document.body.classList.contains("is-lightbox-open")) return;
+      if (!document.documentElement.classList.contains("hero--bleed") && lenis.animatedScroll <= 1) {
+        return blockWheel(event);
+      }
       if (isSettling) return blockWheel(event);
 
       if (performance.now() < settleUntil) {
@@ -261,6 +279,45 @@ function createLandingStepController() {
       settleUntil = 0;
     },
   };
+}
+
+function initHeaderCover(scroll) {
+  const projects = [...document.querySelectorAll(".project")];
+  if (!projects.length) return;
+
+  let lastScrollY = window.scrollY;
+
+  const update = () => {
+    const scrollingDown = window.scrollY >= lastScrollY;
+    lastScrollY = window.scrollY;
+
+    projects.forEach((project) => {
+      const grid = project.querySelector(".project__grid-wrap");
+      const metaCopy = project.querySelector(".project__meta-copy");
+      if (!grid || !metaCopy) return;
+
+      const gridTop = grid.getBoundingClientRect().top;
+      const copyRect = metaCopy.getBoundingClientRect();
+      const tilesReached = gridTop < copyRect.bottom;
+
+      if (isSectionComposedLanding(project) && !scrollingDown) {
+        project.classList.remove("is-meta-hidden");
+        return;
+      }
+
+      if (isSectionComposedLanding(project) && !tilesReached) {
+        project.classList.remove("is-meta-hidden");
+        return;
+      }
+
+      project.classList.toggle("is-meta-hidden", tilesReached);
+    });
+  };
+
+  update();
+  scroll.onScroll(update);
+  scroll.onFrame(update);
+  window.addEventListener("resize", update);
 }
 
 function initProjectIndex(scroll) {
@@ -681,11 +738,32 @@ function getViewportHeight() {
   return Math.round(window.visualViewport?.height ?? window.innerHeight);
 }
 
+function measureMetaBlockHeights(projects) {
+  const root = getComputedStyle(document.documentElement);
+  const rule = parseFloat(root.getPropertyValue("--header-rule-size")) || 2;
+  const gap = parseFloat(root.getPropertyValue("--header-text-gap")) || 16;
+  const bottomPad = 8;
+  const defaultDescH = parseFloat(root.getPropertyValue("--meta-desc-h")) || 136.5;
+
+  projects.forEach((project) => {
+    const copy = project.querySelector(".project__meta-copy");
+    if (!copy) return;
+
+    const cols = [...copy.querySelectorAll(".project__meta-desc")];
+    const tallest = cols.reduce((max, col) => Math.max(max, col.scrollHeight), 0);
+    const rowH = Math.max(defaultDescH, tallest);
+    const metaBlockH = rule + gap + rowH + bottomPad;
+    project.style.setProperty("--meta-desc-h", `${rowH}px`);
+    project.style.setProperty("--meta-block-h", `${metaBlockH}px`);
+  });
+}
+
 function measureSectionLayout() {
   measureFoldPeek();
 
   const projects = [...document.querySelectorAll(".project")];
 
+  measureMetaBlockHeights(projects);
   measureFoldHold(projects);
 
   const indexEl = document.getElementById("project-index");
@@ -971,11 +1049,42 @@ const FOLD_PEEK_PX = 143;
 function measureFoldPeek() {
   const viewportH = getViewportHeight();
   document.documentElement.style.setProperty("--viewport-h", `${viewportH}px`);
-  document.documentElement.style.setProperty("--fold-peek", `${FOLD_PEEK_PX}px`);
+  const bleedRevealed = document.documentElement.classList.contains("hero--bleed");
+  document.documentElement.style.setProperty("--fold-peek", bleedRevealed ? `${FOLD_PEEK_PX}px` : "0px");
 }
 
 const TILE_ROWS = 3;
 const TILE_COLS = 4;
+
+const META_ICON_SVGS = {
+  person: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="5.25" r="2" stroke="currentColor" stroke-width="1.25"/><path d="M4.25 13.25c.5-2.25 2.25-3.5 3.75-3.5s3.25 1.25 3.75 3.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>`,
+  bolt: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M9.25 2.5 5.5 8.25H8l-.75 5.25 4.75-6.5H9.25z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/></svg>`,
+  chart: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 13.5h11" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/><path d="M5 10.5 8 7.25 10.5 9 13.5 5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+};
+
+function renderMetaIcon(iconName) {
+  return META_ICON_SVGS[iconName] ?? META_ICON_SVGS.person;
+}
+
+function renderMetaTags(metadata) {
+  const items = metadata.map((item) => {
+    if (typeof item === "string") return { icon: null, lines: [item] };
+    const raw = item.text ?? item.lines ?? "";
+    const lines = Array.isArray(raw) ? raw : [raw];
+    return { icon: item.icon ?? null, lines };
+  });
+
+  return `<ul class="project__meta-tag-list">
+    ${items
+      .map(
+        ({ icon, lines }) => `<li class="project__meta-tag">
+        ${icon ? `<span class="project__meta-tag-icon">${renderMetaIcon(icon)}</span>` : ""}
+        <span class="project__meta-tag-text">${lines.map((line) => `<span class="project__meta-tag-line">${escapeHtml(line)}</span>`).join("")}</span>
+      </li>`,
+      )
+      .join("")}
+  </ul>`;
+}
 
 function buildSection(section) {
   const article = document.createElement("article");
@@ -986,13 +1095,20 @@ function buildSection(section) {
     <div class="project__inner">
       <div class="project__meta-shell">
         <header class="project__meta">
-          <div class="project__meta-copy">
+          <div class="project__meta-copy${Array.isArray(section.metadata) && section.metadata.length ? " project__meta-copy--three" : ""}">
             <div class="project__meta-desc">
               ${section.description.map((line) => `<p>${escapeHtml(line)}</p>`).join("")}
             </div>
             <div class="project__meta-desc">
-              ${section.description2.map((line) => `<p>${escapeHtml(line)}</p>`).join("")}
+              ${(section.description2 ?? []).map((line) => `<p>${escapeHtml(line)}</p>`).join("")}
             </div>
+            ${
+              Array.isArray(section.metadata) && section.metadata.length
+                ? `<div class="project__meta-desc project__meta-tags">
+              ${renderMetaTags(section.metadata)}
+            </div>`
+                : ""
+            }
           </div>
         </header>
       </div>
