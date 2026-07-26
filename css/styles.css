@@ -239,13 +239,14 @@ button:focus-visible {
   box-sizing: border-box;
 }
 
-/* Same span as the project hairline (cols 5–12), right-aligned with that rail */
+/* Same width as sticky index + title (sidebar cols 1–4), left-aligned */
 .hero__statement {
-  grid-column: 5 / -1;
+  grid-column: 1 / span var(--sidebar-cols);
   max-width: none;
   width: 100%;
   margin: 0;
   padding-bottom: 8px;
+  text-align: left;
   font-size: 15px;
   line-height: 1.45;
   font-weight: 500;
