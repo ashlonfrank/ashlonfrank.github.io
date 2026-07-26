@@ -1426,38 +1426,8 @@ function hasTileMedia(item) {
   return Boolean(item.src);
 }
 
-function buildTiles(section) {
-  // Layout test: always paint a full 3×3 of gray placeholders.
-  if (PREVIEW_EMPTY_TILES) {
-    const count = TILE_ROWS * TILE_COLS;
-    return Array.from({ length: count }, (_, i) => {
-      const index = i + 1;
-      const label = `${section.title} — media ${index}`;
-      return `
-      <div class="tile-wrap">
-        <button
-          type="button"
-          class="tile-inner"
-          data-tile-index="${index}"
-          aria-label="View ${escapeHtml(label)}"
-        >
-          ${buildTileMediaHtml(null, label)}
-        </button>
-      </div>
-    `;
-    }).join("");
-  }
-
-  // Only render tiles with real media — no empty gray boxes.
-  // Add more entries to section.media later to grow the grid.
-  const media = Array.isArray(section.media) ? section.media.filter(hasTileMedia) : [];
-
-  return media
-    .map((mediaItem, i) => {
-      const index = i + 1;
-      const label = `${section.title} — media ${index}`;
-
-      return `
+function renderTileWrap(index, label, mediaItem) {
+  return `
       <div class="tile-wrap">
         <button
           type="button"
@@ -1469,6 +1439,24 @@ function buildTiles(section) {
         </button>
       </div>
     `;
+}
+
+function buildTiles(section) {
+  const slotCount = TILE_ROWS * TILE_COLS;
+  const filled = Array.isArray(section.media) ? section.media.filter(hasTileMedia) : [];
+
+  // Layout test OR future projects with no media yet → full 3×3 gray placeholders.
+  // Projects with some media (e.g. 6) → only those tiles; hide leftover empty grays.
+  const items =
+    PREVIEW_EMPTY_TILES || filled.length === 0
+      ? Array.from({ length: slotCount }, () => null)
+      : filled;
+
+  return items
+    .map((mediaItem, i) => {
+      const index = i + 1;
+      const label = `${section.title} — media ${index}`;
+      return renderTileWrap(index, label, mediaItem);
     })
     .join("");
 }

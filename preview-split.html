@@ -71,13 +71,13 @@
     <div class="panel">
       <div class="label">Desktop · 1440</div>
       <div class="frame" data-w="1440" data-h="900">
-        <iframe src="/index.html?v=424" title="Desktop preview"></iframe>
+        <iframe src="/index.html?v=474" title="Desktop preview"></iframe>
       </div>
     </div>
     <div class="panel">
       <div class="label">Mobile · 402 (iPhone 16)</div>
       <div class="frame" data-w="402" data-h="874">
-        <iframe src="/index.html?v=424" title="Mobile preview"></iframe>
+        <iframe src="/index.html?v=474" title="Mobile preview"></iframe>
       </div>
     </div>
   </div>
@@ -87,15 +87,12 @@
     function fit() {
       const frames = document.querySelectorAll(".frame");
       const availH = stage.clientHeight - 40;
-      const totalLogicalW = [...frames].reduce((sum, f) => sum + Number(f.dataset.w), 0);
-      const availW = stage.clientWidth - 40 - 24 * (frames.length - 1);
-      const widthScale = availW / totalLogicalW;
-
+      const availW = (stage.clientWidth - 80) / 2;
       frames.forEach((frame) => {
         const w = Number(frame.dataset.w);
         const h = Number(frame.dataset.h);
+        const scale = Math.min(availW / w, availH / h, 1);
         const iframe = frame.querySelector("iframe");
-        const scale = Math.min(1, availH / h, widthScale);
         iframe.style.width = w + "px";
         iframe.style.height = h + "px";
         iframe.style.transform = "scale(" + scale + ")";
