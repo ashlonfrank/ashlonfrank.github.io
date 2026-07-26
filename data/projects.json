@@ -153,48 +153,33 @@
       "media": [
         {
           "type": "image",
-          "src": "./assets/Onboarding/Dining/01.png?v=425",
+          "src": "./assets/Onboarding/Dining/01.png?v=439",
           "alt": "Dining Loyalty — 01"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/Dining/2.png?v=425",
+          "src": "./assets/Onboarding/Dining/2.png?v=439",
           "alt": "Dining Loyalty — 02"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/Dining/3.png?v=425",
+          "src": "./assets/Onboarding/Dining/3.png?v=439",
           "alt": "Dining Loyalty — 03"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/Dining/4.png?v=425",
+          "src": "./assets/Onboarding/Dining/4.png?v=439",
           "alt": "Dining Loyalty — 04"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/Dining/5.png?v=425",
+          "src": "./assets/Onboarding/Dining/5.png?v=439",
           "alt": "Dining Loyalty — 05"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/Dining/6.png?v=425",
+          "src": "./assets/Onboarding/Dining/6.png?v=439",
           "alt": "Dining Loyalty — 06"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/Dining/7.png?v=425",
-          "alt": "Dining Loyalty — 07"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/Dining/8.png?v=425",
-          "alt": "Dining Loyalty — 08"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/Dining/9.png?v=425",
-          "alt": "Dining Loyalty — 09"
         }
       ]
     },

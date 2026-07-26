@@ -22,7 +22,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=mobile-438");
+  const response = await fetch("./data/projects.json?v=mobile-439");
   const data = await response.json();
 
   data.sections.forEach((section) => {
