@@ -2,7 +2,7 @@
   "site": {
     "name": "Ashlon Frank",
     "email": "frankshlon@gmail.com",
-    "linkedin": "https://www.linkedin.com/in/ashlonfrank/",
+    "linkedin": "https://www.linkedin.com/in/ashlon-frank/",
     "role": "Product Designer",
     "location": "New York",
     "hero": [
@@ -332,7 +332,7 @@
   ],
   "social": [
     { "label": "Twitter", "href": "#" },
-    { "label": "LinkedIn", "href": "#" },
+    { "label": "LinkedIn", "href": "https://www.linkedin.com/in/ashlon-frank/" },
     { "label": "Instagram", "href": "#" }
   ]
 }
