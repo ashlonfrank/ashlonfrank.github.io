@@ -1,0 +1,6 @@
+.env.local
+.git
+node_modules
+preview-*.html
+scripts/
+.vscode/
