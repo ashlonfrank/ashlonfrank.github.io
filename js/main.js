@@ -1420,15 +1420,44 @@ function buildTileMediaHtml(media, label) {
   return `<img class="tile-inner__media" src="${src}" alt="${alt}" loading="lazy" decoding="async">`;
 }
 
+function hasTileMedia(item) {
+  if (!item) return false;
+  if (item.type === "gif-grid") return Array.isArray(item.items) && item.items.length > 0;
+  return Boolean(item.src);
+}
+
 function buildTiles(section) {
-  const count = TILE_ROWS * TILE_COLS;
+  // Layout test: always paint a full 3×3 of gray placeholders.
+  if (PREVIEW_EMPTY_TILES) {
+    const count = TILE_ROWS * TILE_COLS;
+    return Array.from({ length: count }, (_, i) => {
+      const index = i + 1;
+      const label = `${section.title} — media ${index}`;
+      return `
+      <div class="tile-wrap">
+        <button
+          type="button"
+          class="tile-inner"
+          data-tile-index="${index}"
+          aria-label="View ${escapeHtml(label)}"
+        >
+          ${buildTileMediaHtml(null, label)}
+        </button>
+      </div>
+    `;
+    }).join("");
+  }
 
-  return Array.from({ length: count }, (_, i) => {
-    const index = i + 1;
-    const label = `${section.title} — media ${index}`;
-    const mediaItem = getTileMediaItem(section, i);
+  // Only render tiles with real media — no empty gray boxes.
+  // Add more entries to section.media later to grow the grid.
+  const media = Array.isArray(section.media) ? section.media.filter(hasTileMedia) : [];
 
-    return `
+  return media
+    .map((mediaItem, i) => {
+      const index = i + 1;
+      const label = `${section.title} — media ${index}`;
+
+      return `
       <div class="tile-wrap">
         <button
           type="button"
@@ -1440,7 +1469,8 @@ function buildTiles(section) {
         </button>
       </div>
     `;
-  }).join("");
+    })
+    .join("");
 }
 
 function initTileVideos() {
