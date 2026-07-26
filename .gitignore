@@ -2,3 +2,5 @@
 .preview-server.log
 .preview-server.pid
 *.log
+.vercel
+.env*
