@@ -201,6 +201,10 @@ button:focus-visible {
   padding: 0;
 }
 
+.nav__item--deferred[hidden] {
+  display: none !important;
+}
+
 .nav__link {
   font-size: var(--text-nav);
   line-height: var(--text-nav-lh);

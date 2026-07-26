@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Ashlon Frank — Portfolio</title>
     <meta name="description" content="Design portfolio — Ashlon Frank" />
+    <meta name="robots" content="noindex, nofollow" />
     <link
       rel="preload"
       href="./assets/fonts/UNTITLED-SANS-MEDIUM.TTF"
@@ -35,7 +36,7 @@
       document.documentElement.classList.add("is-calibrating");
       window.scrollTo(0, 0);
     </script>
-    <link rel="stylesheet" href="./css/styles.css?v=mobile-459" />
+    <link rel="stylesheet" href="./css/styles.css?v=mobile-472" />
   </head>
   <body>
     <div class="nav-shell">
@@ -46,7 +47,9 @@
           <div class="nav__end">
             <ul class="nav__links">
               <li><a class="nav__link" href="./about.html">About</a></li>
-              <li><a class="nav__link" href="./contact.html">Contact</a></li>
+              <li class="nav__item--deferred" hidden>
+                <a class="nav__link" href="./contact.html">Contact</a>
+              </li>
             </ul>
           </div>
         </header>
