@@ -22,7 +22,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=mobile-476");
+  const response = await fetch("./data/projects.json?v=mobile-477");
   const data = await response.json();
 
   data.sections.forEach((section) => {
@@ -48,6 +48,7 @@ async function init() {
 
   initFooter(data);
   initNavBrand(data.site);
+  initHeroStatement(data.site);
 
   const scroll = initSmoothScroll();
   // Hero click ritual paused — keep project bleed visible by default while portfolio work continues.
@@ -97,6 +98,17 @@ function endCalibration(scroll) {
   scroll?.lenis?.scrollTo(0, { immediate: true, force: true });
   document.documentElement.classList.remove("is-calibrating");
   window.dispatchEvent(new Event("scroll"));
+}
+
+function initHeroStatement(site) {
+  const hero = document.getElementById("intro");
+  const lines = Array.isArray(site?.statement) ? site.statement.filter(Boolean) : [];
+  if (!hero || !lines.length) return;
+
+  // Keep the click-ritual hero markup out of the way while intro is paused.
+  hero.innerHTML = `<div class="hero__statement">${lines
+    .map((line) => `<p>${escapeHtml(line)}</p>`)
+    .join("")}</div>`;
 }
 
 function initSmoothScroll() {

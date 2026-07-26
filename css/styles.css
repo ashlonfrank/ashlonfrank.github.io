@@ -231,6 +231,35 @@ button:focus-visible {
   height: max(var(--hero-min-h), calc(var(--viewport-h) - var(--fold-peek)));
   padding: var(--page-padding) 0;
   position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+  column-gap: var(--grid-col-gap);
+  /* Vertically center in the open field between nav and the fold peek / divider */
+  align-content: center;
+  box-sizing: border-box;
+}
+
+/* Same span as the project hairline (cols 5–12), right-aligned with that rail */
+.hero__statement {
+  grid-column: 5 / -1;
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  padding-bottom: 8px;
+  font-size: 15px;
+  line-height: 1.45;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+}
+
+.hero__statement p {
+  margin: 0 0 0.85em;
+}
+
+.hero__statement p:last-child {
+  margin-bottom: 0;
+  color: var(--color-index);
 }
 
 .hero__hit {
@@ -1771,6 +1800,11 @@ body.page-contact {
 
   .hero {
     --hero-min-h: 300px;
+  }
+
+  .hero__statement {
+    grid-column: 1 / -1;
+    font-size: 14px;
   }
 
   .footer {
