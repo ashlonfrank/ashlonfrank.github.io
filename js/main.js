@@ -397,12 +397,10 @@ function initProjectIndex(scroll) {
     const lenis = scroll.lenis;
     if (!lenis || Math.abs(lenis.velocity ?? 0) > 0.9) return;
 
+    // Keep odometer in sync as soon as the next header reaches the sticky plane
+    // (same gate as getActiveProjectIndex) — don't wait for a later land check.
     const nextIndex = getActiveProjectIndex(projects, activeIndex, true);
-    if (
-      nextIndex !== activeIndex &&
-      nextIndex > activeIndex &&
-      isSectionHeaderLanded(projects[nextIndex])
-    ) {
+    if (nextIndex !== activeIndex) {
       activeIndex = updateProjectIndexValue(indexEl, projects, activeIndex, true);
     }
   });
@@ -726,43 +724,33 @@ function shouldShowProjectIndex(projects) {
 }
 
 function getActiveProjectIndex(projects, previousActive = 0, scrollingDown = true) {
-  const landLine = getStickyLine() + HEADER_LAND_TOLERANCE;
+  const stickyLine = getStickyLine();
+  const landTol = HEADER_LAND_TOLERANCE;
   const approachRange = 120;
 
-  // Title hitting the landing frame — pick the frontmost arrival (highest top).
-  let bestComposed = -1;
-  let bestTop = -Infinity;
+  // Switch the odometer the moment a section's title/rule plane reaches the
+  // sticky top — same instant the line + text pin. Do not wait for extra scroll
+  // past "composed landing". Snap + odometer duration are unchanged.
+  let best = -1;
+  let bestAnchor = -Infinity;
 
   for (let i = 0; i < projects.length; i += 1) {
     const metrics = getSectionHeaderMetrics(projects[i]);
-    if (!metrics || !isSectionComposedLanding(projects[i])) continue;
+    if (!metrics) continue;
 
-    const anchorTop = isStackedLayout() ? metrics.ruleTop : metrics.tcTop;
-    if (anchorTop > bestTop || (Math.abs(anchorTop - bestTop) < 0.5 && i > bestComposed)) {
-      bestTop = anchorTop;
-      bestComposed = i;
+    const anchor = isStackedLayout() ? metrics.ruleTop : metrics.tcTop;
+    // Still below the sticky plane — not yet time to switch.
+    if (anchor > stickyLine + landTol) continue;
+
+    // Among headers at/above the plane, pick the frontmost (highest anchor).
+    // Tie-break toward the later section when scrolling the stack.
+    if (anchor > bestAnchor || (Math.abs(anchor - bestAnchor) < 0.5 && i > best)) {
+      bestAnchor = anchor;
+      best = i;
     }
   }
 
-  if (bestComposed >= 0) {
-    if (scrollingDown) {
-      if (bestComposed > previousActive) {
-        return isSectionHeaderLanded(projects[bestComposed]) ? bestComposed : previousActive;
-      }
-      return bestComposed;
-    }
-
-    if (bestComposed >= previousActive) {
-      return bestComposed;
-    }
-
-    // Scrolling up — keep the current number until the earlier section has landed.
-    if (isSectionHeaderLanded(projects[bestComposed])) {
-      return bestComposed;
-    }
-
-    return previousActive;
-  }
+  if (best >= 0) return best;
 
   for (let i = projects.length - 1; i >= 0; i -= 1) {
     if (isSectionStickyHold(projects[i])) return i;
@@ -775,8 +763,8 @@ function getActiveProjectIndex(projects, previousActive = 0, scrollingDown = tru
     const previousMetrics = getSectionHeaderMetrics(previousProject);
     if (
       previousMetrics &&
-      previousMetrics.tcTop > landLine &&
-      previousMetrics.tcTop <= landLine + approachRange
+      previousMetrics.tcTop > stickyLine + landTol &&
+      previousMetrics.tcTop <= stickyLine + landTol + approachRange
     ) {
       return previousActive;
     }
