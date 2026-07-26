@@ -1,4 +1,4 @@
-/** Shared nav behavior — home link scrolls to top when already on index */
+/** Shared nav — brand/role labels from site data */
 export function initNavBrand(site) {
   const brand = document.querySelector(".nav__brand");
   const role = document.querySelector(".nav__role");
@@ -10,29 +10,6 @@ export function initNavBrand(site) {
   if (role && site?.role) {
     role.textContent = site.role;
   }
-}
-
-export function initNavHome(lenis = null) {
-  const homeLink = document.querySelector(".nav__brand");
-  if (!homeLink) return;
-
-  homeLink.addEventListener("click", (event) => {
-    const path = window.location.pathname;
-    const onHome =
-      path.endsWith("/") ||
-      path.endsWith("/index.html") ||
-      path.endsWith("2026 Portfolio") ||
-      path.endsWith("2026 Portfolio/");
-
-    if (!onHome) return;
-
-    event.preventDefault();
-    if (lenis) {
-      lenis.scrollTo(0, { duration: 0.48 });
-    } else {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  });
 }
 
 export function linkedInIconSvg() {

@@ -153,32 +153,31 @@
       "media": [
         {
           "type": "image",
-          "src": "./assets/Onboarding/Dining/01.png?v=439",
-          "alt": "Dining Loyalty — 01"
+          "src": "./assets/Onboarding/Dining/01.png?v=441",          "alt": "Dining Loyalty — 01"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/Dining/2.png?v=439",
+          "src": "./assets/Onboarding/Dining/2.png?v=441",
           "alt": "Dining Loyalty — 02"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/Dining/3.png?v=439",
+          "src": "./assets/Onboarding/Dining/3.png?v=441",
           "alt": "Dining Loyalty — 03"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/Dining/4.png?v=439",
+          "src": "./assets/Onboarding/Dining/4.png?v=441",
           "alt": "Dining Loyalty — 04"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/Dining/5.png?v=439",
+          "src": "./assets/Onboarding/Dining/5.png?v=441",
           "alt": "Dining Loyalty — 05"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/Dining/6.png?v=439",
+          "src": "./assets/Onboarding/Dining/6.png?v=441",
           "alt": "Dining Loyalty — 06"
         }
       ]
@@ -195,43 +194,33 @@
       "media": [
         {
           "type": "image",
-          "src": "./assets/Onboarding/ASM/01.png?v=430",
+          "src": "./assets/Onboarding/ASM/01.png?v=450",
           "alt": "Access & Security Manager — 01"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/ASM/02.png?v=430",
+          "src": "./assets/Onboarding/ASM/02.png?v=442",
           "alt": "Access & Security Manager — 02"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/ASM/03.png?v=430",
+          "src": "./assets/Onboarding/ASM/03.png?v=442",
           "alt": "Access & Security Manager — 03"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/ASM/04.png?v=430",
+          "src": "./assets/Onboarding/ASM/04.png?v=442",
           "alt": "Access & Security Manager — 04"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/ASM/05.png?v=430",
+          "src": "./assets/Onboarding/ASM/05.png?v=442",
           "alt": "Access & Security Manager — 05"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/ASM/06.png?v=430",
+          "src": "./assets/Onboarding/ASM/06.png?v=442",
           "alt": "Access & Security Manager — 06"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/ASM/07.png?v=430",
-          "alt": "Access & Security Manager — 07"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/ASM/08.png?v=430",
-          "alt": "Access & Security Manager — 08"
         }
       ]
     },
@@ -246,53 +235,73 @@
       "media": [
         {
           "type": "video",
-          "src": "./assets/Onboarding/Klifra/01.mp4?v=433",
+          "src": "./assets/Onboarding/Klifra/01.mp4?v=448",
           "alt": "Klifra Step — 01"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/Klifra/02.png?v=433",
+          "src": "./assets/Onboarding/Klifra/02.png?v=448",
           "alt": "Klifra Step — 02"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/Klifra/03.png?v=434",
+          "src": "./assets/Onboarding/Klifra/03.png?v=448",
           "alt": "Klifra Step — 03"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/Klifra/04.png?v=438",
+          "src": "./assets/Onboarding/Klifra/04.png?v=448",
           "alt": "Klifra Step — 04"
         },
         {
           "type": "gif-grid",
-          "alt": "Klifra Step — process GIFs",
+          "alt": "Klifra Step — 05",
           "items": [
             {
-              "src": "./assets/Onboarding/Klifra/gif-01.gif?v=435",
+              "src": "./assets/Onboarding/Klifra/gif-01.gif?v=448",
               "alt": "Klifra Step — gif 01"
             },
             {
-              "src": "./assets/Onboarding/Klifra/gif-02.gif?v=435",
+              "src": "./assets/Onboarding/Klifra/gif-02.gif?v=448",
               "alt": "Klifra Step — gif 02"
             },
             {
-              "src": "./assets/Onboarding/Klifra/gif-03.gif?v=435",
+              "src": "./assets/Onboarding/Klifra/gif-03.gif?v=448",
               "alt": "Klifra Step — gif 03"
             },
             {
-              "src": "./assets/Onboarding/Klifra/gif-04.gif?v=435",
+              "src": "./assets/Onboarding/Klifra/gif-04.gif?v=448",
               "alt": "Klifra Step — gif 04"
             },
             {
-              "src": "./assets/Onboarding/Klifra/gif-05.gif?v=435",
+              "src": "./assets/Onboarding/Klifra/gif-05.gif?v=448",
               "alt": "Klifra Step — gif 05"
             },
             {
-              "src": "./assets/Onboarding/Klifra/gif-06.gif?v=435",
+              "src": "./assets/Onboarding/Klifra/gif-06.gif?v=448",
               "alt": "Klifra Step — gif 06"
             }
           ]
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Klifra/06.png?v=448",
+          "alt": "Klifra Step — 06"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Klifra/07.png?v=448",
+          "alt": "Klifra Step — 07"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Klifra/08.png?v=448",
+          "alt": "Klifra Step — 08"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Klifra/09.png?v=449",
+          "alt": "Klifra Step — 09"
         }
       ]
     },

@@ -3,7 +3,7 @@
  */
 
 import Lenis from "./vendor/lenis.mjs";
-import { initNavHome, initNavBrand } from "./site-nav.js";
+import { initNavBrand } from "./site-nav.js";
 import { initFooter } from "./footer.js";
 import { initHeroIntro } from "./hero-intro.js";
 
@@ -22,7 +22,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=mobile-439");
+  const response = await fetch("./data/projects.json?v=mobile-450");
   const data = await response.json();
 
   data.sections.forEach((section) => {
@@ -63,7 +63,6 @@ async function init() {
     document.documentElement.classList.add("hero--bleed");
     scheduleMeasureSectionLayout();
   }
-  initNavHome(scroll.lenis);
   initTileLightbox(scroll);
   initTileVideos();
   initProjectIndex(scroll);
@@ -1250,6 +1249,8 @@ function measureFoldHold(projects) {
       calibrateFoldSpacing(project, true);
     }
 
+    // Same title/rule landing as every other section — including the last one.
+    // (footerBottom was pulling 08 away from the index snap.)
     const landing = cacheSectionLandingY(project);
     if (landing) cachedLandings.push(landing);
   });

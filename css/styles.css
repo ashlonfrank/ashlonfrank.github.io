@@ -175,7 +175,7 @@ button:focus-visible {
   text-decoration: none;
   cursor: pointer;
   opacity: 1;
-  transition: opacity 160ms var(--ease-out), transform 120ms var(--ease-out);
+  transition: opacity 160ms var(--ease-out);
 }
 
 .nav__role {
@@ -208,20 +208,14 @@ button:focus-visible {
   text-decoration: none;
   cursor: pointer;
   opacity: 1;
-  transition: opacity 160ms var(--ease-out), transform 120ms var(--ease-out);
+  transition: opacity 160ms var(--ease-out);
 }
 
-/* Same micro-interaction as About/footer LinkedIn + email */
 @media (hover: hover) and (pointer: fine) {
   .nav__brand:hover,
   .nav__link:hover {
     opacity: 0.55;
   }
-}
-
-.nav__brand:active,
-.nav__link:active {
-  transform: scale(0.92);
 }
 
 /* --------------------------------------------------------------------------
@@ -1165,8 +1159,8 @@ html.lenis body.is-lightbox-open {
 
 .footer__email-group {
   display: inline-flex;
-  align-items: flex-start;
-  gap: 4px;
+  align-items: center;
+  gap: 2px;
 }
 
 .footer__peek-inner .footer__credit {
@@ -1357,6 +1351,13 @@ html.lenis body.is-lightbox-open {
   font-size: var(--text-nav);
   line-height: var(--text-nav-lh);
   pointer-events: auto;
+  transition: opacity 180ms var(--ease-out), visibility 180ms var(--ease-out);
+}
+
+.about__email-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
 }
 
 .about__contact-link {
@@ -1389,13 +1390,6 @@ html.lenis body.is-lightbox-open {
   transform: scale(0.92);
 }
 
-@media (max-width: 900px) {
-  .about__contact {
-    left: max(var(--page-padding), calc((100vw - var(--page-max)) / 2 + var(--page-padding)));
-    right: max(var(--page-padding), calc((100vw - var(--page-max)) / 2 + var(--page-padding)));
-  }
-}
-
 .about__line {
   margin: 0 0 0.55em;
   font-size: 48px;
@@ -1422,29 +1416,75 @@ html.lenis body.is-lightbox-open {
   }
 }
 
+/* Same footer as index/contact — mobile About only (desktop keeps fixed stack) */
+.footer--about-mobile {
+  display: none;
+}
+
 @media (max-width: 900px) {
   .about__text {
     grid-column: 1 / -1;
+    padding-bottom: 48px;
+  }
+
+  /* Same vertical start as Contact "Reach out!" */
+  .about__contact {
+    top: calc(var(--sticky-top) + var(--header-text-gap));
+    bottom: unset;
+    left: max(var(--page-padding), calc((100vw - var(--page-max)) / 2 + var(--page-padding)));
+    right: auto;
+    transition: none;
+  }
+
+  /* Mid/end scroll: fully remove — end uses the standard page footer instead */
+  .about__contact.is-covered {
+    display: none !important;
+  }
+
+  .about__contact.is-covered,
+  .about__contact.is-covered * {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  .footer--about-mobile {
+    display: block;
+    padding-top: 24px;
   }
 }
 
 /* --------------------------------------------------------------------------
-   Contact — Reach out
+   Contact — Reach out (viewport-locked, no scroll)
    -------------------------------------------------------------------------- */
 
-.reach-out {
-  min-height: calc(100dvh - var(--nav-height));
-  padding: calc(var(--sticky-top) + 48px) 0 80px;
-  display: flex;
-  flex-direction: column;
+html:has(body.page-contact),
+body.page-contact {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
 }
 
+.reach-out {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: calc(var(--sticky-top) + var(--header-text-gap)) 0 72px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Match .project__name — same size, weight, tracking, line height */
 .reach-out__title {
-  margin: 0 0 32px;
-  font-size: clamp(56px, 10vw, 112px);
+  margin: 0 0 24px;
+  margin-left: -2px;
+  font-size: var(--text-title);
   font-weight: 500;
-  line-height: 0.92;
-  letter-spacing: -0.04em;
+  line-height: 0.85;
+  letter-spacing: var(--text-title-tracking);
+  text-box-trim: trim-end;
+  text-box-edge: cap alphabetic;
 }
 
 .reach-out__lede {
@@ -1463,13 +1503,8 @@ html.lenis body.is-lightbox-open {
   color: var(--color-index);
 }
 
-.reach-out__contacts {
-  margin-top: auto;
-  padding-top: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
+.page--contact .reach-out__contacts {
+  display: none;
 }
 
 .reach-out__email {
@@ -1503,6 +1538,24 @@ html.lenis body.is-lightbox-open {
 
 .reach-out__linkedin:active {
   transform: scale(0.92);
+}
+
+/* Contact shell — fills the device viewport; main-page footer sits on the bottom edge */
+.page--contact {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  max-height: 100dvh;
+  box-sizing: border-box;
+  overflow: hidden;
+  padding-bottom: 0;
+}
+
+/* Same footer chrome as index — only pin it to the bottom of this locked page */
+.page--contact > .footer {
+  flex: 0 0 auto;
+  margin-top: auto;
+  padding-top: 24px;
 }
 
 /* --------------------------------------------------------------------------
@@ -1542,6 +1595,11 @@ html.lenis body.is-lightbox-open {
 
   .project {
     min-height: calc(var(--viewport-h) - var(--fold-peek));
+  }
+
+  /* Last project: don't force a near-full viewport — keeps footer in the same fold */
+  .project:last-of-type {
+    min-height: 0;
   }
 
   .project__inner {
@@ -1662,6 +1720,25 @@ html.lenis body.is-lightbox-open {
   .footer__col-right {
     grid-column: 1 / -1;
   }
+
+  /* Contact — stacked: hairline above title like project titles */
+  .page--contact .reach-out {
+    padding: calc(var(--sticky-top) + var(--header-text-gap)) 0 24px;
+  }
+
+  .page--contact .reach-out__title {
+    position: relative;
+  }
+
+  .page--contact .reach-out__title::before {
+    content: "";
+    position: absolute;
+    top: calc(-1 * var(--header-text-gap));
+    left: 0;
+    right: 0;
+    border-top: var(--header-rule-size) solid var(--color-text);
+    pointer-events: none;
+  }
 }
 
 @media (max-width: 600px) {
@@ -1672,7 +1749,7 @@ html.lenis body.is-lightbox-open {
     --text-title-tracking: -1.25px;
     --index-slot-w: 1.65em;
     --index-title-gap: 8px;
-    --tile-cols: 3;
+    --tile-cols: 2;
     --tile-gap: 2px;
     --meta-to-grid-gap: 20px;
     --meta-copy-gap: 16px;
@@ -1693,22 +1770,43 @@ html.lenis body.is-lightbox-open {
   }
 
   .footer {
-    padding-top: 72px;
+    padding-top: 24px;
+    padding-bottom: 16px;
   }
 
   .footer__peek-inner {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
   }
 
   .footer__peek-inner .footer__note,
   .footer__peek-inner .footer__social-link,
   .footer__peek-inner .footer__credit-wrap {
     grid-column: auto;
-    justify-self: start;
-    white-space: normal;
+    justify-self: auto;
+    flex: 0 1 auto;
+    min-width: 0;
+    white-space: nowrap;
+  }
+
+  .footer__peek-inner .footer__note {
+    flex: 0 1 auto;
+  }
+
+  .footer__peek-inner .footer__social-link {
+    flex: 0 0 auto;
+  }
+
+  .footer__peek-inner .footer__credit-wrap {
+    justify-self: end;
+  }
+
+  .footer__peek-inner .footer__credit {
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .footer__col-left,
