@@ -27,7 +27,6 @@
     {
       "id": "column",
       "title": "Guided Multi-Product Activation",
-      "titleLines": ["Guided", "Multi-Product", "Activation"],
       "description": [
         "97% of new Chase SMB customers arrived through migration from consumer banking — users sign in to a new interface overnight, unaware of certain SMB-specific products that existed, or that their accounts deactivated within 60 days without funding, costing both the customers and Chase's business."
       ],
@@ -37,45 +36,44 @@
       "metadata": [
         { "icon": "person", "text": "Sole Product Designer" },
         { "icon": "bolt", "text": "Onboarding Growth/Activation" },
-        { "icon": "chart", "text": ["38% hub engagement", "Projected 5 million NPV"] }
+        { "icon": "chart", "text": "38% hub engagement. Projected 5 million NPV" }
       ],
       "media": [
         {
           "type": "image",
-          "src": "./assets/Onboarding/Onboarding 1.png",
-          "alt": "Column — onboarding 1"
+          "src": "./assets/Onboarding/01.png?v=423",
+          "alt": "Guided Multi-Product Activation — 01"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/Onboarding 2.png",
-          "alt": "Column — onboarding 2"
+          "src": "./assets/Onboarding/02.png?v=423",
+          "alt": "Guided Multi-Product Activation — 02"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/Onboarding 3.png",
-          "alt": "Column — onboarding 3"
+          "src": "./assets/Onboarding/03.png?v=423",
+          "alt": "Guided Multi-Product Activation — 03"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/Onboarding 4.png",
-          "alt": "Column — onboarding 4"
+          "src": "./assets/Onboarding/04.png?v=423",
+          "alt": "Guided Multi-Product Activation — 04"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/Onboarding 5.png",
-          "alt": "Column — onboarding 5"
+          "src": "./assets/Onboarding/05.png?v=423",
+          "alt": "Guided Multi-Product Activation — 05"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/Onboarding 6.png",
-          "alt": "Column — onboarding 6"
+          "src": "./assets/Onboarding/06.png?v=423",
+          "alt": "Guided Multi-Product Activation — 06"
         }
       ]
     },
     {
       "id": "chase-travel-redesign",
       "title": "Chase Travel Redesign",
-      "titleLines": ["Chase Travel", "Redesign"],
       "description": [
         "Chase Travel's homepage was built for exploration, but most visitors arrived with a destination already in mind, exploring in Expedia, Google Flights, etc. Most of the page was discovery content — yet it drove under 0.01% engagement, and 90% of customers said in testing they didn't want it."
       ],
@@ -86,12 +84,58 @@
         { "icon": "person", "text": "Sole Product Designer" },
         { "icon": "bolt", "text": "Information Architecture / Redesign / Repositioning" },
         { "icon": "chart", "text": "—" }
+      ],
+      "media": [
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Chase Travel/01.png?v=424",
+          "alt": "Chase Travel Redesign — 01"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Chase Travel/02.png?v=424",
+          "alt": "Chase Travel Redesign — 02"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Chase Travel/03.png?v=424",
+          "alt": "Chase Travel Redesign — 03"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Chase Travel/04.png?v=424",
+          "alt": "Chase Travel Redesign — 04"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Chase Travel/05.png?v=424",
+          "alt": "Chase Travel Redesign — 05"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Chase Travel/06.png?v=424",
+          "alt": "Chase Travel Redesign — 06"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Chase Travel/07.png?v=424",
+          "alt": "Chase Travel Redesign — 07"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Chase Travel/08.png?v=424",
+          "alt": "Chase Travel Redesign — 08"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Chase Travel/09.png?v=424",
+          "alt": "Chase Travel Redesign — 09"
+        }
       ]
     },
     {
       "id": "chase-sapphire-dining",
       "title": "Dining Loyalty, from Scratch.",
-      "titleLines": ["Dining Loyalty,", "from Scratch."],
       "description": [
         "Chase had no dining loyalty program, even as competitors offered cardholders dedicated dining perks and discovery tools. Sapphire Reserve holders already had a $300 annual dining credit sitting largely unused, with nothing built to help them find where to spend it — a gap the Sapphire team wanted closed, with reservations handled through a network partner rather than built in-house."
       ],
@@ -103,38 +147,173 @@
         { "icon": "bolt", "text": "0–1 Product Design" },
         {
           "icon": "chart",
-          "text": [
-            "3M users, second-most-used Sapphire benefit in 4 months",
-            "Scaled from 30 to 60 cities in 2 months"
-          ]
+          "text": "3M users, second-most-used Sapphire benefit in 4 months. Scaled from 30 to 60 cities in 2 months"
+        }
+      ],
+      "media": [
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Dining/01.png?v=425",
+          "alt": "Dining Loyalty — 01"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Dining/2.png?v=425",
+          "alt": "Dining Loyalty — 02"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Dining/3.png?v=425",
+          "alt": "Dining Loyalty — 03"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Dining/4.png?v=425",
+          "alt": "Dining Loyalty — 04"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Dining/5.png?v=425",
+          "alt": "Dining Loyalty — 05"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Dining/6.png?v=425",
+          "alt": "Dining Loyalty — 06"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Dining/7.png?v=425",
+          "alt": "Dining Loyalty — 07"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Dining/8.png?v=425",
+          "alt": "Dining Loyalty — 08"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Dining/9.png?v=425",
+          "alt": "Dining Loyalty — 09"
         }
       ]
     },
     {
       "id": "samsung",
-      "title": "Samsung",
-      "titleLines": ["Samsung"],
+      "title": "Access and Security Manager",
       "description": [
         "Collection of some old websites I designed for Samsung,",
         "typically for the launch of their flagship phones, and typically in",
         "a couple of days from an undisclosed secure location."
       ],
-      "description2": ["Web Design"]
+      "description2": ["Web Design"],
+      "media": [
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/ASM/01.png?v=430",
+          "alt": "Access & Security Manager — 01"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/ASM/02.png?v=430",
+          "alt": "Access & Security Manager — 02"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/ASM/03.png?v=430",
+          "alt": "Access & Security Manager — 03"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/ASM/04.png?v=430",
+          "alt": "Access & Security Manager — 04"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/ASM/05.png?v=430",
+          "alt": "Access & Security Manager — 05"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/ASM/06.png?v=430",
+          "alt": "Access & Security Manager — 06"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/ASM/07.png?v=430",
+          "alt": "Access & Security Manager — 07"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/ASM/08.png?v=430",
+          "alt": "Access & Security Manager — 08"
+        }
+      ]
     },
     {
-      "id": "assorted-sites",
-      "title": "Assorted Sites",
-      "titleLines": ["Assorted Sites"],
+      "id": "klifra-step",
+      "title": "Klifra Step",
       "description": [
         "A collection of random sites and side projects from over the",
         "years. Some client work, some personal, some just for fun."
       ],
-      "description2": ["Web Design / Brand / Illustration /", "Etc."]
+      "description2": ["Web Design / Brand / Illustration /", "Etc."],
+      "media": [
+        {
+          "type": "video",
+          "src": "./assets/Onboarding/Klifra/01.mp4?v=433",
+          "alt": "Klifra Step — 01"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Klifra/02.png?v=433",
+          "alt": "Klifra Step — 02"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Klifra/03.png?v=434",
+          "alt": "Klifra Step — 03"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/Klifra/04.png?v=438",
+          "alt": "Klifra Step — 04"
+        },
+        {
+          "type": "gif-grid",
+          "alt": "Klifra Step — process GIFs",
+          "items": [
+            {
+              "src": "./assets/Onboarding/Klifra/gif-01.gif?v=435",
+              "alt": "Klifra Step — gif 01"
+            },
+            {
+              "src": "./assets/Onboarding/Klifra/gif-02.gif?v=435",
+              "alt": "Klifra Step — gif 02"
+            },
+            {
+              "src": "./assets/Onboarding/Klifra/gif-03.gif?v=435",
+              "alt": "Klifra Step — gif 03"
+            },
+            {
+              "src": "./assets/Onboarding/Klifra/gif-04.gif?v=435",
+              "alt": "Klifra Step — gif 04"
+            },
+            {
+              "src": "./assets/Onboarding/Klifra/gif-05.gif?v=435",
+              "alt": "Klifra Step — gif 05"
+            },
+            {
+              "src": "./assets/Onboarding/Klifra/gif-06.gif?v=435",
+              "alt": "Klifra Step — gif 06"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "webflow-dot-com",
       "title": "Webflow Dot Com",
-      "titleLines": ["Webflow Dot", "Com"],
       "description": [
         "Marketing site work for webflow.com — landing pages, feature",
         "sections, and campaign pages built in Webflow."
@@ -144,7 +323,6 @@
     {
       "id": "ecom-site",
       "title": "Ecom Site",
-      "titleLines": ["Ecom Site"],
       "description": [
         "E-commerce UI explorations — product pages, cart flows, and",
         "checkout experiences with bold visual direction."
@@ -154,7 +332,6 @@
     {
       "id": "archive-scraps",
       "title": "Archive & Scraps",
-      "titleLines": ["Archive &", "Scraps"],
       "description": ["Some truly random stuff."],
       "description2": ["Type Design / Illustration / Branding /", "3D / Etc."]
     }

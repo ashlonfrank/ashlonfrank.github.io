@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Desktop Preview — 1440</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; }
+    body {
+      font: 13px/1.4 -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      background: #1c1c1e;
+      color: #e6e6e6;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      border-bottom: 1px solid #333;
+      flex: 0 0 auto;
+    }
+    .bar h1 { font-size: 13px; font-weight: 600; margin: 0; }
+    .bar a { color: #98989d; text-decoration: none; }
+    .bar a:hover { color: #e6e6e6; }
+    .bar .spacer { flex: 1; }
+    .bar button {
+      color: #e6e6e6;
+      background: #2c2c2e;
+      border: 1px solid #3a3a3c;
+      padding: 5px 11px;
+      border-radius: 7px;
+      cursor: pointer;
+      font: inherit;
+    }
+    .bar button:hover { background: #3a3a3c; }
+    .stage {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 20px;
+      overflow: auto;
+    }
+    .frame {
+      overflow: hidden;
+      background: #fff;
+      border: 1px solid #333;
+      border-radius: 12px;
+      box-shadow: 0 12px 44px rgba(0, 0, 0, 0.45);
+    }
+    iframe { border: 0; background: #fff; transform-origin: top left; display: block; }
+  </style>
+</head>
+<body>
+  <div class="bar">
+    <h1>Desktop · 1440</h1>
+    <a href="/preview-mobile.html">Mobile</a>
+    <a href="/preview-split.html">Split</a>
+    <span class="spacer"></span>
+    <button id="reload" type="button">Reload</button>
+  </div>
+  <div class="stage">
+    <div class="frame" data-w="1440" data-h="900">
+      <iframe id="preview" src="/index.html?v=424" title="Desktop preview"></iframe>
+    </div>
+  </div>
+  <script>
+    const stage = document.querySelector(".stage");
+    const frame = document.querySelector(".frame");
+    const iframe = document.getElementById("preview");
+
+    function fit() {
+      const w = Number(frame.dataset.w);
+      const h = Number(frame.dataset.h);
+      const scale = Math.min(1, (stage.clientWidth - 40) / w, (stage.clientHeight - 40) / h);
+      iframe.style.width = w + "px";
+      iframe.style.height = h + "px";
+      iframe.style.transform = "scale(" + scale + ")";
+      frame.style.width = w * scale + "px";
+      frame.style.height = h * scale + "px";
+    }
+
+    window.addEventListener("resize", fit);
+    fit();
+    document.getElementById("reload").addEventListener("click", () => {
+      iframe.src = iframe.src;
+    });
+  </script>
+</body>
+</html>

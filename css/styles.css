@@ -42,11 +42,11 @@
   --index-cap-nudge: 2px;
   --meta-cap-nudge: 0px;
   --tile-radius: 2px;
-  --tile-cols: 4;
+  --tile-cols: 3;
   --tile-grid-rows: 3;
   --tile-gap: 4px;
-  --tile-aspect-w: 16;
-  --tile-aspect-h: 10;
+  --tile-aspect-w: 15;
+  --tile-aspect-h: 7;
   --lightbox-scale: 0.75;
 
   /* Typography */
@@ -171,6 +171,11 @@ button:focus-visible {
   grid-column: 1 / span var(--sidebar-cols);
   font-size: var(--text-nav);
   line-height: var(--text-nav-lh);
+  color: var(--color-text);
+  text-decoration: none;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity 160ms var(--ease-out), transform 120ms var(--ease-out);
 }
 
 .nav__role {
@@ -199,18 +204,24 @@ button:focus-visible {
 .nav__link {
   font-size: var(--text-nav);
   line-height: var(--text-nav-lh);
+  color: var(--color-text);
+  text-decoration: none;
   cursor: pointer;
-  transition: opacity 160ms var(--ease-out);
+  opacity: 1;
+  transition: opacity 160ms var(--ease-out), transform 120ms var(--ease-out);
 }
 
+/* Same micro-interaction as About/footer LinkedIn + email */
 @media (hover: hover) and (pointer: fine) {
+  .nav__brand:hover,
   .nav__link:hover {
     opacity: 0.55;
   }
 }
 
+.nav__brand:active,
 .nav__link:active {
-  transform: scale(0.97);
+  transform: scale(0.92);
 }
 
 /* --------------------------------------------------------------------------
@@ -323,7 +334,7 @@ html.hero--bleed .hero__copy {
 .project {
   position: relative;
   z-index: 1;
-  padding: 100px var(--page-padding) 0;
+  padding: 100px var(--page-padding) var(--project-fold-pad, 0px);
   margin-left: calc(-1 * var(--page-padding));
   margin-right: calc(-1 * var(--page-padding));
   min-height: calc(var(--viewport-h) - var(--fold-peek));
@@ -482,14 +493,8 @@ html.hero--bleed .hero__copy {
 .project__meta-tag-text {
   flex: 1;
   min-width: 0;
-  display: flex;
-  flex-direction: column;
-  overflow-wrap: break-word;
-  overflow: hidden;
-}
-
-.project__meta-tag-line {
   display: block;
+  overflow-wrap: break-word;
   white-space: normal;
 }
 
@@ -606,7 +611,10 @@ html.hero--bleed .hero__copy {
   line-height: 0.85;
   letter-spacing: var(--text-title-tracking);
   background: transparent;
-  overflow-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: normal;
+  hyphens: none;
+  text-wrap: wrap;
   text-box-trim: trim-end;
   text-box-edge: cap alphabetic;
 }
@@ -635,10 +643,6 @@ html.hero--bleed .hero__copy {
   .project__case-study-link:hover {
     opacity: 0.55;
   }
-}
-
-.project__name-line {
-  display: block;
 }
 
 /* Case study index — fixed in index slot, aligned to title cap height */
@@ -839,6 +843,70 @@ html.hero--bleed .hero__copy {
   background-color: var(--color-tile-fill);
 }
 
+/* Klifra — black empty tiles; video letterboxed to full height */
+#klifra-step .tile-inner,
+#klifra-step .tile-inner:active,
+#klifra-step .tile-inner:focus-visible,
+#klifra-step .tile-inner__placeholder {
+  background-color: #000000;
+}
+
+#klifra-step .tile-inner__media {
+  object-fit: contain;
+  object-position: center;
+}
+
+/* 6 GIFs — 3×2, zero gap, centered in the black tile with inset */
+#klifra-step .tile-inner:has(.tile-gif-grid) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tile-gif-grid {
+  display: block;
+  flex: 0 0 auto;
+  width: 58%;
+  max-width: 58%;
+  max-height: 82%;
+  aspect-ratio: 3 / 2;
+  height: auto;
+  margin: 0 auto;
+  pointer-events: none;
+}
+
+.tile-gif-grid__inner {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.tile-gif-grid__cell {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.lightbox .tile-gif-grid {
+  background-color: transparent;
+  width: 58%;
+  max-width: 58%;
+  max-height: 82%;
+}
+
+.lightbox__frame:has(.tile-gif-grid) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000000;
+}
+
 /* Lightbox — centered 16:10 frame at 75% scale, page stays visible behind */
 .lightbox {
   position: fixed;
@@ -899,8 +967,12 @@ html.hero--bleed .hero__copy {
 }
 
 .lightbox__control:focus-visible {
-  outline: 2px solid rgba(255, 255, 255, 0.88);
-  outline-offset: 2px;
+  outline: none;
+}
+
+.lightbox__control--close:focus-visible {
+  outline: none;
+  background: rgba(72, 72, 74, 0.78);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -914,44 +986,23 @@ html.hero--bleed .hero__copy {
   opacity: 0.88;
 }
 
-.lightbox__control--back {
+.lightbox__control--close {
   position: absolute;
   top: var(--lightbox-chrome-top);
   left: max(16px, var(--page-padding));
   border-radius: 50%;
 }
 
-.lightbox__nav {
-  position: absolute;
-  top: var(--lightbox-chrome-top);
-  right: max(16px, var(--page-padding));
-  display: inline-flex;
-  align-items: stretch;
-  pointer-events: auto;
-  border-radius: 22px;
-  overflow: hidden;
-  background: rgba(58, 58, 60, 0.68);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    0 1px 2px rgba(0, 0, 0, 0.18);
-}
-
-.lightbox__nav .lightbox__control {
-  background: transparent;
-  border-radius: 0;
-  box-shadow: none;
-}
-
-.lightbox__nav .lightbox__control + .lightbox__control {
-  box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.12);
-}
-
+/* Desktop: no chrome — backdrop + Esc to close, arrows / image click to step */
 @media (hover: hover) and (pointer: fine) {
-  .lightbox__nav .lightbox__control:hover {
-    background: rgba(255, 255, 255, 0.08);
+  .lightbox__control--close {
+    display: none;
   }
+}
+
+/* Chevrons removed — keyboard + click-on-image handle stepping */
+.lightbox__nav {
+  display: none;
 }
 
 .lightbox__icon {
@@ -967,7 +1018,8 @@ html.hero--bleed .hero__copy {
   justify-content: center;
   width: 100%;
   height: 100%;
-  pointer-events: none;
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 .lightbox__frame {
@@ -987,12 +1039,23 @@ html.hero--bleed .hero__copy {
   pointer-events: auto;
 }
 
+.lightbox__frame:has(video),
+.lightbox__frame:has(.lightbox__media--contain) {
+  background: #000000;
+}
+
 .lightbox__media {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
   pointer-events: auto;
+}
+
+.lightbox__media--contain,
+.lightbox video.lightbox__media {
+  object-fit: contain;
+  background-color: #000000;
 }
 
 .lightbox__placeholder {
@@ -1136,7 +1199,7 @@ html.lenis body.is-lightbox-open {
 
 @media (hover: hover) and (pointer: fine) {
   .footer__copy:hover {
-    opacity: 0.85;
+    opacity: 0.55;
   }
 }
 
@@ -1241,13 +1304,18 @@ html.lenis body.is-lightbox-open {
   color: inherit;
   text-decoration: none;
   cursor: pointer;
-  transition: opacity 160ms var(--ease-out);
+  opacity: 1;
+  transition: opacity 160ms var(--ease-out), transform 120ms var(--ease-out);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .footer__credit:hover {
     opacity: 0.55;
   }
+}
+
+.footer__credit:active {
+  transform: scale(0.92);
 }
 
 /* --------------------------------------------------------------------------
@@ -1293,7 +1361,10 @@ html.lenis body.is-lightbox-open {
 
 .about__contact-link {
   color: var(--color-text);
-  transition: opacity 160ms var(--ease-out);
+  text-decoration: none;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity 160ms var(--ease-out), transform 120ms var(--ease-out);
 }
 
 .about__contact-link[hidden] {
@@ -1312,6 +1383,10 @@ html.lenis body.is-lightbox-open {
   .about__contact-link:hover {
     opacity: 0.55;
   }
+}
+
+.about__contact-link:active {
+  transform: scale(0.92);
 }
 
 @media (max-width: 900px) {
@@ -1443,74 +1518,140 @@ html.lenis body.is-lightbox-open {
 }
 
 /* --------------------------------------------------------------------------
-   Responsive — structure collapse (refine later)
+   Responsive — stacked layout (tablet + phone), desktop grid above 1023px
    -------------------------------------------------------------------------- */
 
 @media (max-width: 1200px) {
   :root {
     --text-title: 52px;
     --text-title-lh: 44px;
+    --text-title-tracking: -2.5px;
   }
 }
 
-@media (max-width: 900px) {
-  .project-index {
-    display: none;
+@media (max-width: 1023px) {
+  :root {
+    --content-rail: calc(var(--index-slot-w) + var(--index-title-gap));
+    --text-title: clamp(44px, 8.2vw, 52px);
+    --text-title-lh: 0.88;
+    --text-title-tracking: -2px;
+    --index-slot-w: 2.1em;
+    --tile-cols: 3;
+    --tile-gap: 3px;
   }
 
   .project {
-    min-height: auto;
+    min-height: calc(var(--viewport-h) - var(--fold-peek));
   }
 
   .project__inner {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    padding-top: var(--header-text-gap);
+  }
+
+  .project__title-row {
+    position: relative;
+  }
+
+  .project__title-row::before {
+    content: "";
+    position: absolute;
+    top: calc(-1 * var(--header-text-gap));
+    left: var(--content-rail);
+    right: 0;
+    border-top: var(--header-rule-size) solid var(--color-text);
+    pointer-events: none;
   }
 
   .project__body {
-    display: block;
+    display: contents;
+  }
+
+  .project__sidebar {
+    order: 1;
     grid-column: auto;
-    grid-row: auto;
-    grid-template-rows: auto auto;
+    width: 100%;
+    overflow: visible;
   }
 
   .project__meta-shell {
+    order: 2;
+    pointer-events: auto;
+  }
+
+  .project__grid-wrap {
+    order: 3;
     grid-column: auto;
     grid-row: auto;
+    margin-top: var(--meta-to-grid-gap);
+    margin-left: var(--content-rail);
+    width: calc(100% - var(--content-rail));
   }
 
   .project__meta {
     position: relative;
     top: auto;
-    grid-column: auto;
-  }
-
-  .project__sidebar {
-    grid-column: auto;
     display: block;
+    width: 100%;
+    max-height: none;
+    overflow: visible;
+    contain: none;
+    grid-template-columns: none;
+    grid-template-rows: none;
+    padding: 0;
   }
 
-  .project__grid-wrap {
+  .project__meta::before,
+  .project__meta::after {
+    display: none;
+  }
+
+  .project__meta-copy,
+  .project__meta-copy--three {
     grid-column: auto;
     grid-row: auto;
-    margin-top: var(--meta-to-grid-gap);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: calc(var(--meta-copy-gap) * 0.75);
+    margin-left: var(--content-rail);
+    width: calc(100% - var(--content-rail));
+    padding-top: var(--meta-to-grid-gap);
+    overflow: visible;
+  }
+
+  .project__meta-desc,
+  .project__meta-desc.project__meta-tags {
+    height: auto;
+    min-height: 0;
+    overflow: visible;
   }
 
   .project__top-content {
-    position: relative;
-    top: auto;
+    position: sticky;
+    top: calc(var(--sticky-top) + var(--header-text-gap));
+    z-index: 2;
+    padding-top: 0;
+    background: var(--color-bg);
   }
 
-  .project__meta-copy {
-    grid-column: 1 / -1;
-    grid-template-columns: 1fr;
+  .project__top-content::before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    height: var(--header-text-gap);
+    background: var(--color-bg);
   }
 
-  .project__meta-desc {
-    max-width: none;
+  .project__top-content::after {
+    display: none;
   }
 
-  .nav__end {
-    gap: 16px;
+  .project__name-box {
+    padding-right: 0;
   }
 
   .nav__role {
@@ -1525,16 +1666,53 @@ html.lenis body.is-lightbox-open {
 
 @media (max-width: 600px) {
   :root {
-    --text-title: 48px;
-    --text-title-lh: 44px;
-    --text-title-tracking: -2px;
+    --page-padding: 12px;
+    --text-title: clamp(36px, 10vw, 44px);
+    --text-title-lh: 0.88;
+    --text-title-tracking: -1.25px;
+    --index-slot-w: 1.65em;
+    --index-title-gap: 8px;
+    --tile-cols: 3;
+    --tile-gap: 2px;
+    --meta-to-grid-gap: 20px;
+    --meta-copy-gap: 16px;
+    --fold-peek: 112px;
   }
 
-  .project__grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .project {
+    padding-top: 64px;
+  }
+
+  /* 2x separation between explanation copy and the meta/credits list (12px grid gap + 12px = 24px) */
+  .project__meta-tags {
+    margin-top: 12px;
   }
 
   .hero {
-    --hero-min-h: 320px;
+    --hero-min-h: 300px;
+  }
+
+  .footer {
+    padding-top: 72px;
+  }
+
+  .footer__peek-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .footer__peek-inner .footer__note,
+  .footer__peek-inner .footer__social-link,
+  .footer__peek-inner .footer__credit-wrap {
+    grid-column: auto;
+    justify-self: start;
+    white-space: normal;
+  }
+
+  .footer__col-left,
+  .footer__col-right {
+    grid-column: 1 / -1;
   }
 }

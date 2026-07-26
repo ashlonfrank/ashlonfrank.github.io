@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Split Preview — Web + Mobile</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; }
+    body {
+      font: 13px/1.4 -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      background: #1c1c1e;
+      color: #e6e6e6;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      border-bottom: 1px solid #333;
+      flex: 0 0 auto;
+    }
+    .bar h1 { font-size: 13px; font-weight: 600; margin: 0; letter-spacing: 0.2px; }
+    .bar .spacer { flex: 1; }
+    .bar button {
+      color: #e6e6e6;
+      background: #2c2c2e;
+      border: 1px solid #3a3a3c;
+      padding: 5px 11px;
+      border-radius: 7px;
+      cursor: pointer;
+      font: inherit;
+      transition: background 120ms ease;
+    }
+    .bar button:hover { background: #3a3a3c; }
+    .stage {
+      flex: 1;
+      display: flex;
+      gap: 24px;
+      padding: 20px;
+      overflow: auto;
+      align-items: flex-start;
+      justify-content: center;
+    }
+    .panel { display: flex; flex-direction: column; gap: 8px; align-items: center; }
+    .panel .label { font-size: 12px; color: #98989d; letter-spacing: 0.3px; }
+    .frame {
+      position: relative;
+      overflow: hidden;
+      background: #fff;
+      border: 1px solid #333;
+      border-radius: 12px;
+      box-shadow: 0 12px 44px rgba(0, 0, 0, 0.45);
+    }
+    iframe { border: 0; background: #fff; transform-origin: top left; display: block; }
+  </style>
+</head>
+<body>
+  <div class="bar">
+    <h1>Split Preview — Web + Mobile</h1>
+    <a href="/preview-desktop.html" style="color:#98989d;text-decoration:none">Desktop</a>
+    <a href="/preview-mobile.html" style="color:#98989d;text-decoration:none">Mobile</a>
+    <span class="spacer"></span>
+    <button id="reload" type="button">Reload both</button>
+  </div>
+  <div class="stage">
+    <div class="panel">
+      <div class="label">Desktop · 1440</div>
+      <div class="frame" data-w="1440" data-h="900">
+        <iframe src="/index.html?v=424" title="Desktop preview"></iframe>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="label">Mobile · 402 (iPhone 16)</div>
+      <div class="frame" data-w="402" data-h="874">
+        <iframe src="/index.html?v=424" title="Mobile preview"></iframe>
+      </div>
+    </div>
+  </div>
+  <script>
+    const stage = document.querySelector(".stage");
+
+    function fit() {
+      const frames = document.querySelectorAll(".frame");
+      const availH = stage.clientHeight - 40;
+      const totalLogicalW = [...frames].reduce((sum, f) => sum + Number(f.dataset.w), 0);
+      const availW = stage.clientWidth - 40 - 24 * (frames.length - 1);
+      const widthScale = availW / totalLogicalW;
+
+      frames.forEach((frame) => {
+        const w = Number(frame.dataset.w);
+        const h = Number(frame.dataset.h);
+        const iframe = frame.querySelector("iframe");
+        const scale = Math.min(1, availH / h, widthScale);
+        iframe.style.width = w + "px";
+        iframe.style.height = h + "px";
+        iframe.style.transform = "scale(" + scale + ")";
+        frame.style.width = w * scale + "px";
+        frame.style.height = h * scale + "px";
+      });
+    }
+
+    window.addEventListener("resize", fit);
+    fit();
+
+    document.getElementById("reload").addEventListener("click", () => {
+      document.querySelectorAll("iframe").forEach((f) => {
+        f.src = f.src;
+      });
+    });
+  </script>
+</body>
+</html>

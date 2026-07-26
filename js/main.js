@@ -22,7 +22,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=dining-loyalty");
+  const response = await fetch("./data/projects.json?v=mobile-438");
   const data = await response.json();
 
   data.sections.forEach((section) => {
@@ -34,8 +34,17 @@ async function init() {
   }
 
   measureSectionLayout();
+  cachedLayoutMode = syncLayoutMode();
   window.addEventListener("resize", scheduleMeasureSectionLayout);
   window.visualViewport?.addEventListener("resize", scheduleMeasureSectionLayout);
+  window.addEventListener("resize", () => {
+    const layout = syncLayoutMode();
+    if (layout !== cachedLayoutMode) {
+      cachedLayoutMode = layout;
+      measureSectionLayout();
+    }
+    clearCompactMetaHidden([...document.querySelectorAll(".project")]);
+  });
 
   initFooter(data);
   initNavBrand(data.site);
@@ -61,6 +70,22 @@ async function init() {
   initHeaderCover(scroll);
 
   endCalibration(scroll);
+  cachedLayoutMode = syncLayoutMode();
+}
+
+function getTabletRuleTop(project) {
+  const titleRow = project.querySelector(".project__title-row");
+  if (!titleRow) return null;
+
+  const textGap = readCssPx("--header-text-gap", 16);
+  return titleRow.getBoundingClientRect().top - textGap;
+}
+
+function isTabletRuleLanded(project) {
+  const ruleTop = getTabletRuleTop(project);
+  if (ruleTop == null) return false;
+
+  return Math.abs(ruleTop - getStickyLine()) <= TABLET_RULE_TOLERANCE;
 }
 
 function beginCalibration() {
@@ -125,7 +150,8 @@ function initSmoothScroll() {
     lenis = new Lenis({
       lerp: 0.09,
       smoothWheel: true,
-      syncTouch: false,
+      syncTouch: window.matchMedia("(max-width: 1023px)").matches,
+      touchMultiplier: 1.15,
       wheelMultiplier: 0.9,
       virtualScroll: (data) => landingStep.onVirtualScroll(data),
     });
@@ -288,6 +314,11 @@ function initHeaderCover(scroll) {
   let lastScrollY = window.scrollY;
 
   const update = () => {
+    if (isStackedLayout()) {
+      clearCompactMetaHidden(projects);
+      return;
+    }
+
     const scrollingDown = window.scrollY >= lastScrollY;
     lastScrollY = window.scrollY;
 
@@ -394,10 +425,12 @@ function measureFixedIndexPosition(indexEl) {
 
   const rootStyle = getComputedStyle(document.documentElement);
   const stickyTop = parseFloat(rootStyle.getPropertyValue("--sticky-top")) || 40;
-  const textOffset =
-    parseFloat(rootStyle.getPropertyValue("--header-text-offset")) ||
-    parseFloat(getComputedStyle(topContent).paddingTop) ||
-    0;
+  const textOffset = isStackedLayout()
+    ? (parseFloat(rootStyle.getPropertyValue("--header-rule-size")) || 2) +
+      (parseFloat(rootStyle.getPropertyValue("--header-text-gap")) || 16)
+    : parseFloat(rootStyle.getPropertyValue("--header-text-offset")) ||
+      parseFloat(getComputedStyle(topContent).paddingTop) ||
+      0;
 
   document.documentElement.style.setProperty("--index-fixed-top", `${stickyTop + textOffset}px`);
   document.documentElement.style.setProperty(
@@ -497,6 +530,36 @@ function setOdometerValue(valueEl, value, animate = true) {
 const INDEX_ODOMETER_MS = 980;
 const HEADER_LAND_TOLERANCE = 2;
 const HEADER_COMPOSE_TOLERANCE = 2;
+const TABLET_RULE_TOLERANCE = 4;
+const COMPACT_LAYOUT_MQ = "(max-width: 600px)";
+const TABLET_LAYOUT_MQ = "(max-width: 1023px) and (min-width: 601px)";
+
+let cachedLayoutMode = null;
+
+function isMobileLayout() {
+  return window.matchMedia(COMPACT_LAYOUT_MQ).matches;
+}
+
+function isTabletLayout() {
+  return window.matchMedia(TABLET_LAYOUT_MQ).matches;
+}
+
+function isStackedLayout() {
+  return window.matchMedia("(max-width: 1023px)").matches;
+}
+
+function isCompactLayout() {
+  return isStackedLayout();
+}
+
+function syncLayoutMode() {
+  const layout = isMobileLayout() ? "mobile" : isTabletLayout() ? "tablet" : "desktop";
+  document.documentElement.dataset.layout = layout;
+}
+
+function clearCompactMetaHidden(projects) {
+  projects.forEach((project) => project.classList.remove("is-meta-hidden"));
+}
 
 /** One scroll gesture = one section landing, then stop */
 const LANDING_STEP = {
@@ -514,22 +577,35 @@ function getStickyLine() {
 
 function getSectionHeaderMetrics(project) {
   const topContent = project.querySelector(".project__top-content");
-  const metaHeader = project.querySelector(".project__meta");
-  if (!topContent || !metaHeader) return null;
+  if (!topContent) return null;
 
   const tcTop = topContent.getBoundingClientRect().top;
-  const ruleTop = metaHeader.getBoundingClientRect().top;
+  const stickyLine = getStickyLine();
+  let ruleTop;
+
+  if (isStackedLayout()) {
+    ruleTop = getTabletRuleTop(project) ?? tcTop;
+  } else {
+    const metaHeader = project.querySelector(".project__meta");
+    ruleTop = metaHeader?.getBoundingClientRect().top ?? tcTop;
+  }
+
+  const composed = isStackedLayout()
+    ? Math.abs(ruleTop - stickyLine) <= TABLET_RULE_TOLERANCE
+    : Math.abs(tcTop - ruleTop) <= HEADER_COMPOSE_TOLERANCE;
 
   return {
     tcTop,
     ruleTop,
-    composed: Math.abs(tcTop - ruleTop) <= HEADER_COMPOSE_TOLERANCE,
+    composed,
   };
 }
 
 function isSectionInLandingBand(project) {
   const metrics = getSectionHeaderMetrics(project);
   if (!metrics) return false;
+
+  if (isStackedLayout()) return isTabletRuleLanded(project);
 
   const stickyLine = getStickyLine();
   const landLine = stickyLine + HEADER_LAND_TOLERANCE;
@@ -541,6 +617,8 @@ function isSectionInLandingBand(project) {
 }
 
 function isSectionComposedLanding(project) {
+  if (isStackedLayout()) return isTabletRuleLanded(project);
+
   const metrics = getSectionHeaderMetrics(project);
   if (!metrics || !isSectionInLandingBand(project)) return false;
 
@@ -660,8 +738,9 @@ function getActiveProjectIndex(projects, previousActive = 0, scrollingDown = tru
     const metrics = getSectionHeaderMetrics(projects[i]);
     if (!metrics || !isSectionComposedLanding(projects[i])) continue;
 
-    if (metrics.tcTop > bestTop || (Math.abs(metrics.tcTop - bestTop) < 0.5 && i > bestComposed)) {
-      bestTop = metrics.tcTop;
+    const anchorTop = isStackedLayout() ? metrics.ruleTop : metrics.tcTop;
+    if (anchorTop > bestTop || (Math.abs(anchorTop - bestTop) < 0.5 && i > bestComposed)) {
+      bestTop = anchorTop;
       bestComposed = i;
     }
   }
@@ -750,8 +829,19 @@ function measureMetaBlockHeights(projects) {
     if (!copy) return;
 
     const cols = [...copy.querySelectorAll(".project__meta-desc")];
-    const tallest = cols.reduce((max, col) => Math.max(max, col.scrollHeight), 0);
-    const rowH = Math.max(defaultDescH, tallest);
+    let rowH;
+
+    if (isStackedLayout() && copy.classList.contains("project__meta-copy--three")) {
+      const stackGap = parseFloat(getComputedStyle(copy).rowGap) || 0;
+      rowH = cols.reduce(
+        (sum, col, index) => sum + col.scrollHeight + (index > 0 ? stackGap : 0),
+        0,
+      );
+    } else {
+      const tallest = cols.reduce((max, col) => Math.max(max, col.scrollHeight), 0);
+      rowH = Math.max(defaultDescH, tallest);
+    }
+
     const metaBlockH = rule + gap + rowH + bottomPad;
     project.style.setProperty("--meta-desc-h", `${rowH}px`);
     project.style.setProperty("--meta-block-h", `${metaBlockH}px`);
@@ -890,7 +980,7 @@ function cacheSectionLandingY(project, peekTarget = null, alignMode = "peekTop")
   const landingY =
     alignMode === "footerBottom"
       ? findLandingScrollY(project, peekTarget, alignMode)
-      : findCenteredLandingScrollY(project);
+      : findProjectLandingScrollY(project);
   if (landingY == null) return null;
 
   project.dataset.landingScrollY = String(landingY);
@@ -901,7 +991,12 @@ function getFoldContentHeight() {
   return getViewportHeight() - getStickyLine() - getFoldPeek();
 }
 
-function getMetaBlockHeight() {
+function getMetaBlockHeight(project = null) {
+  if (project) {
+    const measured = parseFloat(getComputedStyle(project).getPropertyValue("--meta-block-h"));
+    if (Number.isFinite(measured) && measured > 0) return measured;
+  }
+
   const root = getComputedStyle(document.documentElement);
   const rule = parseFloat(root.getPropertyValue("--header-rule-size")) || 2;
   const gap = parseFloat(root.getPropertyValue("--header-text-gap")) || 16;
@@ -922,25 +1017,146 @@ function measureProjectGridHeight(project) {
   return grid.getBoundingClientRect().height;
 }
 
-/** Center meta + tiles in the fold band (nav → viewport − peek). */
-function calibrateCenteredHold(project) {
-  const metaBlockH = getMetaBlockHeight();
-  const gridGap = readCssPx("--grid-row-gap", 24);
+/**
+ * Slack under the grid (before the next divider) so a composed sticky header
+ * leaves exactly --fold-peek of the next project — same band as hero → 01.
+ */
+function calibrateFoldSpacing(project, isLast = false) {
+  project.style.setProperty("--header-scroll-hold", "0px");
+
+  if (isStackedLayout() || isLast) {
+    project.style.setProperty("--project-fold-pad", "0px");
+    return 0;
+  }
+
+  const metaBlockH = getMetaBlockHeight(project);
+  const gridGap = readCssPx("--meta-to-grid-gap", 24);
   const gridH = measureProjectGridHeight(project);
   const foldContentH = getFoldContentHeight();
   const contentH = metaBlockH + gridGap + gridH;
-  const slack = foldContentH - contentH;
-  const hold = Math.max(0, Math.round(slack / 2));
+  const pad = Math.max(0, Math.round(foldContentH - contentH));
 
-  project.style.setProperty("--header-scroll-hold", `${hold}px`);
-  return hold;
+  project.style.setProperty("--project-fold-pad", `${pad}px`);
+  return pad;
 }
 
-function findCenteredLandingScrollY(project) {
+function calibrateCenteredHold(project) {
+  return calibrateFoldSpacing(project, false);
+}
+
+function findTabletRuleLandingScrollY(project) {
+  const titleRow = project.querySelector(".project__title-row");
+  if (!titleRow) return null;
+
+  const textGap = readCssPx("--header-text-gap", 16);
+  const stickyLine = getStickyLine();
+  const ruleDocY = titleRow.getBoundingClientRect().top - textGap + window.scrollY;
+  const approx = ruleDocY - stickyLine;
+  const start = Math.max(0, approx - 600);
+  const end = Math.min(
+    document.documentElement.scrollHeight - 1,
+    approx + Math.max(project.offsetHeight, getViewportHeight())
+  );
+
+  let firstY = findFirstComposedY(project, start, end);
+  if (firstY != null) return firstY;
+
+  // Linear fallback — binary search can miss narrow sticky landing windows.
+  let bestY = null;
+  let bestDelta = Infinity;
+
+  for (let y = start; y <= end; y += 2) {
+    scrollToY(y);
+    if (!isTabletRuleLanded(project)) continue;
+
+    const delta = Math.abs(getTabletRuleTop(project) - stickyLine);
+    if (delta < bestDelta) {
+      bestDelta = delta;
+      bestY = y;
+    }
+  }
+
+  return bestY;
+}
+
+function findProjectLandingScrollY(project) {
+  return isStackedLayout()
+    ? findTabletRuleLandingScrollY(project)
+    : findComposedPeekLandingScrollY(project);
+}
+
+/** Title locked to sticky AND meta rule composed with it (image-2 top). */
+function isDesktopFullyComposed(project) {
+  const metrics = getSectionHeaderMetrics(project);
+  if (!metrics) return false;
+
+  const stickyLine = getStickyLine();
+  return (
+    Math.abs(metrics.tcTop - stickyLine) <= HEADER_LAND_TOLERANCE &&
+    metrics.composed
+  );
+}
+
+function findDesktopComposedScrollY(project) {
+  const title = project.querySelector(".project__top-content");
+  if (!title) return null;
+
+  const approx = project.offsetTop + title.offsetTop - getStickyLine();
+  const start = Math.max(0, approx - 500);
+  const end = Math.min(
+    document.documentElement.scrollHeight - 1,
+    approx + Math.max(project.offsetHeight, getViewportHeight())
+  );
+
+  scrollToY(start);
+  if (isDesktopFullyComposed(project)) return start;
+
+  let lo = start;
+  let hi = end;
+  let result = null;
+
+  while (lo <= hi) {
+    const mid = (lo + hi) >> 1;
+    scrollToY(mid);
+    if (isDesktopFullyComposed(project)) {
+      result = mid;
+      hi = mid - 1;
+    } else {
+      lo = mid + 1;
+    }
+  }
+
+  if (result != null) return result;
+
+  for (let y = start; y <= end; y += 2) {
+    scrollToY(y);
+    if (isDesktopFullyComposed(project)) return y;
+  }
+
+  return null;
+}
+
+/**
+ * Snap to composed sticky header; fold-pad keeps bottom peek at fold-peek.
+ */
+function findComposedPeekLandingScrollY(project) {
+  const projects = [...document.querySelectorAll(".project")];
+  const index = projects.indexOf(project);
+  const nextProject = index >= 0 ? projects[index + 1] : null;
+
+  if (!nextProject) {
+    return findLastProjectLandingScrollY(project);
+  }
+
+  return findDesktopComposedScrollY(project);
+}
+
+function findLastProjectLandingScrollY(project) {
   const hold = parseFloat(getComputedStyle(project).getPropertyValue("--header-scroll-hold")) || 0;
-  const metaBlockH = getMetaBlockHeight();
-  const gridGap = readCssPx("--grid-row-gap", 24);
+  const metaBlockH = getMetaBlockHeight(project);
+  const gridGap = readCssPx("--meta-to-grid-gap", 24);
   const targetGridTop = getStickyLine() + metaBlockH + hold + gridGap;
+
   const grid = project.querySelector(".project__grid");
   const title = project.querySelector(".project__top-content");
   if (!grid || !title) return null;
@@ -1004,8 +1220,8 @@ function ensureLastSectionScrollPad(project) {
     const maxScroll = document.documentElement.scrollHeight - getViewportHeight();
     const deficit = getMinLandingScrollY(project) - maxScroll;
 
-    calibrateCenteredHold(project);
-    const landingY = findCenteredLandingScrollY(project);
+    calibrateFoldSpacing(project, true);
+    const landingY = findProjectLandingScrollY(project);
 
     if (landingY != null && landingY <= maxScroll + 1) {
       return;
@@ -1022,8 +1238,8 @@ function measureFoldHold(projects) {
   const savedY = document.documentElement.classList.contains("is-calibrating") ? 0 : window.scrollY;
   const cachedLandings = [];
 
-  projects.forEach((project) => {
-    calibrateCenteredHold(project);
+  projects.forEach((project, index) => {
+    calibrateFoldSpacing(project, index === projects.length - 1);
   });
 
   projects.forEach((project, index) => {
@@ -1031,7 +1247,7 @@ function measureFoldHold(projects) {
 
     if (isLastProject) {
       ensureLastSectionScrollPad(project);
-      calibrateCenteredHold(project);
+      calibrateFoldSpacing(project, true);
     }
 
     const landing = cacheSectionLandingY(project);
@@ -1054,7 +1270,9 @@ function measureFoldPeek() {
 }
 
 const TILE_ROWS = 3;
-const TILE_COLS = 4;
+const TILE_COLS = 3;
+/** Layout test: gray placeholders only (ignore media). Flip off after checking 3×3 @ 16:9. */
+const PREVIEW_EMPTY_TILES = false;
 
 const META_ICON_SVGS = {
   person: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="5.25" r="2" stroke="currentColor" stroke-width="1.25"/><path d="M4.25 13.25c.5-2.25 2.25-3.5 3.75-3.5s3.25 1.25 3.75 3.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>`,
@@ -1068,18 +1286,18 @@ function renderMetaIcon(iconName) {
 
 function renderMetaTags(metadata) {
   const items = metadata.map((item) => {
-    if (typeof item === "string") return { icon: null, lines: [item] };
+    if (typeof item === "string") return { icon: null, text: item };
     const raw = item.text ?? item.lines ?? "";
-    const lines = Array.isArray(raw) ? raw : [raw];
-    return { icon: item.icon ?? null, lines };
+    const text = Array.isArray(raw) ? raw.join(". ") : raw;
+    return { icon: item.icon ?? null, text };
   });
 
   return `<ul class="project__meta-tag-list">
     ${items
       .map(
-        ({ icon, lines }) => `<li class="project__meta-tag">
+        ({ icon, text }) => `<li class="project__meta-tag">
         ${icon ? `<span class="project__meta-tag-icon">${renderMetaIcon(icon)}</span>` : ""}
-        <span class="project__meta-tag-text">${lines.map((line) => `<span class="project__meta-tag-line">${escapeHtml(line)}</span>`).join("")}</span>
+        <span class="project__meta-tag-text">${escapeHtml(text)}</span>
       </li>`,
       )
       .join("")}
@@ -1120,9 +1338,7 @@ function buildSection(section) {
                 <span class="project__index-spacer" aria-hidden="true"></span>
               </div>
               <div class="project__name-box">
-                <h2 class="project__name">
-                  ${section.titleLines.map((line) => `<span class="project__name-line">${escapeHtml(line)}</span>`).join("")}
-                </h2>
+                <h2 class="project__name">${escapeHtml(section.title)}</h2>
               </div>
             </div>
           </div>
@@ -1150,23 +1366,48 @@ function buildSection(section) {
 }
 
 function getTileMediaItem(section, index) {
+  if (PREVIEW_EMPTY_TILES) return null;
   return section.media?.[index] ?? null;
 }
 
 function resolveMediaType(item) {
-  if (!item?.src) return null;
+  if (!item) return null;
+  if (item.type === "gif-grid") return "gif-grid";
+  if (!item.src) return null;
   if (item.type === "video") return "video";
   if (item.type === "image") return "image";
   if (/\.(mp4|webm|mov|m4v)(\?|$)/i.test(item.src)) return "video";
   return "image";
 }
 
+function buildGifGridHtml(media, label) {
+  const items = Array.isArray(media.items) ? media.items : [];
+  const alt = escapeHtml(media.alt || label);
+  const cells = items
+    .map((item, i) => {
+      const src = escapeHtml(item.src || "");
+      const cellAlt = escapeHtml(item.alt || `${label} — gif ${i + 1}`);
+      return `<img class="tile-gif-grid__cell" src="${src}" alt="${cellAlt}" loading="lazy" decoding="async">`;
+    })
+    .join("");
+
+  return `<div class="tile-inner__media tile-gif-grid" role="img" aria-label="${alt}"><div class="tile-gif-grid__inner">${cells}</div></div>`;
+}
+
 function buildTileMediaHtml(media, label) {
-  if (!media?.src) {
+  if (!media) {
     return '<span class="tile-inner__placeholder" aria-hidden="true"></span>';
   }
 
   const type = resolveMediaType(media);
+  if (type === "gif-grid") {
+    return buildGifGridHtml(media, label);
+  }
+
+  if (!media.src) {
+    return '<span class="tile-inner__placeholder" aria-hidden="true"></span>';
+  }
+
   const src = escapeHtml(media.src);
   const alt = escapeHtml(media.alt || label);
 
@@ -1233,9 +1474,17 @@ function createLightboxMedia(tile) {
     return placeholder;
   }
 
+  const contain = Boolean(tile.closest("#klifra-step"));
+
+  if (source.classList.contains("tile-gif-grid")) {
+    const grid = source.cloneNode(true);
+    grid.classList.add("lightbox__media", "lightbox__media--contain");
+    return grid;
+  }
+
   if (source.tagName === "VIDEO") {
     const video = document.createElement("video");
-    video.className = "lightbox__media";
+    video.className = contain ? "lightbox__media lightbox__media--contain" : "lightbox__media";
     video.src = source.currentSrc || source.src;
     if (source.poster) video.poster = source.poster;
     video.autoplay = true;
@@ -1248,7 +1497,7 @@ function createLightboxMedia(tile) {
   }
 
   const image = document.createElement("img");
-  image.className = "lightbox__media";
+  image.className = contain ? "lightbox__media lightbox__media--contain" : "lightbox__media";
   image.src = source.currentSrc || source.src;
   image.alt = source.alt || "";
   return image;
@@ -1258,14 +1507,20 @@ function initTileLightbox(scroll) {
   const lightbox = document.getElementById("lightbox");
   const stage = lightbox?.querySelector(".lightbox__stage");
   const backdrop = lightbox?.querySelector(".lightbox__backdrop");
-  const backBtn = lightbox?.querySelector(".lightbox__control--back");
-  const prevBtn = lightbox?.querySelector(".lightbox__control--prev");
-  const nextBtn = lightbox?.querySelector(".lightbox__control--next");
+  const backBtn = lightbox?.querySelector(".lightbox__control--close");
   if (!lightbox || !stage || !backdrop) return;
 
   const lenis = scroll?.lenis ?? null;
-  const tiles = () => [...document.querySelectorAll(".tile-inner")];
   let activeTile = null;
+
+  /** Tiles in the open project only — never cross into another case study. */
+  const projectTiles = () => {
+    const project = activeTile?.closest(".project");
+    if (!project) return [];
+    return [...project.querySelectorAll(".tile-inner")].filter((tile) =>
+      tile.querySelector(".tile-inner__media")
+    );
+  };
 
   const renderStage = (tile) => {
     stage.innerHTML = "";
@@ -1286,7 +1541,6 @@ function initTileLightbox(scroll) {
     lightbox.hidden = false;
     document.body.classList.add("is-lightbox-open");
     lenis?.stop();
-    backBtn?.focus();
   };
 
   const closeLightbox = () => {
@@ -1302,7 +1556,7 @@ function initTileLightbox(scroll) {
   };
 
   const stepLightbox = (direction) => {
-    const all = tiles();
+    const all = projectTiles();
     const currentIndex = activeTile ? all.indexOf(activeTile) : -1;
     if (currentIndex < 0 || !all.length) return;
 
@@ -1317,18 +1571,10 @@ function initTileLightbox(scroll) {
     renderStage(activeTile);
   };
 
-  const openLightboxAt = (allTiles, index) => {
-    const tile = allTiles[index];
-    if (!tile) return;
-
-    if (activeTile) activeTile.classList.remove("is-lightbox-source");
-    activeTile = tile;
-    openLightbox(tile);
-  };
-
   document.addEventListener("click", (event) => {
     const tile = event.target.closest(".tile-inner");
     if (!tile || lightbox.hidden === false) return;
+    if (!tile.querySelector(".tile-inner__media")) return;
 
     event.preventDefault();
     openLightbox(tile);
@@ -1336,32 +1582,31 @@ function initTileLightbox(scroll) {
 
   backdrop.addEventListener("click", closeLightbox);
   backBtn?.addEventListener("click", closeLightbox);
-  prevBtn?.addEventListener("click", () => stepLightbox(-1));
-  nextBtn?.addEventListener("click", () => stepLightbox(1));
 
   lightbox.addEventListener("wheel", (event) => event.preventDefault(), { passive: false });
   lightbox.addEventListener("touchmove", (event) => event.preventDefault(), { passive: false });
 
+  /* Click left half → previous, right half → next (same project loop) */
   stage.addEventListener("click", (event) => {
     event.stopPropagation();
+    const rect = stage.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    stepLightbox(x < rect.width / 2 ? -1 : 1);
   });
 
   document.addEventListener("keydown", (event) => {
     if (lightbox.hidden) return;
 
-    const all = tiles();
-    const currentIndex = activeTile ? all.indexOf(activeTile) : -1;
-
     switch (event.key) {
       case "ArrowRight":
       case "ArrowDown":
         event.preventDefault();
-        if (currentIndex >= 0) stepLightbox(1);
+        stepLightbox(1);
         break;
       case "ArrowLeft":
       case "ArrowUp":
         event.preventDefault();
-        if (currentIndex >= 0) stepLightbox(-1);
+        stepLightbox(-1);
         break;
       case "Escape":
         event.preventDefault();
