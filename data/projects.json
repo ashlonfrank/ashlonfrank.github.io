@@ -39,62 +39,6 @@
   },
   "sections": [
     {
-      "id": "column",
-      "title": "Guided Multi-Product Activation",
-      "description": [
-        "97% of new Chase SMB customers arrived through migration from consumer banking — users sign in to a new interface overnight, unaware of certain SMB-specific products that existed, or that their accounts deactivated within 60 days without funding, costing both the customers and Chase's business."
-      ],
-      "description2": [
-        "Partnering with product, marketing, finance, and engineering teams, I designed onboarding, driving SMB customers to adopt products that were valuable to them and led to higher revenue for Chase — driving product activation and increased fraud protection enrollment."
-      ],
-      "metadata": [
-        {
-          "icon": "person",
-          "text": "Sole Product Designer"
-        },
-        {
-          "icon": "bolt",
-          "text": "Onboarding Growth/Activation"
-        },
-        {
-          "icon": "chart",
-          "text": "38% hub engagement. Projected 5 million NPV"
-        }
-      ],
-      "media": [
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/01.png?v=423",
-          "alt": "Guided Multi-Product Activation — 01"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/02.png?v=423",
-          "alt": "Guided Multi-Product Activation — 02"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/03.png?v=423",
-          "alt": "Guided Multi-Product Activation — 03"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/04.png?v=423",
-          "alt": "Guided Multi-Product Activation — 04"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/05.png?v=423",
-          "alt": "Guided Multi-Product Activation — 05"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/06.png?v=423",
-          "alt": "Guided Multi-Product Activation — 06"
-        }
-      ]
-    },
-    {
       "id": "chase-travel-redesign",
       "title": "Chase Travel Redesign",
       "description": [
@@ -162,6 +106,62 @@
           "type": "image",
           "src": "./assets/Onboarding/Chase Travel/09.png?v=424",
           "alt": "Chase Travel Redesign — 09"
+        }
+      ]
+    },
+    {
+      "id": "column",
+      "title": "Guided Multi-Product Activation",
+      "description": [
+        "97% of new Chase SMB customers arrived through migration from consumer banking — users sign in to a new interface overnight, unaware of certain SMB-specific products that existed, or that their accounts deactivated within 60 days without funding, costing both the customers and Chase's business."
+      ],
+      "description2": [
+        "Partnering with product, marketing, finance, and engineering teams, I designed onboarding, driving SMB customers to adopt products that were valuable to them and led to higher revenue for Chase — driving product activation and increased fraud protection enrollment."
+      ],
+      "metadata": [
+        {
+          "icon": "person",
+          "text": "Sole Product Designer"
+        },
+        {
+          "icon": "bolt",
+          "text": "Onboarding Growth/Activation"
+        },
+        {
+          "icon": "chart",
+          "text": "38% hub engagement. Projected 5 million NPV"
+        }
+      ],
+      "media": [
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/01.png?v=423",
+          "alt": "Guided Multi-Product Activation — 01"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/02.png?v=423",
+          "alt": "Guided Multi-Product Activation — 02"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/03.png?v=423",
+          "alt": "Guided Multi-Product Activation — 03"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/04.png?v=423",
+          "alt": "Guided Multi-Product Activation — 04"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/05.png?v=423",
+          "alt": "Guided Multi-Product Activation — 05"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/06.png?v=423",
+          "alt": "Guided Multi-Product Activation — 06"
         }
       ]
     },
