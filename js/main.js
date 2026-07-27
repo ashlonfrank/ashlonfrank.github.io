@@ -159,7 +159,7 @@ function getHeroStatementLeftAnchor() {
   return getHeroStatementBrandAnchor();
 }
 
-/** Right-edge anchor: title box (>1400), Product Designer (1024–1400), About (≤1023). */
+/** Right-edge anchor: project title h2 (≥1400), Product Designer (1024–1399), About (≤1023). */
 function getHeroStatementRightAnchor() {
   if (window.matchMedia(HERO_STATEMENT_STACKED_MQ).matches) {
     return getHeroStatementAboutAnchor();
@@ -167,8 +167,8 @@ function getHeroStatementRightAnchor() {
 
   if (window.matchMedia(HERO_STATEMENT_WIDE_MQ).matches) {
     return (
-      document.querySelector(".project__name-box") ||
-      document.querySelector(".project__sidebar")
+      document.querySelector(".project__name") ||
+      document.querySelector(".project__name-box")
     );
   }
 
@@ -711,7 +711,7 @@ const HEADER_COMPOSE_TOLERANCE = 2;
 const TABLET_RULE_TOLERANCE = 4;
 const COMPACT_LAYOUT_MQ = "(max-width: 600px)";
 const TABLET_LAYOUT_MQ = "(max-width: 1023px) and (min-width: 601px)";
-const HERO_STATEMENT_WIDE_MQ = "(min-width: 1401px)";
+const HERO_STATEMENT_WIDE_MQ = "(min-width: 1400px)";
 const HERO_STATEMENT_STACKED_MQ = "(max-width: 1023px)";
 
 let cachedLayoutMode = null;
