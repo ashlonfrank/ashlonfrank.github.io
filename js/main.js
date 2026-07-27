@@ -22,7 +22,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=statement-24");
+  const response = await fetch("./data/projects.json?v=statement-25");
   const data = await response.json();
 
   data.sections.forEach((section) => {
@@ -108,16 +108,7 @@ function initHeroStatement(site) {
 
   // Keep the click-ritual hero markup out of the way while intro is paused.
   hero.innerHTML = `<div class="hero__statement-shell"><div class="hero__statement">${paragraphs
-    .map((lines) => {
-      const copy = lines.filter(Boolean);
-      if (!copy.length) return "";
-      return `<p>${copy
-        .map(
-          (line, index) =>
-            `${index > 0 ? '<span class="hero__statement-space" aria-hidden="true"> </span>' : ""}<span class="hero__statement-line">${escapeHtml(line)}</span>`
-        )
-        .join("")}</p>`;
-    })
+    .map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`)
     .join("")}</div></div>`;
 
   measureHeroStatementPosition();
@@ -127,10 +118,12 @@ function normalizeHeroStatement(statement) {
   if (!Array.isArray(statement) || !statement.length) return [];
 
   if (typeof statement[0] === "string") {
-    return [statement.filter(Boolean)];
+    return statement.filter(Boolean);
   }
 
-  return statement.filter((paragraph) => Array.isArray(paragraph) && paragraph.length);
+  return statement
+    .filter((paragraph) => Array.isArray(paragraph) && paragraph.length)
+    .map((paragraph) => paragraph.filter(Boolean).join(" "));
 }
 
 function measureHeroStatementPosition() {

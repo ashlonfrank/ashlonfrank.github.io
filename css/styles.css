@@ -307,14 +307,6 @@ button:focus-visible {
   margin-bottom: 0;
 }
 
-.hero__statement-line {
-  display: block;
-}
-
-.hero__statement-space {
-  display: none;
-}
-
 .hero__hit {
   display: block;
   width: 100%;
@@ -1690,14 +1682,6 @@ body.page-contact {
   .hero__statement {
     width: var(--hero-statement-fixed-width, 100%);
     max-width: var(--hero-statement-fixed-width, 100%);
-  }
-
-  .hero__statement-line {
-    display: inline;
-  }
-
-  .hero__statement-space {
-    display: inline;
   }
 
   .project {
