@@ -274,6 +274,10 @@ button:focus-visible {
   margin-bottom: 0;
 }
 
+.hero__statement-line {
+  display: block;
+}
+
 .hero__hit {
   display: block;
   width: 100%;
@@ -1644,6 +1648,14 @@ body.page-contact {
     grid-column: 1 / -1;
     width: 100%;
     max-width: none;
+  }
+
+  .hero__statement-line {
+    display: inline;
+  }
+
+  .hero__statement-line + .hero__statement-line::before {
+    content: " ";
   }
 
   .project {
