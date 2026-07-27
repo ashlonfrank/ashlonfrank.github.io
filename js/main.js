@@ -22,7 +22,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=statement-21");
+  const response = await fetch("./data/projects.json?v=statement-22");
   const data = await response.json();
 
   data.sections.forEach((section) => {
@@ -111,7 +111,10 @@ function initHeroStatement(site) {
       const copy = lines.filter(Boolean);
       if (!copy.length) return "";
       return `<p>${copy
-        .map((line) => `<span class="hero__statement-line">${escapeHtml(line)}</span>`)
+        .map(
+          (line, index) =>
+            `${index > 0 ? '<span class="hero__statement-space" aria-hidden="true"> </span>' : ""}<span class="hero__statement-line">${escapeHtml(line)}</span>`
+        )
         .join("")}</p>`;
     })
     .join("")}</div>`;
