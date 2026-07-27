@@ -300,6 +300,10 @@ button:focus-visible {
   line-height: var(--hero-statement-lh);
 }
 
+.hero__statement p:first-child {
+  font-weight: 500;
+}
+
 .hero__statement p:last-child {
   margin-bottom: 0;
 }
