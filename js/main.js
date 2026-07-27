@@ -126,15 +126,82 @@ function normalizeHeroStatement(statement) {
     .map((paragraph) => paragraph.filter(Boolean).join(" "));
 }
 
+function isNavRoleVisible(role) {
+  if (!role) return false;
+  return getComputedStyle(role).display !== "none" && role.getClientRects().length > 0;
+}
+
+function getHeroStatementAboutAnchor() {
+  return (
+    document.querySelector('.nav__link[href="./about.html"]') ||
+    document.querySelector(".nav__end")
+  );
+}
+
+/** Left-edge anchor: project title cap (>1400), Product Designer (1024–1400), page rail (≤1023). */
+function getHeroStatementLeftAnchor() {
+  if (window.matchMedia(HERO_STATEMENT_STACKED_MQ).matches) {
+    return null;
+  }
+
+  if (window.matchMedia(HERO_STATEMENT_WIDE_MQ).matches) {
+    return (
+      document.querySelector(".project__name") ||
+      document.querySelector(".project__name-box")
+    );
+  }
+
+  const role = document.querySelector(".nav__role");
+  if (isNavRoleVisible(role)) return role;
+
+  return getHeroStatementAboutAnchor();
+}
+
+/** Right-edge anchor: title box (>1400), Product Designer (1024–1400), About (≤1023). */
+function getHeroStatementRightAnchor() {
+  if (window.matchMedia(HERO_STATEMENT_STACKED_MQ).matches) {
+    return getHeroStatementAboutAnchor();
+  }
+
+  if (window.matchMedia(HERO_STATEMENT_WIDE_MQ).matches) {
+    return (
+      document.querySelector(".project__name-box") ||
+      document.querySelector(".project__sidebar")
+    );
+  }
+
+  const role = document.querySelector(".nav__role");
+  if (isNavRoleVisible(role)) return role;
+
+  return getHeroStatementAboutAnchor();
+}
+
 function measureHeroStatementPosition() {
   const shell = document.querySelector(".hero__statement-shell");
   const statement = shell?.querySelector(".hero__statement");
   if (!shell || !statement) return;
 
+  const shellRect = shell.getBoundingClientRect();
+  const leftAnchor = getHeroStatementLeftAnchor();
+  const rightAnchor = getHeroStatementRightAnchor();
+
+  const left = leftAnchor
+    ? Math.round(leftAnchor.getBoundingClientRect().left)
+    : Math.round(shellRect.left);
+  const right = rightAnchor
+    ? Math.round(rightAnchor.getBoundingClientRect().right)
+    : Math.round(shellRect.right);
+  const width = Math.max(0, right - left);
+  const shellOffset = left - shellRect.left;
+
+  shell.style.marginLeft = shellOffset > 0 ? `${shellOffset}px` : "0";
+  shell.style.width = `${width}px`;
+  shell.style.maxWidth = `${width}px`;
+
+  document.documentElement.style.setProperty("--hero-statement-fixed-width", `${width}px`);
+  document.documentElement.style.setProperty("--hero-statement-fixed-left", `${left}px`);
+
   shell.style.minHeight = `${statement.offsetHeight}px`;
-  const rect = shell.getBoundingClientRect();
-  document.documentElement.style.setProperty("--hero-statement-fixed-left", `${rect.left}px`);
-  document.documentElement.style.setProperty("--hero-statement-fixed-width", `${rect.width}px`);
 }
 
 function getHeroStatementBandBottom() {
@@ -642,6 +709,8 @@ const HEADER_COMPOSE_TOLERANCE = 2;
 const TABLET_RULE_TOLERANCE = 4;
 const COMPACT_LAYOUT_MQ = "(max-width: 600px)";
 const TABLET_LAYOUT_MQ = "(max-width: 1023px) and (min-width: 601px)";
+const HERO_STATEMENT_WIDE_MQ = "(min-width: 1401px)";
+const HERO_STATEMENT_STACKED_MQ = "(max-width: 1023px)";
 
 let cachedLayoutMode = null;
 

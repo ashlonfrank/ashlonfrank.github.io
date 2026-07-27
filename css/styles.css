@@ -54,9 +54,6 @@
   --text-nav: 13px;
   --text-nav-lh: 13px;
   --hero-statement-lh: calc(var(--text-nav) * 1.55);
-  /* “Product Designer” measured width at --text-nav (Untitled Sans) */
-  --hero-statement-role-w: 8.18em;
-  --hero-statement-w: calc(100% + var(--grid-col-gap) + var(--hero-statement-role-w));
   --text-meta: 12.6px;
   --text-meta-lh: 19.5px;
   --text-title: 56px;
@@ -252,19 +249,19 @@ button:focus-visible {
 .hero__statement-shell {
   grid-column: 1 / span var(--sidebar-cols);
   justify-self: start;
-  width: var(--hero-statement-w);
-  max-width: var(--hero-statement-w);
+  width: 100%;
+  max-width: 100%;
   min-width: 0;
   pointer-events: none;
 }
 
-/* Brand cols + gap + “Product Designer” text width (matches nav) */
+/* Width + left set from layout anchors in measureHeroStatementPosition() */
 .hero__statement {
   position: fixed;
   top: calc(var(--sticky-top) + var(--header-text-gap));
   left: var(--hero-statement-fixed-left, var(--page-padding));
-  width: var(--hero-statement-fixed-width, var(--hero-statement-w));
-  max-width: var(--hero-statement-fixed-width, var(--hero-statement-w));
+  width: var(--hero-statement-fixed-width, 100%);
+  max-width: var(--hero-statement-fixed-width, 100%);
   min-width: 0;
   margin: 0;
   padding-bottom: 8px;
