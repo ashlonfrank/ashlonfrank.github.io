@@ -248,21 +248,54 @@ button:focus-visible {
   box-sizing: border-box;
 }
 
-/* Brand cols + gap + “Product Designer” text width (matches nav) */
-.hero__statement {
+/* In-flow shell reserves hero space; statement pins to the viewport band */
+.hero__statement-shell {
   grid-column: 1 / span var(--sidebar-cols);
   justify-self: start;
   width: var(--hero-statement-w);
   max-width: var(--hero-statement-w);
   min-width: 0;
+  pointer-events: none;
+}
+
+/* Brand cols + gap + “Product Designer” text width (matches nav) */
+.hero__statement {
+  position: fixed;
+  top: calc(var(--sticky-top) + var(--header-text-gap));
+  left: var(--hero-statement-fixed-left, var(--page-padding));
+  width: var(--hero-statement-fixed-width, var(--hero-statement-w));
+  max-width: var(--hero-statement-fixed-width, var(--hero-statement-w));
+  min-width: 0;
   margin: 0;
   padding-bottom: 8px;
+  z-index: 1;
+  background: var(--color-bg);
   text-align: left;
   font-size: var(--text-nav);
   line-height: var(--hero-statement-lh);
   font-weight: inherit;
   letter-spacing: normal;
   color: var(--color-text);
+  pointer-events: auto;
+  transition: opacity 180ms var(--ease-out), visibility 180ms var(--ease-out);
+}
+
+/* Mask scroll bleed above the pinned statement band */
+.hero__statement::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  height: var(--header-text-gap);
+  background: var(--color-bg);
+  pointer-events: none;
+}
+
+.hero.is-statement-hidden .hero__statement {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .hero__statement p {
@@ -1648,10 +1681,15 @@ body.page-contact {
     --tile-gap: 3px;
   }
 
-  .hero__statement {
+  .hero__statement-shell {
     grid-column: 1 / -1;
     width: 100%;
     max-width: none;
+  }
+
+  .hero__statement {
+    width: var(--hero-statement-fixed-width, 100%);
+    max-width: var(--hero-statement-fixed-width, 100%);
   }
 
   .hero__statement-line {
@@ -1838,10 +1876,15 @@ body.page-contact {
     --hero-min-h: 300px;
   }
 
-  .hero__statement {
+  .hero__statement-shell {
     grid-column: 1 / -1;
     width: 100%;
     max-width: none;
+  }
+
+  .hero__statement {
+    width: var(--hero-statement-fixed-width, 100%);
+    max-width: var(--hero-statement-fixed-width, 100%);
   }
 
   .footer {

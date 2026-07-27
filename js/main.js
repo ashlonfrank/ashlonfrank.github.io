@@ -22,7 +22,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=statement-22");
+  const response = await fetch("./data/projects.json?v=statement-24");
   const data = await response.json();
 
   data.sections.forEach((section) => {
@@ -68,6 +68,7 @@ async function init() {
   initTileVideos();
   initProjectIndex(scroll);
   initHeaderCover(scroll);
+  initHeroStatementCover(scroll);
 
   endCalibration(scroll);
   cachedLayoutMode = syncLayoutMode();
@@ -106,7 +107,7 @@ function initHeroStatement(site) {
   if (!hero || !paragraphs.length) return;
 
   // Keep the click-ritual hero markup out of the way while intro is paused.
-  hero.innerHTML = `<div class="hero__statement">${paragraphs
+  hero.innerHTML = `<div class="hero__statement-shell"><div class="hero__statement">${paragraphs
     .map((lines) => {
       const copy = lines.filter(Boolean);
       if (!copy.length) return "";
@@ -117,7 +118,9 @@ function initHeroStatement(site) {
         )
         .join("")}</p>`;
     })
-    .join("")}</div>`;
+    .join("")}</div></div>`;
+
+  measureHeroStatementPosition();
 }
 
 function normalizeHeroStatement(statement) {
@@ -128,6 +131,25 @@ function normalizeHeroStatement(statement) {
   }
 
   return statement.filter((paragraph) => Array.isArray(paragraph) && paragraph.length);
+}
+
+function measureHeroStatementPosition() {
+  const shell = document.querySelector(".hero__statement-shell");
+  const statement = shell?.querySelector(".hero__statement");
+  if (!shell || !statement) return;
+
+  shell.style.minHeight = `${statement.offsetHeight}px`;
+  const rect = shell.getBoundingClientRect();
+  document.documentElement.style.setProperty("--hero-statement-fixed-left", `${rect.left}px`);
+  document.documentElement.style.setProperty("--hero-statement-fixed-width", `${rect.width}px`);
+}
+
+function getHeroStatementBandBottom() {
+  const statement = document.querySelector(".hero__statement");
+  const stickyLine = getStickyLine();
+  const gap = readCssPx("--header-text-gap", 16);
+  const height = statement?.offsetHeight || 0;
+  return stickyLine + gap + height;
 }
 
 function initSmoothScroll() {
@@ -379,6 +401,60 @@ function initHeaderCover(scroll) {
   scroll.onScroll(update);
   scroll.onFrame(update);
   window.addEventListener("resize", update);
+}
+
+function initHeroStatementCover(scroll) {
+  const hero = document.getElementById("intro");
+  const statement = hero?.querySelector(".hero__statement");
+  const firstProject = document.querySelector(".project");
+  if (!hero || !statement || !firstProject) return;
+
+  let lastScrollY = window.scrollY;
+
+  const update = () => {
+    const scrollingDown = window.scrollY >= lastScrollY;
+    lastScrollY = window.scrollY;
+
+    const titleRow = firstProject.querySelector(".project__title-row");
+    if (!titleRow) return;
+
+    if (window.scrollY <= 1) {
+      hero.classList.remove("is-statement-hidden");
+      return;
+    }
+
+    const titleTop = titleRow.getBoundingClientRect().top;
+    const bandBottom = getHeroStatementBandBottom();
+    const covered = titleTop <= bandBottom;
+
+    if (isStackedLayout()) {
+      hero.classList.toggle("is-statement-hidden", covered);
+      return;
+    }
+
+    if (isSectionComposedLanding(firstProject) && !scrollingDown) {
+      hero.classList.toggle(
+        "is-statement-hidden",
+        covered || isSectionHeaderLanded(firstProject)
+      );
+      return;
+    }
+
+    if (isSectionComposedLanding(firstProject) && !covered) {
+      hero.classList.remove("is-statement-hidden");
+      return;
+    }
+
+    hero.classList.toggle("is-statement-hidden", covered);
+  };
+
+  update();
+  scroll.onScroll(update);
+  scroll.onFrame(update);
+  window.addEventListener("resize", () => {
+    measureHeroStatementPosition();
+    update();
+  });
 }
 
 function initProjectIndex(scroll) {
@@ -880,6 +956,7 @@ function measureMetaBlockHeights(projects) {
 
 function measureSectionLayout() {
   measureFoldPeek();
+  measureHeroStatementPosition();
 
   const projects = [...document.querySelectorAll(".project")];
 
