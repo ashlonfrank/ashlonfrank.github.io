@@ -1201,7 +1201,7 @@ function calibrateFoldSpacing(project, isLast = false) {
   }
 
   const metaBlockH = getMetaBlockHeight(project);
-  const gridGap = readCssPx("--meta-to-grid-gap", 24);
+  const gridGap = readCssPx("--meta-to-grid-gap", 32);
   const gridH = measureProjectGridHeight(project);
   const foldContentH = getFoldContentHeight();
   const contentH = metaBlockH + gridGap + gridH;
@@ -1325,7 +1325,7 @@ function findComposedPeekLandingScrollY(project) {
 function findLastProjectLandingScrollY(project) {
   const hold = parseFloat(getComputedStyle(project).getPropertyValue("--header-scroll-hold")) || 0;
   const metaBlockH = getMetaBlockHeight(project);
-  const gridGap = readCssPx("--meta-to-grid-gap", 24);
+  const gridGap = readCssPx("--meta-to-grid-gap", 32);
   const targetGridTop = getStickyLine() + metaBlockH + hold + gridGap;
 
   const grid = project.querySelector(".project__grid");

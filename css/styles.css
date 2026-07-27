@@ -31,7 +31,7 @@
   --meta-desc-h: calc(var(--text-meta-lh) * var(--meta-desc-lines));
   --meta-copy-gap: 24px;
   --meta-block-h: calc(var(--header-rule-size) + var(--header-text-gap) + var(--meta-desc-h) + 8px);
-  --meta-to-grid-gap: 24px;
+  --meta-to-grid-gap: 32px;
   --grid-row-gap: var(--meta-to-grid-gap);
   --grid-cols: 12;
   --grid-col-gap: 8px;
