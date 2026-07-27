@@ -138,7 +138,11 @@ function getHeroStatementAboutAnchor() {
   );
 }
 
-/** Left-edge anchor: project title cap (>1400), Product Designer (1024–1400), page rail (≤1023). */
+function getHeroStatementBrandAnchor() {
+  return document.querySelector(".nav__brand");
+}
+
+/** Left-edge anchor: index slot (>1400), Ashlon Frank (1024–1400), page rail (≤1023). */
 function getHeroStatementLeftAnchor() {
   if (window.matchMedia(HERO_STATEMENT_STACKED_MQ).matches) {
     return null;
@@ -146,15 +150,13 @@ function getHeroStatementLeftAnchor() {
 
   if (window.matchMedia(HERO_STATEMENT_WIDE_MQ).matches) {
     return (
-      document.querySelector(".project__name") ||
-      document.querySelector(".project__name-box")
+      document.querySelector(".project__index-slot") ||
+      document.querySelector(".project__title-row") ||
+      getHeroStatementBrandAnchor()
     );
   }
 
-  const role = document.querySelector(".nav__role");
-  if (isNavRoleVisible(role)) return role;
-
-  return getHeroStatementAboutAnchor();
+  return getHeroStatementBrandAnchor();
 }
 
 /** Right-edge anchor: title box (>1400), Product Designer (1024–1400), About (≤1023). */
