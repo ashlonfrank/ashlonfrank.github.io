@@ -6,9 +6,8 @@
     "role": "Product Designer",
     "location": "New York",
     "statement": [
-      "Product designer, systems thinker, and occasional PM: whatever it takes to ship the right thing.",
-      "My experience spans systems-heavy spaces: fintech, loyalty + rewards, SMB tools, and architecture + construction.",
-      "I do my best work where design craft + product strategy meet. I’ve done this at companies ranging from 10 to 300,000+ people."
+      "Product designer, systems thinker, and occasional PM: whatever it takes to ship the right thing. My experience spans systems-heavy spaces: fintech, loyalty + rewards, SMB tools, and architecture + construction.",
+      "I do my best work where design craft + product strategy meet. I’ve done this at companies from 10 to 300,000+ people, across startups and enterprises."
     ],
     "hero": [
       "I work on hard problems in complex domains — using design craft",
@@ -20,11 +19,21 @@
         "and product thinking to turn ambiguity into clarity."
       ],
       "frames": [
-        { "alt": "Introduction 1" },
-        { "alt": "Introduction 2" },
-        { "alt": "Introduction 3" },
-        { "alt": "Introduction 4" },
-        { "alt": "Introduction 5" }
+        {
+          "alt": "Introduction 1"
+        },
+        {
+          "alt": "Introduction 2"
+        },
+        {
+          "alt": "Introduction 3"
+        },
+        {
+          "alt": "Introduction 4"
+        },
+        {
+          "alt": "Introduction 5"
+        }
       ]
     }
   },
@@ -39,9 +48,18 @@
         "Partnering with product, marketing, finance, and engineering teams, I designed onboarding, driving SMB customers to adopt products that were valuable to them and led to higher revenue for Chase — driving product activation and increased fraud protection enrollment."
       ],
       "metadata": [
-        { "icon": "person", "text": "Sole Product Designer" },
-        { "icon": "bolt", "text": "Onboarding Growth/Activation" },
-        { "icon": "chart", "text": "38% hub engagement. Projected 5 million NPV" }
+        {
+          "icon": "person",
+          "text": "Sole Product Designer"
+        },
+        {
+          "icon": "bolt",
+          "text": "Onboarding Growth/Activation"
+        },
+        {
+          "icon": "chart",
+          "text": "38% hub engagement. Projected 5 million NPV"
+        }
       ],
       "media": [
         {
@@ -86,9 +104,18 @@
         "Working with product and marketing, I redesigned the homepage around value: a hero leading with rewards and redemption, personalized to each customer's card. The redesign also showed the full breadth of what Chase offered — connecting every offering back to the card rewards at the center of Chase Travel's value prop."
       ],
       "metadata": [
-        { "icon": "person", "text": "Sole Product Designer" },
-        { "icon": "bolt", "text": "Information Architecture / Redesign / Repositioning" },
-        { "icon": "chart", "text": "—" }
+        {
+          "icon": "person",
+          "text": "Sole Product Designer"
+        },
+        {
+          "icon": "bolt",
+          "text": "Information Architecture / Redesign / Repositioning"
+        },
+        {
+          "icon": "chart",
+          "text": "—"
+        }
       ],
       "media": [
         {
@@ -148,8 +175,14 @@
         "As sole product designer, I mapped an 18-month vision — rich visuals, ratings, and content pulled from partners like Infatuation — then shipped a lean MVP to test demand, connecting Sapphire holders to exclusive, cardholder-only tables through OpenTable. It became the second-most-used Sapphire Reserve benefit within four months."
       ],
       "metadata": [
-        { "icon": "person", "text": "Sole Product Designer" },
-        { "icon": "bolt", "text": "0–1 Product Design" },
+        {
+          "icon": "person",
+          "text": "Sole Product Designer"
+        },
+        {
+          "icon": "bolt",
+          "text": "0–1 Product Design"
+        },
         {
           "icon": "chart",
           "text": "3M users, second-most-used Sapphire benefit in 4 months. Scaled from 30 to 60 cities in 2 months"
@@ -158,7 +191,8 @@
       "media": [
         {
           "type": "image",
-          "src": "./assets/Onboarding/Dining/01.png?v=441",          "alt": "Dining Loyalty — 01"
+          "src": "./assets/Onboarding/Dining/01.png?v=441",
+          "alt": "Dining Loyalty — 01"
         },
         {
           "type": "image",
@@ -195,7 +229,9 @@
         "typically for the launch of their flagship phones, and typically in",
         "a couple of days from an undisclosed secure location."
       ],
-      "description2": ["Web Design"],
+      "description2": [
+        "Web Design"
+      ],
       "media": [
         {
           "type": "image",
@@ -236,7 +272,10 @@
         "A collection of random sites and side projects from over the",
         "years. Some client work, some personal, some just for fun."
       ],
-      "description2": ["Web Design / Brand / Illustration /", "Etc."],
+      "description2": [
+        "Web Design / Brand / Illustration /",
+        "Etc."
+      ],
       "media": [
         {
           "type": "video",
@@ -317,7 +356,10 @@
         "Marketing site work for webflow.com — landing pages, feature",
         "sections, and campaign pages built in Webflow."
       ],
-      "description2": ["Web Design / Marketing /", "Animation / Etc."]
+      "description2": [
+        "Web Design / Marketing /",
+        "Animation / Etc."
+      ]
     },
     {
       "id": "ecom-site",
@@ -326,18 +368,35 @@
         "E-commerce UI explorations — product pages, cart flows, and",
         "checkout experiences with bold visual direction."
       ],
-      "description2": ["UI Design / E-commerce /", "Web Design / Etc."]
+      "description2": [
+        "UI Design / E-commerce /",
+        "Web Design / Etc."
+      ]
     },
     {
       "id": "archive-scraps",
       "title": "Archive & Scraps",
-      "description": ["Some truly random stuff."],
-      "description2": ["Type Design / Illustration / Branding /", "3D / Etc."]
+      "description": [
+        "Some truly random stuff."
+      ],
+      "description2": [
+        "Type Design / Illustration / Branding /",
+        "3D / Etc."
+      ]
     }
   ],
   "social": [
-    { "label": "Twitter", "href": "#" },
-    { "label": "LinkedIn", "href": "https://www.linkedin.com/in/ashlon-frank/" },
-    { "label": "Instagram", "href": "#" }
+    {
+      "label": "Twitter",
+      "href": "#"
+    },
+    {
+      "label": "LinkedIn",
+      "href": "https://www.linkedin.com/in/ashlon-frank/"
+    },
+    {
+      "label": "Instagram",
+      "href": "#"
+    }
   ]
 }

@@ -22,7 +22,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=statement-3");
+  const response = await fetch("./data/projects.json?v=statement-25");
   const data = await response.json();
 
   data.sections.forEach((section) => {
@@ -68,6 +68,7 @@ async function init() {
   initTileVideos();
   initProjectIndex(scroll);
   initHeaderCover(scroll);
+  initHeroStatementCover(scroll);
 
   endCalibration(scroll);
   cachedLayoutMode = syncLayoutMode();
@@ -102,13 +103,115 @@ function endCalibration(scroll) {
 
 function initHeroStatement(site) {
   const hero = document.getElementById("intro");
-  const lines = Array.isArray(site?.statement) ? site.statement.filter(Boolean) : [];
-  if (!hero || !lines.length) return;
+  const paragraphs = normalizeHeroStatement(site?.statement);
+  if (!hero || !paragraphs.length) return;
 
   // Keep the click-ritual hero markup out of the way while intro is paused.
-  hero.innerHTML = `<div class="hero__statement">${lines
-    .map((line) => `<p>${escapeHtml(line)}</p>`)
-    .join("")}</div>`;
+  hero.innerHTML = `<div class="hero__statement-shell"><div class="hero__statement">${paragraphs
+    .map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`)
+    .join("")}</div></div>`;
+
+  measureHeroStatementPosition();
+}
+
+function normalizeHeroStatement(statement) {
+  if (!Array.isArray(statement) || !statement.length) return [];
+
+  if (typeof statement[0] === "string") {
+    return statement.filter(Boolean);
+  }
+
+  return statement
+    .filter((paragraph) => Array.isArray(paragraph) && paragraph.length)
+    .map((paragraph) => paragraph.filter(Boolean).join(" "));
+}
+
+function isNavRoleVisible(role) {
+  if (!role) return false;
+  return getComputedStyle(role).display !== "none" && role.getClientRects().length > 0;
+}
+
+function getHeroStatementAboutAnchor() {
+  return (
+    document.querySelector('.nav__link[href="./about.html"]') ||
+    document.querySelector(".nav__end")
+  );
+}
+
+function getHeroStatementBrandAnchor() {
+  return document.querySelector(".nav__brand");
+}
+
+/** Left-edge anchor: index slot (>1400), Ashlon Frank (1024–1400), page rail (≤1023). */
+function getHeroStatementLeftAnchor() {
+  if (window.matchMedia(HERO_STATEMENT_STACKED_MQ).matches) {
+    return null;
+  }
+
+  if (window.matchMedia(HERO_STATEMENT_WIDE_MQ).matches) {
+    return (
+      document.querySelector(".project__index-slot") ||
+      document.querySelector(".project__title-row") ||
+      getHeroStatementBrandAnchor()
+    );
+  }
+
+  return getHeroStatementBrandAnchor();
+}
+
+/** Right-edge anchor: project title h2 (≥1400), Product Designer (1024–1399), About (≤1023). */
+function getHeroStatementRightAnchor() {
+  if (window.matchMedia(HERO_STATEMENT_STACKED_MQ).matches) {
+    return getHeroStatementAboutAnchor();
+  }
+
+  if (window.matchMedia(HERO_STATEMENT_WIDE_MQ).matches) {
+    return (
+      document.querySelector(".project__name") ||
+      document.querySelector(".project__name-box")
+    );
+  }
+
+  const role = document.querySelector(".nav__role");
+  if (isNavRoleVisible(role)) return role;
+
+  return getHeroStatementAboutAnchor();
+}
+
+function measureHeroStatementPosition() {
+  const shell = document.querySelector(".hero__statement-shell");
+  const statement = shell?.querySelector(".hero__statement");
+  if (!shell || !statement) return;
+
+  const shellRect = shell.getBoundingClientRect();
+  const leftAnchor = getHeroStatementLeftAnchor();
+  const rightAnchor = getHeroStatementRightAnchor();
+
+  const left = leftAnchor
+    ? Math.round(leftAnchor.getBoundingClientRect().left)
+    : Math.round(shellRect.left);
+  const right = rightAnchor
+    ? Math.round(rightAnchor.getBoundingClientRect().right)
+    : Math.round(shellRect.right);
+  const width = Math.max(0, right - left);
+  const shellOffset = left - shellRect.left;
+
+  shell.style.marginLeft = shellOffset > 0 ? `${shellOffset}px` : "0";
+  shell.style.width = `${width}px`;
+  shell.style.maxWidth = `${width}px`;
+
+  document.documentElement.style.setProperty("--hero-statement-fixed-width", `${width}px`);
+  document.documentElement.style.setProperty("--hero-statement-fixed-left", `${left}px`);
+
+  shell.style.minHeight = `${statement.offsetHeight}px`;
+}
+
+function getHeroStatementBandBottom() {
+  const statement = document.querySelector(".hero__statement");
+  const stickyLine = getStickyLine();
+  const gap = readCssPx("--header-text-gap", 16);
+  const height = statement?.offsetHeight || 0;
+  return stickyLine + gap + height;
 }
 
 function initSmoothScroll() {
@@ -362,6 +465,60 @@ function initHeaderCover(scroll) {
   window.addEventListener("resize", update);
 }
 
+function initHeroStatementCover(scroll) {
+  const hero = document.getElementById("intro");
+  const statement = hero?.querySelector(".hero__statement");
+  const firstProject = document.querySelector(".project");
+  if (!hero || !statement || !firstProject) return;
+
+  let lastScrollY = window.scrollY;
+
+  const update = () => {
+    const scrollingDown = window.scrollY >= lastScrollY;
+    lastScrollY = window.scrollY;
+
+    const titleRow = firstProject.querySelector(".project__title-row");
+    if (!titleRow) return;
+
+    if (window.scrollY <= 1) {
+      hero.classList.remove("is-statement-hidden");
+      return;
+    }
+
+    const titleTop = titleRow.getBoundingClientRect().top;
+    const bandBottom = getHeroStatementBandBottom();
+    const covered = titleTop <= bandBottom;
+
+    if (isStackedLayout()) {
+      hero.classList.toggle("is-statement-hidden", covered);
+      return;
+    }
+
+    if (isSectionComposedLanding(firstProject) && !scrollingDown) {
+      hero.classList.toggle(
+        "is-statement-hidden",
+        covered || isSectionHeaderLanded(firstProject)
+      );
+      return;
+    }
+
+    if (isSectionComposedLanding(firstProject) && !covered) {
+      hero.classList.remove("is-statement-hidden");
+      return;
+    }
+
+    hero.classList.toggle("is-statement-hidden", covered);
+  };
+
+  update();
+  scroll.onScroll(update);
+  scroll.onFrame(update);
+  window.addEventListener("resize", () => {
+    measureHeroStatementPosition();
+    update();
+  });
+}
+
 function initProjectIndex(scroll) {
   const indexEl = document.getElementById("project-index");
   const projects = [...document.querySelectorAll(".project")];
@@ -461,12 +618,16 @@ function measureOdometerMetrics(indexEl) {
     probe.id = "index-digit-probe";
     probe.setAttribute("aria-hidden", "true");
     probe.style.cssText =
-      "position:fixed;left:-9999px;top:0;visibility:hidden;white-space:nowrap;pointer-events:none;letter-spacing:0;font-variant-numeric:normal;";
+      "position:fixed;left:-9999px;top:0;visibility:hidden;white-space:nowrap;pointer-events:none;letter-spacing:0;font-variant-numeric:tabular-nums;font-feature-settings:'tnum' 1;";
     document.body.appendChild(probe);
   }
 
+  const valueEl = getIndexValueEl(indexEl);
+  ensureOdometer(valueEl);
+
   const style = getComputedStyle(indexEl);
-  probe.style.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+  const sampleChar = valueEl.querySelector(".project-index__digit-char");
+  probe.style.font = `${style.fontWeight} ${style.fontSize}/${style.lineHeight} ${style.fontFamily}`;
 
   let maxW = 0;
   for (let d = 0; d <= 9; d += 1) {
@@ -477,13 +638,20 @@ function measureOdometerMetrics(indexEl) {
   const digitW = Math.ceil(maxW);
   const tracking =
     parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--text-title-tracking")) || 0;
-  const fontSize = parseFloat(style.fontSize) || 64;
-  const digitStep = Math.round(fontSize * 0.85 * 100) / 100;
+  const measuredStep = sampleChar
+    ? sampleChar.getBoundingClientRect().height
+    : (parseFloat(style.fontSize) || 64) * 0.85;
+  const digitStep = Math.max(1, Math.ceil(measuredStep));
 
   document.documentElement.style.setProperty("--index-digit-w", `${digitW}px`);
   document.documentElement.style.setProperty("--index-slot-w", `${digitW * 2 + tracking}px`);
   document.documentElement.style.setProperty("--index-digit-step", `${digitStep}px`);
   indexEl.style.setProperty("--index-odometer-ms", `${INDEX_ODOMETER_MS}ms`);
+
+  // Re-apply strip offsets after the step size changes.
+  if (valueEl.dataset.currentValue) {
+    setOdometerValue(valueEl, valueEl.dataset.currentValue, false);
+  }
 }
 
 function ensureOdometer(valueEl) {
@@ -521,10 +689,11 @@ function setOdometerValue(valueEl, value, animate = true) {
   const step =
     parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--index-digit-step")) ||
     54.4;
+  const stepPx = Math.round(step);
 
   strips.forEach((strip, i) => {
     strip.classList.toggle("is-instant", !animate);
-    strip.style.transform = `translateY(-${parseInt(chars[i], 10) * step}px)`;
+    strip.style.transform = `translate3d(0, -${parseInt(chars[i], 10) * stepPx}px, 0)`;
   });
 
   if (animate) {
@@ -542,6 +711,8 @@ const HEADER_COMPOSE_TOLERANCE = 2;
 const TABLET_RULE_TOLERANCE = 4;
 const COMPACT_LAYOUT_MQ = "(max-width: 600px)";
 const TABLET_LAYOUT_MQ = "(max-width: 1023px) and (min-width: 601px)";
+const HERO_STATEMENT_WIDE_MQ = "(min-width: 1400px)";
+const HERO_STATEMENT_STACKED_MQ = "(max-width: 1023px)";
 
 let cachedLayoutMode = null;
 
@@ -849,6 +1020,7 @@ function measureMetaBlockHeights(projects) {
 
 function measureSectionLayout() {
   measureFoldPeek();
+  measureHeroStatementPosition();
 
   const projects = [...document.querySelectorAll(".project")];
 

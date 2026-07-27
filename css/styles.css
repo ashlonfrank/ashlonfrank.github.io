@@ -53,6 +53,7 @@
   --font-sans: "Untitled Sans", system-ui, sans-serif;
   --text-nav: 13px;
   --text-nav-lh: 13px;
+  --hero-statement-lh: calc(var(--text-nav) * 1.55);
   --text-meta: 12.6px;
   --text-meta-lh: 19.5px;
   --text-title: 56px;
@@ -179,7 +180,9 @@ button:focus-visible {
 }
 
 .nav__role {
-  grid-column: 5 / span 4;
+  grid-column: 5;
+  justify-self: start;
+  width: max-content;
   font-size: var(--text-nav);
   line-height: var(--text-nav-lh);
 }
@@ -227,40 +230,78 @@ button:focus-visible {
    -------------------------------------------------------------------------- */
 
 .hero {
+  container-type: inline-size;
+  container-name: hero;
   min-height: max(var(--hero-min-h), calc(var(--viewport-h) - var(--fold-peek)));
   height: max(var(--hero-min-h), calc(var(--viewport-h) - var(--fold-peek)));
-  padding: var(--page-padding) 0;
+  padding-top: calc(var(--sticky-top) + var(--header-text-gap));
+  padding-bottom: var(--page-padding);
   position: relative;
   display: grid;
   grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
   column-gap: var(--grid-col-gap);
-  /* Vertically center in the open field between nav and the fold peek / divider */
-  align-content: center;
+  /* Same vertical start as About contact / Reach out! */
+  align-content: start;
   box-sizing: border-box;
 }
 
-/* Same width as sticky index + title (sidebar cols 1–4), left-aligned */
-.hero__statement {
+/* In-flow shell reserves hero space; statement pins to the viewport band */
+.hero__statement-shell {
   grid-column: 1 / span var(--sidebar-cols);
-  max-width: none;
+  justify-self: start;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  pointer-events: none;
+}
+
+/* Width + left set from layout anchors in measureHeroStatementPosition() */
+.hero__statement {
+  position: fixed;
+  top: calc(var(--sticky-top) + var(--header-text-gap));
+  left: var(--hero-statement-fixed-left, var(--page-padding));
+  width: var(--hero-statement-fixed-width, 100%);
+  max-width: var(--hero-statement-fixed-width, 100%);
+  min-width: 0;
   margin: 0;
   padding-bottom: 8px;
+  z-index: 1;
+  background: var(--color-bg);
   text-align: left;
-  font-size: 15px;
-  line-height: 1.45;
-  font-weight: 500;
-  letter-spacing: -0.01em;
+  font-size: var(--text-nav);
+  line-height: var(--hero-statement-lh);
+  font-weight: inherit;
+  letter-spacing: normal;
   color: var(--color-text);
+  pointer-events: auto;
+  transition: opacity 180ms var(--ease-out), visibility 180ms var(--ease-out);
+}
+
+/* Mask scroll bleed above the pinned statement band */
+.hero__statement::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  height: var(--header-text-gap);
+  background: var(--color-bg);
+  pointer-events: none;
+}
+
+.hero.is-statement-hidden .hero__statement {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .hero__statement p {
   margin: 0 0 0.85em;
+  line-height: var(--hero-statement-lh);
 }
 
 .hero__statement p:last-child {
   margin-bottom: 0;
-  color: var(--color-index);
 }
 
 .hero__hit {
@@ -695,7 +736,7 @@ html.hero--bleed .hero__copy {
 
 .project-index__value {
   display: block;
-  transform: translateY(var(--index-cap-nudge));
+  padding-top: var(--index-cap-nudge);
 }
 
 .project-index__digits {
@@ -708,7 +749,8 @@ html.hero--bleed .hero__copy {
   flex: 0 0 var(--index-digit-w, 0.65em);
   width: var(--index-digit-w, 0.65em);
   height: var(--index-digit-step);
-  overflow: hidden;
+  overflow: clip;
+  contain: layout style paint;
 }
 
 .project-index__digit + .project-index__digit {
@@ -731,7 +773,8 @@ html.hero--bleed .hero__copy {
   height: var(--index-digit-step);
   line-height: var(--index-digit-step);
   letter-spacing: 0;
-  font-variant-numeric: normal;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
 }
 
 .project-index::before {
@@ -1627,6 +1670,17 @@ body.page-contact {
     --tile-gap: 3px;
   }
 
+  .hero__statement-shell {
+    grid-column: 1 / -1;
+    width: 100%;
+    max-width: none;
+  }
+
+  .hero__statement {
+    width: var(--hero-statement-fixed-width, 100%);
+    max-width: var(--hero-statement-fixed-width, 100%);
+  }
+
   .project {
     min-height: calc(var(--viewport-h) - var(--fold-peek));
   }
@@ -1803,9 +1857,15 @@ body.page-contact {
     --hero-min-h: 300px;
   }
 
-  .hero__statement {
+  .hero__statement-shell {
     grid-column: 1 / -1;
-    font-size: 14px;
+    width: 100%;
+    max-width: none;
+  }
+
+  .hero__statement {
+    width: var(--hero-statement-fixed-width, 100%);
+    max-width: var(--hero-statement-fixed-width, 100%);
   }
 
   .footer {
