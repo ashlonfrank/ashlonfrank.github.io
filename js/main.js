@@ -102,13 +102,27 @@ function endCalibration(scroll) {
 
 function initHeroStatement(site) {
   const hero = document.getElementById("intro");
-  const lines = Array.isArray(site?.statement) ? site.statement.filter(Boolean) : [];
-  if (!hero || !lines.length) return;
+  const paragraphs = normalizeHeroStatement(site?.statement);
+  if (!hero || !paragraphs.length) return;
 
   // Keep the click-ritual hero markup out of the way while intro is paused.
-  hero.innerHTML = `<div class="hero__statement">${lines
-    .map((line) => `<p>${escapeHtml(line)}</p>`)
+  hero.innerHTML = `<div class="hero__statement">${paragraphs
+    .map((lines) => {
+      const copy = lines.filter(Boolean);
+      if (!copy.length) return "";
+      return `<p>${copy.map((line) => escapeHtml(line)).join("<br />")}</p>`;
+    })
     .join("")}</div>`;
+}
+
+function normalizeHeroStatement(statement) {
+  if (!Array.isArray(statement) || !statement.length) return [];
+
+  if (typeof statement[0] === "string") {
+    return [statement.filter(Boolean)];
+  }
+
+  return statement.filter((paragraph) => Array.isArray(paragraph) && paragraph.length);
 }
 
 function initSmoothScroll() {
@@ -461,12 +475,16 @@ function measureOdometerMetrics(indexEl) {
     probe.id = "index-digit-probe";
     probe.setAttribute("aria-hidden", "true");
     probe.style.cssText =
-      "position:fixed;left:-9999px;top:0;visibility:hidden;white-space:nowrap;pointer-events:none;letter-spacing:0;font-variant-numeric:normal;";
+      "position:fixed;left:-9999px;top:0;visibility:hidden;white-space:nowrap;pointer-events:none;letter-spacing:0;font-variant-numeric:tabular-nums;font-feature-settings:'tnum' 1;";
     document.body.appendChild(probe);
   }
 
+  const valueEl = getIndexValueEl(indexEl);
+  ensureOdometer(valueEl);
+
   const style = getComputedStyle(indexEl);
-  probe.style.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+  const sampleChar = valueEl.querySelector(".project-index__digit-char");
+  probe.style.font = `${style.fontWeight} ${style.fontSize}/${style.lineHeight} ${style.fontFamily}`;
 
   let maxW = 0;
   for (let d = 0; d <= 9; d += 1) {
@@ -477,13 +495,20 @@ function measureOdometerMetrics(indexEl) {
   const digitW = Math.ceil(maxW);
   const tracking =
     parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--text-title-tracking")) || 0;
-  const fontSize = parseFloat(style.fontSize) || 64;
-  const digitStep = Math.round(fontSize * 0.85 * 100) / 100;
+  const measuredStep = sampleChar
+    ? sampleChar.getBoundingClientRect().height
+    : (parseFloat(style.fontSize) || 64) * 0.85;
+  const digitStep = Math.max(1, Math.ceil(measuredStep));
 
   document.documentElement.style.setProperty("--index-digit-w", `${digitW}px`);
   document.documentElement.style.setProperty("--index-slot-w", `${digitW * 2 + tracking}px`);
   document.documentElement.style.setProperty("--index-digit-step", `${digitStep}px`);
   indexEl.style.setProperty("--index-odometer-ms", `${INDEX_ODOMETER_MS}ms`);
+
+  // Re-apply strip offsets after the step size changes.
+  if (valueEl.dataset.currentValue) {
+    setOdometerValue(valueEl, valueEl.dataset.currentValue, false);
+  }
 }
 
 function ensureOdometer(valueEl) {
@@ -521,10 +546,11 @@ function setOdometerValue(valueEl, value, animate = true) {
   const step =
     parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--index-digit-step")) ||
     54.4;
+  const stepPx = Math.round(step);
 
   strips.forEach((strip, i) => {
     strip.classList.toggle("is-instant", !animate);
-    strip.style.transform = `translateY(-${parseInt(chars[i], 10) * step}px)`;
+    strip.style.transform = `translate3d(0, -${parseInt(chars[i], 10) * stepPx}px, 0)`;
   });
 
   if (animate) {
