@@ -22,7 +22,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=statement-32");
+  const response = await fetch("./data/projects.json?v=statement-33");
   const data = await response.json();
 
   data.sections.forEach((section) => {
