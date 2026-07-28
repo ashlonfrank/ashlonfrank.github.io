@@ -363,33 +363,28 @@
       "media": [
         {
           "type": "image",
-          "src": "./assets/Onboarding/architecture graphics/01.png?v=451",
-          "alt": "Webflow Dot Com — 01"
+          "src": "./assets/Onboarding/architecture graphics/A.png?v=452",
+          "alt": "Webflow Dot Com — A"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/architecture graphics/02.png?v=451",
-          "alt": "Webflow Dot Com — 02"
+          "src": "./assets/Onboarding/architecture graphics/B.png?v=452",
+          "alt": "Webflow Dot Com — B"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/architecture graphics/03.png?v=451",
-          "alt": "Webflow Dot Com — 03"
+          "src": "./assets/Onboarding/architecture graphics/C.png?v=452",
+          "alt": "Webflow Dot Com — C"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/architecture graphics/04.png?v=451",
-          "alt": "Webflow Dot Com — 04"
+          "src": "./assets/Onboarding/architecture graphics/D.png?v=452",
+          "alt": "Webflow Dot Com — D"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/architecture graphics/05.png?v=451",
-          "alt": "Webflow Dot Com — 05"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/architecture graphics/06.png?v=451",
-          "alt": "Webflow Dot Com — 06"
+          "src": "./assets/Onboarding/architecture graphics/E.png?v=452",
+          "alt": "Webflow Dot Com — E"
         }
       ]
     },
