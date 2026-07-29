@@ -363,28 +363,48 @@
       "media": [
         {
           "type": "image",
-          "src": "./assets/Onboarding/architecture-graphics/1.png?v=456",
+          "src": "./assets/Onboarding/architecture-graphics/1.png?v=458",
           "alt": "Webflow Dot Com — 1"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/architecture-graphics/2.png?v=456",
+          "src": "./assets/Onboarding/architecture-graphics/2.png?v=458",
           "alt": "Webflow Dot Com — 2"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/architecture-graphics/3.png?v=456",
+          "src": "./assets/Onboarding/architecture-graphics/3.png?v=458",
           "alt": "Webflow Dot Com — 3"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/architecture-graphics/4.png?v=456",
+          "src": "./assets/Onboarding/architecture-graphics/4.png?v=458",
           "alt": "Webflow Dot Com — 4"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/architecture-graphics/5.png?v=457",
+          "src": "./assets/Onboarding/architecture-graphics/5.png?v=458",
           "alt": "Webflow Dot Com — 5"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/architecture-graphics/6.png?v=458",
+          "alt": "Webflow Dot Com — 6"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/architecture-graphics/7.png?v=458",
+          "alt": "Webflow Dot Com — 7"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/architecture-graphics/8.png?v=458",
+          "alt": "Webflow Dot Com — 8"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/architecture-graphics/9.png?v=458",
+          "alt": "Webflow Dot Com — 9"
         }
       ]
     },
