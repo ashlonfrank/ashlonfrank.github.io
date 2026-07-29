@@ -351,7 +351,7 @@
     },
     {
       "id": "webflow-dot-com",
-      "title": "Webflow Dot Com",
+      "title": "Spatial Design",
       "description": [
         "Marketing site work for webflow.com — landing pages, feature",
         "sections, and campaign pages built in Webflow."
@@ -364,47 +364,47 @@
         {
           "type": "image",
           "src": "./assets/Onboarding/architecture-graphics/1.png?v=458",
-          "alt": "Webflow Dot Com — 1"
+          "alt": "Spatial Design — 1"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/architecture-graphics/2.png?v=458",
-          "alt": "Webflow Dot Com — 2"
+          "alt": "Spatial Design — 2"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/architecture-graphics/3.png?v=458",
-          "alt": "Webflow Dot Com — 3"
+          "alt": "Spatial Design — 3"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/architecture-graphics/4.png?v=458",
-          "alt": "Webflow Dot Com — 4"
+          "alt": "Spatial Design — 4"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/architecture-graphics/5.png?v=458",
-          "alt": "Webflow Dot Com — 5"
+          "alt": "Spatial Design — 5"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/architecture-graphics/6.png?v=458",
-          "alt": "Webflow Dot Com — 6"
+          "src": "./assets/Onboarding/architecture-graphics/6.png?v=459",
+          "alt": "Spatial Design — 6"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/architecture-graphics/7.png?v=458",
-          "alt": "Webflow Dot Com — 7"
+          "alt": "Spatial Design — 7"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/architecture-graphics/8.png?v=458",
-          "alt": "Webflow Dot Com — 8"
+          "alt": "Spatial Design — 8"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/architecture-graphics/9.png?v=458",
-          "alt": "Webflow Dot Com — 9"
+          "alt": "Spatial Design — 9"
         }
       ]
     },
