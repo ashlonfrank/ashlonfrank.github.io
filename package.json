@@ -1,0 +1,7 @@
+{
+  "name": "2026-portfolio",
+  "private": true,
+  "scripts": {
+    "build": "echo 'Static portfolio — no build step'"
+  }
+}
