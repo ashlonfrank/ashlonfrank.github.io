@@ -363,27 +363,27 @@
       "media": [
         {
           "type": "image",
-          "src": "./assets/Onboarding/Archi Graphics/a.png?v=454",
+          "src": "./assets/Onboarding/architecture-graphics/a.png?v=455",
           "alt": "Webflow Dot Com — a"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/Archi Graphics/b.png?v=454",
+          "src": "./assets/Onboarding/architecture-graphics/b.png?v=455",
           "alt": "Webflow Dot Com — b"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/Archi Graphics/c.png?v=454",
+          "src": "./assets/Onboarding/architecture-graphics/c.png?v=455",
           "alt": "Webflow Dot Com — c"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/Archi Graphics/d.png?v=454",
+          "src": "./assets/Onboarding/architecture-graphics/d.png?v=455",
           "alt": "Webflow Dot Com — d"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/Archi Graphics/e.png?v=454",
+          "src": "./assets/Onboarding/architecture-graphics/e.png?v=455",
           "alt": "Webflow Dot Com — e"
         }
       ]
