@@ -22,7 +22,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=statement-39");
+  const response = await fetch("./data/projects.json?v=statement-52");
   const data = await response.json();
 
   data.sections.forEach((section) => {
@@ -142,40 +142,40 @@ function getHeroStatementBrandAnchor() {
   return document.querySelector(".nav__brand");
 }
 
-/** Left-edge anchor: index slot (>1400), Ashlon Frank (1024–1400), page rail (≤1023). */
+/** Left-edge anchor: Product Designer when visible, else page rail (stacked). */
 function getHeroStatementLeftAnchor() {
   if (window.matchMedia(HERO_STATEMENT_STACKED_MQ).matches) {
     return null;
   }
 
-  if (window.matchMedia(HERO_STATEMENT_WIDE_MQ).matches) {
-    return (
-      document.querySelector(".project__index-slot") ||
-      document.querySelector(".project__title-row") ||
-      getHeroStatementBrandAnchor()
-    );
-  }
+  const role = document.querySelector(".nav__role");
+  if (isNavRoleVisible(role)) return role;
 
   return getHeroStatementBrandAnchor();
 }
 
-/** Right-edge anchor: project title h2 (≥1400), Product Designer (1024–1399), About (≤1023). */
+/** Right-edge anchor: About link — same span as nav end cap. */
 function getHeroStatementRightAnchor() {
-  if (window.matchMedia(HERO_STATEMENT_STACKED_MQ).matches) {
-    return getHeroStatementAboutAnchor();
-  }
-
-  if (window.matchMedia(HERO_STATEMENT_WIDE_MQ).matches) {
-    return (
-      document.querySelector(".project__name") ||
-      document.querySelector(".project__name-box")
-    );
-  }
-
-  const role = document.querySelector(".nav__role");
-  if (isNavRoleVisible(role)) return role;
-
   return getHeroStatementAboutAnchor();
+}
+
+function getHeroFoldDividerTop() {
+  const firstProject = document.querySelector(".project");
+  const foldFallback = window.innerHeight - readCssPx("--fold-peek", 143);
+
+  if (!firstProject) return foldFallback;
+
+  if (isStackedLayout()) {
+    const ruleTop = getTabletRuleTop(firstProject);
+    if (ruleTop != null) return ruleTop + window.scrollY;
+  }
+
+  const meta = firstProject.querySelector(".project__meta");
+  if (meta) {
+    return meta.getBoundingClientRect().top + window.scrollY;
+  }
+
+  return foldFallback;
 }
 
 function measureHeroStatementPosition() {
@@ -203,15 +203,32 @@ function measureHeroStatementPosition() {
   document.documentElement.style.setProperty("--hero-statement-fixed-width", `${width}px`);
   document.documentElement.style.setProperty("--hero-statement-fixed-left", `${left}px`);
 
-  shell.style.minHeight = `${statement.offsetHeight}px`;
+  const stickyTop = readCssPx("--sticky-top", 40);
+  const gap = readCssPx("--header-text-gap", 16);
+  const statementHeight = statement.offsetHeight;
+  let top;
+
+  if (isStackedLayout()) {
+    top = Math.round(stickyTop + gap);
+  } else {
+    const bandTop = stickyTop;
+    const bandBottom = getHeroFoldDividerTop();
+    const bandHeight = Math.max(0, bandBottom - bandTop);
+    top = Math.round(bandTop + Math.max(0, (bandHeight - statementHeight) / 2));
+  }
+
+  document.documentElement.style.setProperty("--hero-statement-top", `${top}px`);
+
+  shell.style.minHeight = `${statementHeight}px`;
 }
 
 function getHeroStatementBandBottom() {
   const statement = document.querySelector(".hero__statement");
-  const stickyLine = getStickyLine();
-  const gap = readCssPx("--header-text-gap", 16);
-  const height = statement?.offsetHeight || 0;
-  return stickyLine + gap + height;
+  if (!statement) {
+    return getStickyLine() + readCssPx("--header-text-gap", 16);
+  }
+
+  return statement.getBoundingClientRect().bottom;
 }
 
 function initSmoothScroll() {
@@ -541,6 +558,7 @@ function initProjectIndex(scroll) {
     const scrollingDown = window.scrollY >= lastScrollY;
     lastScrollY = window.scrollY;
     activeIndex = updateProjectIndexValue(indexEl, projects, activeIndex, scrollingDown);
+    updateFooterShell(projects);
   };
 
   update();
@@ -555,6 +573,7 @@ function initProjectIndex(scroll) {
   scroll.onScroll(update);
   scroll.onLandingSettle?.(() => {
     activeIndex = updateProjectIndexValue(indexEl, projects, activeIndex, true);
+    updateFooterShell(projects);
   });
   scroll.onFrame(() => {
     if (!indexEl.classList.contains("is-visible")) return;
@@ -1027,6 +1046,8 @@ function measureSectionLayout() {
   measureMetaBlockHeights(projects);
   measureFoldHold(projects);
 
+  updateFooterShell(projects);
+
   const indexEl = document.getElementById("project-index");
   if (indexEl) {
     measureFixedIndexPosition(indexEl);
@@ -1046,6 +1067,37 @@ function measureSectionLayout() {
 
 function getFoldPeek() {
   return parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--fold-peek")) || 143;
+}
+
+function getFooterChromeHeight() {
+  if (!document.documentElement.classList.contains("is-last-fold")) return 0;
+  return (
+    parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--footer-chrome-h")) || 0
+  );
+}
+
+function isLastFoldActive(projects) {
+  if (!projects.length) return false;
+
+  const lastProject = projects[projects.length - 1];
+  const landingY = parseFloat(lastProject.dataset.landingScrollY);
+
+  if (Number.isFinite(landingY)) {
+    return window.scrollY >= landingY - HEADER_LAND_TOLERANCE;
+  }
+
+  return isSectionHeaderLanded(lastProject);
+}
+
+function updateFooterShell(projects) {
+  const footerShell = document.querySelector(".footer-shell");
+  if (!footerShell) return;
+
+  const show = isLastFoldActive(projects);
+  footerShell.classList.toggle("is-visible", show);
+  document.documentElement.classList.toggle("is-last-fold", show);
+
+  if (show) measureFooterChrome();
 }
 
 function getFooterBottomTarget() {
@@ -1159,7 +1211,7 @@ function cacheSectionLandingY(project, peekTarget = null, alignMode = "peekTop")
 }
 
 function getFoldContentHeight() {
-  return getViewportHeight() - getStickyLine() - getFoldPeek();
+  return getViewportHeight() - getStickyLine() - getFoldPeek() - getFooterChromeHeight();
 }
 
 function getMetaBlockHeight(project = null) {
@@ -1435,9 +1487,26 @@ function measureFoldHold(projects) {
 
 const FOLD_PEEK_PX = 143;
 
+function measureFooterChrome() {
+  const footerShell = document.querySelector(".footer-shell");
+  if (!footerShell) {
+    document.documentElement.style.setProperty("--footer-chrome-h", "0px");
+    return;
+  }
+
+  const wasVisible = footerShell.classList.contains("is-visible");
+  if (!wasVisible) footerShell.classList.add("is-visible");
+
+  const height = Math.ceil(footerShell.getBoundingClientRect().height);
+  document.documentElement.style.setProperty("--footer-chrome-h", `${height}px`);
+
+  if (!wasVisible) footerShell.classList.remove("is-visible");
+}
+
 function measureFoldPeek() {
   const viewportH = getViewportHeight();
   document.documentElement.style.setProperty("--viewport-h", `${viewportH}px`);
+  measureFooterChrome();
   const bleedRevealed = document.documentElement.classList.contains("hero--bleed");
   document.documentElement.style.setProperty("--fold-peek", bleedRevealed ? `${FOLD_PEEK_PX}px` : "0px");
 }

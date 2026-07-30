@@ -22,6 +22,7 @@
     />
     <style>
       html.is-calibrating .nav-shell,
+      html.is-calibrating .footer-shell,
       html.is-calibrating .page,
       html.is-calibrating .project-index {
         visibility: hidden;
@@ -36,7 +37,7 @@
       document.documentElement.classList.add("is-calibrating");
       window.scrollTo(0, 0);
     </script>
-    <link rel="stylesheet" href="./css/styles.css?v=statement-39" />
+    <link rel="stylesheet" href="./css/styles.css?v=statement-51" />
   </head>
   <body>
     <div class="nav-shell">
@@ -56,7 +57,7 @@
       </div>
     </div>
 
-    <div class="page">
+    <div class="page page--portfolio">
       <div id="project-index" class="project-index" aria-hidden="true">
         <span class="project-index__value"></span>
       </div>
@@ -64,7 +65,10 @@
       <section class="hero" id="intro" aria-label="Introduction"></section>
 
       <main id="projects" aria-label="Work"></main>
+    </div>
 
+    <div class="footer-shell">
+      <div class="page">
       <footer class="footer" id="contact">
         <div class="footer__peek">
           <div class="footer__peek-inner">
@@ -87,6 +91,7 @@
           </div>
         </div>
       </footer>
+      </div>
     </div>
 
     <div id="lightbox" class="lightbox" hidden>
@@ -133,6 +138,6 @@
       <div class="lightbox__stage" role="dialog" aria-modal="true" aria-label="Project preview"></div>
     </div>
 
-    <script src="./js/main.js?v=statement-39" type="module"></script>
+    <script src="./js/main.js?v=statement-52" type="module"></script>
   </body>
 </html>

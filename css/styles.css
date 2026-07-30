@@ -53,7 +53,8 @@
   --font-sans: "Untitled Sans", system-ui, sans-serif;
   --text-nav: 13px;
   --text-nav-lh: 13px;
-  --hero-statement-lh: calc(var(--text-nav) * 1.55);
+  --hero-statement-size: 24px;
+  --hero-statement-lh: 28px;
   --text-meta: 12.6px;
   --text-meta-lh: 19.5px;
   --text-title: 56px;
@@ -258,7 +259,7 @@ button:focus-visible {
 /* Width + left set from layout anchors in measureHeroStatementPosition() */
 .hero__statement {
   position: fixed;
-  top: calc(var(--sticky-top) + var(--header-text-gap));
+  top: var(--hero-statement-top, calc(var(--sticky-top) + var(--header-text-gap)));
   left: var(--hero-statement-fixed-left, var(--page-padding));
   width: var(--hero-statement-fixed-width, 100%);
   max-width: var(--hero-statement-fixed-width, 100%);
@@ -268,7 +269,7 @@ button:focus-visible {
   z-index: 1;
   background: var(--color-bg);
   text-align: left;
-  font-size: var(--text-nav);
+  font-size: var(--hero-statement-size);
   line-height: var(--hero-statement-lh);
   font-weight: inherit;
   letter-spacing: normal;
@@ -284,7 +285,10 @@ button:focus-visible {
   left: 0;
   right: 0;
   bottom: 100%;
-  height: var(--header-text-gap);
+  height: calc(
+    var(--hero-statement-top, calc(var(--sticky-top) + var(--header-text-gap))) -
+      var(--sticky-top)
+  );
   background: var(--color-bg);
   pointer-events: none;
 }
@@ -1473,8 +1477,8 @@ html.lenis body.is-lightbox-open {
 
 .about__line {
   margin: 0 0 0.55em;
-  font-size: 48px;
-  line-height: 44px;
+  font-size: 40px;
+  line-height: 120%;
   letter-spacing: -2px;
   font-weight: 500;
   color: var(--color-index);
@@ -1846,6 +1850,8 @@ body.page-contact {
     --meta-to-grid-gap: 20px;
     --meta-copy-gap: 16px;
     --fold-peek: 112px;
+    --hero-statement-size: var(--text-nav);
+    --hero-statement-lh: calc(var(--text-nav) * 1.55);
   }
 
   .project {
