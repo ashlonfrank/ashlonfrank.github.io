@@ -1489,15 +1489,16 @@ html.lenis body.is-lightbox-open {
 }
 
 .about__line a {
+  color: inherit;
   text-decoration: underline;
   text-underline-offset: 6px;
   text-decoration-thickness: 3px;
-  transition: opacity 160ms var(--ease-out);
+  transition: color 160ms var(--ease-out);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .about__line a:hover {
-    opacity: 0.55;
+    color: var(--color-text);
   }
 }
 
