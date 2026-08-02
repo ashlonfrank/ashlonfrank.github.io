@@ -584,16 +584,7 @@ function initProjectIndex(scroll) {
 
     maybeStartIndexSpin(indexEl, projects, activeIndex);
 
-    const slotIndex = getIndexSlotProject(projects, indexEl);
-    if (slotIndex !== activeIndex) {
-      activeIndex = updateProjectIndexValue(indexEl, projects, activeIndex, true);
-      return;
-    }
-
-    const lenis = scroll.lenis;
-    if (!lenis || Math.abs(lenis.velocity ?? 0) > 0.9) return;
-
-    const nextIndex = getActiveProjectIndex(projects, activeIndex, true);
+    const nextIndex = resolveOdometerIndex(projects, indexEl);
     if (nextIndex !== activeIndex) {
       activeIndex = updateProjectIndexValue(indexEl, projects, activeIndex, true);
     }
@@ -745,16 +736,37 @@ function getTitleRowSlotState(projects, indexEl, projectIndex) {
   const indexRect = getIndexDigitRect(indexEl);
   const titleRow = projects[projectIndex]?.querySelector(".project__title-row");
   if (!indexRect?.height || !titleRow) {
-    return { touching: false, aligned: false, engaged: false };
+    return { overlapping: false, aligned: false, engaged: false };
   }
 
   const rowRect = titleRow.getBoundingClientRect();
-  const touching =
-    rowRect.bottom <= indexRect.bottom + 2 && rowRect.bottom > indexRect.top;
+  const overlapping = rowRect.top <= indexRect.bottom + HEADER_LAND_TOLERANCE;
   const aligned = rowRect.top <= indexRect.top + HEADER_LAND_TOLERANCE;
   const engaged = rowRect.bottom > indexRect.top - 4;
 
-  return { touching, aligned, engaged };
+  return { overlapping, aligned, engaged };
+}
+
+/** Index advances only after a section title overlaps the digit — not on peek or sticky alone. */
+function resolveOdometerIndex(projects, indexEl) {
+  let index = 0;
+
+  for (let i = 0; i < projects.length; i += 1) {
+    const state = getTitleRowSlotState(projects, indexEl, i);
+    if (state.aligned) index = i;
+  }
+
+  for (let i = 0; i < projects.length - 1; i += 1) {
+    const next = getTitleRowSlotState(projects, indexEl, i + 1);
+    if (index === i && next.overlapping) index = i + 1;
+  }
+
+  for (let j = projects.length - 1; j >= 1; j -= 1) {
+    const state = getTitleRowSlotState(projects, indexEl, j);
+    if (index >= j && !state.overlapping && !state.aligned) index = j - 1;
+  }
+
+  return index;
 }
 
 /** Which project owns the index slot — skips titles that scrolled off above. */
@@ -770,13 +782,13 @@ function getIndexSlotProject(projects, indexEl) {
   return active;
 }
 
-/** Start the odometer roll when the next title bottom touches the digit bottom. */
+/** Start the odometer roll when the next title first overlaps the digit. */
 function maybeStartIndexSpin(indexEl, projects, activeIndex) {
   const nextIndex = activeIndex + 1;
   if (nextIndex >= projects.length) return;
 
   const state = getTitleRowSlotState(projects, indexEl, nextIndex);
-  if (!state.touching) return;
+  if (!state.overlapping) return;
 
   const spinKey = `${activeIndex}->${nextIndex}`;
   if (indexEl.dataset.indexSpinKey === spinKey) return;
@@ -898,9 +910,8 @@ function isSectionHeaderLanded(project) {
   return isSectionComposedLanding(project) || isSectionStickyHold(project);
 }
 
-function shouldTrackFirstFold(projects, activeIndex) {
-  if (activeIndex !== 0) return false;
-
+/** First fold only: index rides the title until project 01 lands, then stays fixed. */
+function shouldTrackFirstFold(projects) {
   const firstProject = projects[0];
   if (!firstProject || isSectionHeaderLanded(firstProject)) return false;
 
@@ -910,7 +921,6 @@ function shouldTrackFirstFold(projects, activeIndex) {
   const titleTop = titleRow.getBoundingClientRect().top;
   const stickyLine = getStickyLine();
 
-  // Only track while Column is approaching the slot — not after it scrolls away.
   return titleTop >= stickyLine - 12 && titleTop <= window.innerHeight + 40;
 }
 
@@ -926,9 +936,7 @@ function positionProjectIndex(indexEl, projects, activeIndex = 0) {
     document.documentElement.style.getPropertyValue("--index-fixed-left") ||
     `${spacer.getBoundingClientRect().left}px`;
 
-  const trackFirstFold = shouldTrackFirstFold(projects, activeIndex);
-
-  if (trackFirstFold) {
+  if (shouldTrackFirstFold(projects)) {
     const titleRow = projects[0].querySelector(".project__title-row");
     if (titleRow) {
       indexEl.style.top = `${titleRow.getBoundingClientRect().top}px`;
@@ -1043,18 +1051,15 @@ function updateProjectIndexValue(indexEl, projects, previousActive = 0, scrollin
 
   maybeStartIndexSpin(indexEl, projects, previousActive);
 
-  const slotIndex = getIndexSlotProject(projects, indexEl);
-  const stickyIndex = getActiveProjectIndex(projects, previousActive, scrollingDown);
-  const activeIndex = Math.max(slotIndex, stickyIndex);
+  const activeIndex = resolveOdometerIndex(projects, indexEl);
 
   projects.forEach((project, i) => {
     project.classList.toggle("is-index-active", i === activeIndex);
   });
 
   const targetValue = projects[activeIndex].dataset.projectIndex;
-  const landed = getTitleRowSlotState(projects, indexEl, activeIndex).aligned;
 
-  if (!indexEl.classList.contains("is-changing") || landed) {
+  if (!indexEl.classList.contains("is-changing")) {
     setIndexValue(indexEl, targetValue);
   }
 
