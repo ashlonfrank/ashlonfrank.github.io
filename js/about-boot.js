@@ -1,8 +1,38 @@
+import Lenis from "./vendor/lenis.mjs";
 import { initNavBrand } from "./site-nav.js";
 import { bindCopyEmail } from "./copy-email.js";
 import { initFooter } from "./footer.js";
 
 const MOBILE_MQ = "(max-width: 900px)";
+
+/** ~3 deliberate wheel gestures to read the full page; can still scroll through with persistence. */
+const ABOUT_SCROLL = {
+  lerp: 0.07,
+  wheelMultiplier: 0.4,
+  touchMultiplier: 0.52,
+};
+
+function initAboutSmoothScroll(onScroll) {
+  document.documentElement.classList.add("lenis", "lenis-smooth");
+
+  const lenis = new Lenis({
+    lerp: ABOUT_SCROLL.lerp,
+    smoothWheel: true,
+    syncTouch: window.matchMedia(MOBILE_MQ).matches,
+    wheelMultiplier: ABOUT_SCROLL.wheelMultiplier,
+    touchMultiplier: ABOUT_SCROLL.touchMultiplier,
+  });
+
+  lenis.on("scroll", onScroll);
+
+  const raf = (time) => {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  };
+
+  requestAnimationFrame(raf);
+  return lenis;
+}
 
 function readCssPx(name, fallback) {
   const raw = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -114,12 +144,9 @@ function initAboutContactScroll() {
     update();
   };
 
-  window.addEventListener("scroll", onScroll, { passive: true });
-  document.addEventListener("scroll", onScroll, { passive: true, capture: true });
   window.addEventListener("resize", onScroll, { passive: true });
   if (window.visualViewport) {
     window.visualViewport.addEventListener("resize", onScroll, { passive: true });
-    window.visualViewport.addEventListener("scroll", onScroll, { passive: true });
   }
   if (typeof mq.addEventListener === "function") {
     mq.addEventListener("change", onMqChange);
@@ -130,19 +157,29 @@ function initAboutContactScroll() {
   refreshHeight();
   update();
 
-  return () => {
-    const wasCovered = contact.classList.contains("is-covered");
-    if (wasCovered) {
-      contact.classList.remove("is-covered");
-      mode = "";
-    }
-    refreshHeight();
-    update();
+  return {
+    onScroll,
+    refresh: () => {
+      const wasCovered = contact.classList.contains("is-covered");
+      if (wasCovered) {
+        contact.classList.remove("is-covered");
+        mode = "";
+      }
+      refreshHeight();
+      update();
+    },
   };
 }
 
 async function boot() {
-  const refreshScroll = initAboutContactScroll();
+  const contactScroll = initAboutContactScroll();
+
+  try {
+    initAboutSmoothScroll(contactScroll.onScroll);
+  } catch (error) {
+    console.warn("About smooth scroll unavailable:", error);
+    window.addEventListener("scroll", contactScroll.onScroll, { passive: true });
+  }
 
   try {
     const response = await fetch("./data/projects.json");
@@ -157,7 +194,7 @@ async function boot() {
     if (copyBtn) copyBtn.hidden = true;
   }
 
-  if (typeof refreshScroll === "function") refreshScroll();
+  contactScroll.refresh();
 }
 
 boot();

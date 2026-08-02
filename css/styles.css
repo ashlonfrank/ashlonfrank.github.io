@@ -22,7 +22,6 @@
   --nav-text-bottom: calc((var(--nav-height) + var(--text-nav-lh)) / 2);
   --lightbox-chrome-top: calc((var(--nav-height) + var(--text-nav-lh)) / 2 + 32px);
   --fold-peek: 143px; /* Figma reference — fixed peek band, not viewport-relative */
-  --project-peek-runway-max: 400px;
   --viewport-h: 100dvh;
   --hero-min-h: 450px;
   --header-rule-size: 2px;

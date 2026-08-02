@@ -33,11 +33,6 @@ async function init() {
     await document.fonts.ready;
   }
 
-  const ENABLE_HERO_INTRO = false;
-  if (!ENABLE_HERO_INTRO || !data.site?.intro) {
-    document.documentElement.classList.add("hero--bleed");
-  }
-
   measureSectionLayout();
   cachedLayoutMode = syncLayoutMode();
   window.addEventListener("resize", scheduleMeasureSectionLayout);
@@ -56,6 +51,8 @@ async function init() {
   initHeroStatement(data.site);
 
   const scroll = initSmoothScroll();
+  // Hero click ritual paused — keep project bleed visible by default while portfolio work continues.
+  const ENABLE_HERO_INTRO = false;
   if (ENABLE_HERO_INTRO && data.site?.intro) {
     initHeroIntro(data, scroll, {
       onStepChange: () => {
@@ -64,6 +61,7 @@ async function init() {
       },
     });
   } else {
+    document.documentElement.classList.add("hero--bleed");
     scheduleMeasureSectionLayout();
   }
   initTileLightbox(scroll);
@@ -73,7 +71,6 @@ async function init() {
   initHeroStatementCover(scroll);
 
   endCalibration(scroll);
-  measureSectionLayout();
   cachedLayoutMode = syncLayoutMode();
 }
 
@@ -585,9 +582,11 @@ function initProjectIndex(scroll) {
     );
     positionProjectIndex(indexEl, projects, currentActive >= 0 ? currentActive : activeIndex);
 
-    const handoff = getIndexHandoffState(projects, indexEl);
-    if (handoff) {
-      activeIndex = applyIndexHandoff(indexEl, projects, handoff);
+    maybeStartIndexSpin(indexEl, projects, activeIndex);
+
+    const slotIndex = getIndexSlotProject(projects, indexEl);
+    if (slotIndex !== activeIndex) {
+      activeIndex = updateProjectIndexValue(indexEl, projects, activeIndex, true);
       return;
     }
 
@@ -731,8 +730,10 @@ function setOdometerValue(valueEl, value, animate = true) {
   valueEl.dataset.currentValue = normalized;
 }
 
-/** Handoff completes once the title crosses this fraction of the digit height. */
-const INDEX_HANDOFF_COMPLETE = 0.75;
+const INDEX_ODOMETER_MS = 980;
+const HEADER_LAND_TOLERANCE = 2;
+const HEADER_COMPOSE_TOLERANCE = 2;
+const TABLET_RULE_TOLERANCE = 4;
 
 function getIndexDigitRect(indexEl) {
   const digit = indexEl?.querySelector(".project-index__digit");
@@ -740,120 +741,50 @@ function getIndexDigitRect(indexEl) {
   return indexEl?.getBoundingClientRect() ?? { top: 0, bottom: 0, height: 0 };
 }
 
-function getTitleHandoffProgress(titleRow, indexRect) {
-  const height = indexRect.height;
-  if (!titleRow || height <= 0) return 0;
-
-  const titleBottom = titleRow.getBoundingClientRect().bottom;
-  const indexTop = indexRect.top;
-  const indexBottom = indexRect.bottom;
-  const completeLine = indexTop + height * (1 - INDEX_HANDOFF_COMPLETE);
-
-  if (titleBottom > indexBottom) return 0;
-  if (titleBottom <= completeLine) return 1;
-  return (indexBottom - titleBottom) / (height * INDEX_HANDOFF_COMPLETE);
-}
-
-function getReverseHandoffProgress(titleRow, indexRect) {
-  const height = indexRect.height;
-  if (!titleRow || height <= 0) return 0;
-
-  const titleBottom = titleRow.getBoundingClientRect().bottom;
-  const indexTop = indexRect.top;
-  const indexBottom = indexRect.bottom;
-  const completeLine = indexTop + height * (1 - INDEX_HANDOFF_COMPLETE);
-
-  if (titleBottom <= completeLine) return 1;
-  if (titleBottom >= indexBottom) return 0;
-  return (titleBottom - completeLine) / (height * INDEX_HANDOFF_COMPLETE);
-}
-
-function getIndexHandoffState(projects, indexEl) {
-  if (!indexEl) return null;
-
+function getTitleRowSlotState(projects, indexEl, projectIndex) {
   const indexRect = getIndexDigitRect(indexEl);
-
-  for (let i = 0; i < projects.length - 1; i += 1) {
-    const titleRow = projects[i + 1].querySelector(".project__title-row");
-    if (!titleRow) continue;
-
-    const titleBottom = titleRow.getBoundingClientRect().bottom;
-    if (titleBottom > indexRect.bottom) continue;
-
-    const progress = getTitleHandoffProgress(titleRow, indexRect);
-    if (progress < 1) {
-      return { from: i, to: i + 1, progress };
-    }
+  const titleRow = projects[projectIndex]?.querySelector(".project__title-row");
+  if (!indexRect?.height || !titleRow) {
+    return { touching: false, aligned: false, engaged: false };
   }
 
-  for (let i = projects.length - 1; i > 0; i -= 1) {
-    const titleRow = projects[i].querySelector(".project__title-row");
-    if (!titleRow) continue;
+  const rowRect = titleRow.getBoundingClientRect();
+  const touching =
+    rowRect.bottom <= indexRect.bottom + 2 && rowRect.bottom > indexRect.top;
+  const aligned = rowRect.top <= indexRect.top + HEADER_LAND_TOLERANCE;
+  const engaged = rowRect.bottom > indexRect.top - 4;
 
-    const titleBottom = titleRow.getBoundingClientRect().bottom;
-    const completeLine = indexRect.top + indexRect.height * (1 - INDEX_HANDOFF_COMPLETE);
-    if (titleBottom <= completeLine) continue;
-
-    const progress = getReverseHandoffProgress(titleRow, indexRect);
-    if (progress < 1) {
-      return { from: i, to: i - 1, progress };
-    }
-  }
-
-  return null;
+  return { touching, aligned, engaged };
 }
 
-function setOdometerBlend(valueEl, fromValue, toValue, progress) {
-  ensureOdometer(valueEl);
-  const from = String(fromValue).padStart(2, "0");
-  const to = String(toValue).padStart(2, "0");
-  const strips = valueEl.querySelectorAll(".project-index__digit-strip");
-  const stepPx = Math.round(
-    parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--index-digit-step")) ||
-      54
-  );
-  const clamped = Math.min(1, Math.max(0, progress));
+/** Which project owns the index slot — skips titles that scrolled off above. */
+function getIndexSlotProject(projects, indexEl) {
+  let active = 0;
 
-  strips.forEach((strip, i) => {
-    strip.classList.add("is-instant");
-    const fromDigit = parseInt(from[i], 10);
-    const toDigit = parseInt(to[i], 10);
-    const blended = fromDigit + (toDigit - fromDigit) * clamped;
-    strip.style.transform = `translate3d(0, -${blended * stepPx}px, 0)`;
-  });
-}
-
-function applyIndexHandoff(indexEl, projects, handoff) {
-  const valueEl = getIndexValueEl(indexEl);
-  const fromValue = projects[handoff.from].dataset.projectIndex;
-  const toValue = projects[handoff.to].dataset.projectIndex;
-  const activeIndex = handoff.progress >= 1 ? handoff.to : handoff.from;
-
-  if (indexEl._indexChangeTimer) {
-    clearTimeout(indexEl._indexChangeTimer);
-    indexEl._indexChangeTimer = null;
-    indexEl.classList.remove("is-changing");
-    delete indexEl.dataset.pendingIndexValue;
+  for (let i = 0; i < projects.length; i += 1) {
+    const state = getTitleRowSlotState(projects, indexEl, i);
+    if (!state.engaged) continue;
+    if (state.aligned) active = i;
   }
 
-  setOdometerBlend(valueEl, fromValue, toValue, handoff.progress);
-
-  if (handoff.progress >= 1) {
-    valueEl.dataset.currentValue = toValue;
-    indexEl.setAttribute("aria-label", `Section ${toValue}`);
-  }
-
-  projects.forEach((project, i) => {
-    project.classList.toggle("is-index-active", i === activeIndex);
-  });
-
-  return activeIndex;
+  return active;
 }
 
-const INDEX_ODOMETER_MS = 980;
-const HEADER_LAND_TOLERANCE = 2;
-const HEADER_COMPOSE_TOLERANCE = 2;
-const TABLET_RULE_TOLERANCE = 4;
+/** Start the odometer roll when the next title bottom touches the digit bottom. */
+function maybeStartIndexSpin(indexEl, projects, activeIndex) {
+  const nextIndex = activeIndex + 1;
+  if (nextIndex >= projects.length) return;
+
+  const state = getTitleRowSlotState(projects, indexEl, nextIndex);
+  if (!state.touching) return;
+
+  const spinKey = `${activeIndex}->${nextIndex}`;
+  if (indexEl.dataset.indexSpinKey === spinKey) return;
+
+  indexEl.dataset.indexSpinKey = spinKey;
+  setIndexValue(indexEl, projects[nextIndex].dataset.projectIndex);
+}
+
 const COMPACT_LAYOUT_MQ = "(max-width: 600px)";
 const TABLET_LAYOUT_MQ = "(max-width: 1023px) and (min-width: 601px)";
 const HERO_STATEMENT_WIDE_MQ = "(min-width: 1400px)";
@@ -1052,36 +983,50 @@ function shouldShowProjectIndex(projects) {
 }
 
 function getActiveProjectIndex(projects, previousActive = 0, scrollingDown = true) {
-  const indexEl = document.getElementById("project-index");
-  const indexRect = indexEl ? getIndexDigitRect(indexEl) : null;
+  const stickyLine = getStickyLine();
+  const landTol = HEADER_LAND_TOLERANCE;
+  const approachRange = 120;
 
-  if (indexRect) {
-    let active = 0;
+  // Switch the odometer the moment a section's title/rule plane reaches the
+  // sticky top — same instant the line + text pin. Do not wait for extra scroll
+  // past "composed landing". Snap + odometer duration are unchanged.
+  let best = -1;
+  let bestAnchor = -Infinity;
 
-    for (let i = 0; i < projects.length - 1; i += 1) {
-      const titleRow = projects[i + 1].querySelector(".project__title-row");
-      if (!titleRow) break;
+  for (let i = 0; i < projects.length; i += 1) {
+    const metrics = getSectionHeaderMetrics(projects[i]);
+    if (!metrics) continue;
 
-      const progress = getTitleHandoffProgress(titleRow, indexRect);
-      if (progress >= 1) {
-        active = i + 1;
-        continue;
-      }
+    const anchor = isStackedLayout() ? metrics.ruleTop : metrics.tcTop;
+    // Still below the sticky plane — not yet time to switch.
+    if (anchor > stickyLine + landTol) continue;
 
-      return active;
+    // Among headers at/above the plane, pick the frontmost (highest anchor).
+    // Tie-break toward the later section when scrolling the stack.
+    if (anchor > bestAnchor || (Math.abs(anchor - bestAnchor) < 0.5 && i > best)) {
+      bestAnchor = anchor;
+      best = i;
     }
+  }
 
-    if (!scrollingDown && previousActive > 0) {
-      const titleRow = projects[previousActive].querySelector(".project__title-row");
-      if (titleRow) {
-        const reverseProgress = getReverseHandoffProgress(titleRow, indexRect);
-        if (reverseProgress > 0) {
-          return reverseProgress >= 1 ? previousActive - 1 : previousActive;
-        }
-      }
+  if (best >= 0) return best;
+
+  for (let i = projects.length - 1; i >= 0; i -= 1) {
+    if (isSectionStickyHold(projects[i])) return i;
+  }
+
+  const previousProject = projects[previousActive];
+  if (previousProject) {
+    if (isSectionStickyHold(previousProject)) return previousActive;
+
+    const previousMetrics = getSectionHeaderMetrics(previousProject);
+    if (
+      previousMetrics &&
+      previousMetrics.tcTop > stickyLine + landTol &&
+      previousMetrics.tcTop <= stickyLine + landTol + approachRange
+    ) {
+      return previousActive;
     }
-
-    return active;
   }
 
   return previousActive;
@@ -1092,25 +1037,27 @@ function updateProjectIndexValue(indexEl, projects, previousActive = 0, scrollin
     indexEl.classList.remove("is-visible");
     indexEl.setAttribute("aria-hidden", "true");
     projects.forEach((project) => project.classList.remove("is-index-active"));
+    delete indexEl.dataset.indexSpinKey;
     return previousActive;
   }
 
-  const handoff = getIndexHandoffState(projects, indexEl);
-  if (handoff) {
-    const activeIndex = applyIndexHandoff(indexEl, projects, handoff);
-    indexEl.classList.add("is-visible");
-    indexEl.removeAttribute("aria-hidden");
-    positionProjectIndex(indexEl, projects, activeIndex);
-    return activeIndex;
-  }
+  maybeStartIndexSpin(indexEl, projects, previousActive);
 
-  const activeIndex = getActiveProjectIndex(projects, previousActive, scrollingDown);
+  const slotIndex = getIndexSlotProject(projects, indexEl);
+  const stickyIndex = getActiveProjectIndex(projects, previousActive, scrollingDown);
+  const activeIndex = Math.max(slotIndex, stickyIndex);
 
   projects.forEach((project, i) => {
     project.classList.toggle("is-index-active", i === activeIndex);
   });
 
-  setIndexValue(indexEl, projects[activeIndex].dataset.projectIndex);
+  const targetValue = projects[activeIndex].dataset.projectIndex;
+  const landed = getTitleRowSlotState(projects, indexEl, activeIndex).aligned;
+
+  if (!indexEl.classList.contains("is-changing") || landed) {
+    setIndexValue(indexEl, targetValue);
+  }
+
   indexEl.classList.add("is-visible");
   indexEl.removeAttribute("aria-hidden");
   positionProjectIndex(indexEl, projects, activeIndex);
@@ -1269,39 +1216,17 @@ function findFirstComposedY(project, start, end) {
   return result;
 }
 
-function findLastComposedY(project, firstY, end) {
-  let lastY = firstY;
-
-  for (let y = firstY + 2; y <= end; y += 2) {
-    if (!isComposedAt(project, y)) break;
-    lastY = y;
-  }
-
-  return lastY;
-}
-
 function findBestComposedY(project, start, end, peekTarget, alignMode) {
   const firstY = findFirstComposedY(project, start, end);
   if (firstY == null) return null;
 
-  const lastY = findLastComposedY(project, firstY, end);
   let bestY = firstY;
-  let bestDelta = Infinity;
+  scrollToY(firstY);
+  let bestDelta = getLandingMeasureDelta(peekTarget, alignMode);
 
-  for (let y = firstY; y <= lastY; y += 2) {
-    scrollToY(y);
-    if (!isSectionComposedLanding(project)) continue;
-
-    const delta = getLandingMeasureDelta(peekTarget, alignMode);
-    if (delta < bestDelta) {
-      bestDelta = delta;
-      bestY = y;
-    }
-  }
-
-  for (let y = Math.max(firstY, bestY - 2); y <= Math.min(lastY, bestY + 2); y += 1) {
-    scrollToY(y);
-    if (!isSectionComposedLanding(project)) continue;
+  for (let y = firstY - 16; y <= firstY + 16; y += 2) {
+    if (y < start || y > end) continue;
+    if (!isComposedAt(project, y)) continue;
 
     const delta = getLandingMeasureDelta(peekTarget, alignMode);
     if (delta < bestDelta) {
@@ -1310,7 +1235,16 @@ function findBestComposedY(project, start, end, peekTarget, alignMode) {
     }
   }
 
-  scrollToY(bestY);
+  for (let y = Math.max(start, bestY - 2); y <= Math.min(end, bestY + 2); y += 1) {
+    if (!isComposedAt(project, y)) continue;
+
+    const delta = getLandingMeasureDelta(peekTarget, alignMode);
+    if (delta < bestDelta) {
+      bestDelta = delta;
+      bestY = y;
+    }
+  }
+
   return bestY;
 }
 
@@ -1397,45 +1331,8 @@ function calibrateFoldSpacing(project, isLast = false) {
   return pad;
 }
 
-function getProjectPeekTarget(project) {
-  return project;
-}
-
-/**
- * Nudge bottom pad until the next project top aligns with the 143px peek band.
- */
-function refinePeekSpacing(projects) {
-  if (isStackedLayout() || !projects.length) return;
-
-  const maxPad = readCssPx("--project-peek-runway-max", 400);
-  const peekTolerance = 4;
-
-  for (let pass = 0; pass < 2; pass += 1) {
-    for (let index = 0; index < projects.length - 1; index += 1) {
-      const project = projects[index];
-      const nextProject = projects[index + 1];
-      let pad =
-        parseFloat(getComputedStyle(project).getPropertyValue("--project-fold-pad")) || 0;
-
-      for (let attempt = 0; attempt < 40; attempt += 1) {
-        project.style.setProperty("--project-fold-pad", `${pad}px`);
-
-        const landingY = findComposedPeekLandingScrollY(project);
-        if (landingY == null) {
-          pad += 12;
-          if (pad > maxPad) break;
-          continue;
-        }
-
-        scrollToY(landingY);
-        const peekDelta = getLandingMeasureDelta(nextProject, "peekTop");
-        if (peekDelta <= peekTolerance) break;
-
-        pad += Math.min(24, Math.max(4, Math.ceil(peekDelta * 0.35)));
-        if (pad > maxPad) break;
-      }
-    }
-  }
+function calibrateCenteredHold(project) {
+  return calibrateFoldSpacing(project, false);
 }
 
 function findTabletRuleLandingScrollY(project) {
@@ -1531,7 +1428,7 @@ function findDesktopComposedScrollY(project) {
 }
 
 /**
- * Snap to composed sticky header; landing Y keeps --fold-peek aligned per device.
+ * Snap to composed sticky header; fold-pad keeps bottom peek at fold-peek.
  */
 function findComposedPeekLandingScrollY(project) {
   const projects = [...document.querySelectorAll(".project")];
@@ -1542,11 +1439,7 @@ function findComposedPeekLandingScrollY(project) {
     return findLastProjectLandingScrollY(project);
   }
 
-  const peekTarget = getProjectPeekTarget(nextProject);
-  return (
-    findLandingScrollY(project, peekTarget, "peekTop") ??
-    findDesktopComposedScrollY(project)
-  );
+  return findDesktopComposedScrollY(project);
 }
 
 function findLastProjectLandingScrollY(project) {
@@ -1634,14 +1527,11 @@ function measureFoldHold(projects) {
   if (!projects.length) return;
 
   const savedY = document.documentElement.classList.contains("is-calibrating") ? 0 : window.scrollY;
+  const cachedLandings = [];
 
   projects.forEach((project, index) => {
     calibrateFoldSpacing(project, index === projects.length - 1);
   });
-
-  refinePeekSpacing(projects);
-
-  const cachedLandings = [];
 
   projects.forEach((project, index) => {
     const isLastProject = index === projects.length - 1;
@@ -1651,19 +1541,8 @@ function measureFoldHold(projects) {
       calibrateFoldSpacing(project, true);
     }
 
-    const landing = cacheSectionLandingY(project);
-    if (landing) cachedLandings.push(landing);
-  });
-
-  refinePeekSpacing(projects);
-
-  cachedLandings.length = 0;
-  projects.forEach((project, index) => {
-    if (index === projects.length - 1) {
-      ensureLastSectionScrollPad(project);
-      calibrateFoldSpacing(project, true);
-    }
-
+    // Same title/rule landing as every other section — including the last one.
+    // (footerBottom was pulling 08 away from the index snap.)
     const landing = cacheSectionLandingY(project);
     if (landing) cachedLandings.push(landing);
   });
