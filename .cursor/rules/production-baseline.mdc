@@ -1,0 +1,17 @@
+---
+description: Production deploys use vercel-baseline, not main
+alwaysApply: true
+---
+
+# Production vs experimental branches
+
+- **`vercel-baseline`** = production. Snap, peek (`--fold-peek: 143px`), landing scroll, and spacing match the live site. Deploy and ship user-facing copy/fixes here.
+- **`main`** = experimental fold-snap / tight-stack work. Do **not** deploy from `main` or merge it into `vercel-baseline` unless the user explicitly asks to bring an experiment to production.
+
+Before portfolio scroll/snap/CSS changes, read `DEPLOYMENT.md`.
+
+When the user asks to push or deploy to production:
+
+1. Confirm changes are on `vercel-baseline` (or move them there).
+2. Do not merge `main` into `vercel-baseline` by default.
+3. After deploy, verify snap/peek still match production behavior.
