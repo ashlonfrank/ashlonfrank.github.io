@@ -22,6 +22,7 @@
   --nav-text-bottom: calc((var(--nav-height) + var(--text-nav-lh)) / 2);
   --lightbox-chrome-top: calc((var(--nav-height) + var(--text-nav-lh)) / 2 + 32px);
   --fold-peek: 143px; /* Figma reference — fixed peek band, not viewport-relative */
+  --footer-chrome-h: 72px; /* measured from .footer-shell in JS */
   --viewport-h: 100dvh;
   --hero-min-h: 450px;
   --header-rule-size: 2px;
@@ -156,6 +157,41 @@ button:focus-visible {
   padding-left: var(--page-padding);
   padding-right: var(--page-padding);
 }
+
+/* --------------------------------------------------------------------------
+   Fixed footer shell (mirrors nav-shell)
+   -------------------------------------------------------------------------- */
+
+.footer-shell {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100000;
+  background: var(--color-bg);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 180ms var(--ease-out), visibility 180ms var(--ease-out);
+}
+
+.footer-shell.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.footer-shell .page {
+  padding-left: var(--page-padding);
+  padding-right: var(--page-padding);
+}
+
+.footer-shell .footer {
+  padding: 24px 0 16px;
+  margin: 0;
+}
+
+/* Footer is fixed — terminal fold pins scroll at landing Y, no extra runway. */
 
 /* --------------------------------------------------------------------------
    Nav — 40px, 12-col grid
@@ -685,7 +721,7 @@ html.hero--bleed .hero__copy {
   margin-left: -2px;
   font-size: var(--text-title);
   font-weight: 500;
-  line-height: 0.85;
+  line-height: 1;
   letter-spacing: var(--text-title-tracking);
   background: transparent;
   white-space: normal;
@@ -1479,13 +1515,17 @@ html.lenis body.is-lightbox-open {
   margin: 0 0 0.55em;
   font-size: 40px;
   line-height: 120%;
-  letter-spacing: -2px;
+  letter-spacing: -3%;
   font-weight: 500;
   color: var(--color-index);
 }
 
 .about__line--strong {
   color: var(--color-text);
+}
+
+.about__line--regular {
+  font-weight: 400;
 }
 
 .about__line a {

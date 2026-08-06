@@ -13,6 +13,11 @@ function notifyLandingSettle(targetY) {
   landingSettleHandlers.forEach((handler) => handler(targetY));
 }
 
+/** Sections with `published: false` stay in JSON as drafts/templates and are omitted from the index. */
+function getPublishedSections(sections) {
+  return sections.filter((section) => section.published !== false);
+}
+
 async function init() {
   beginCalibration();
 
@@ -22,10 +27,10 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=statement-52");
+  const response = await fetch("./data/projects.json?v=runway-ai-2");
   const data = await response.json();
 
-  data.sections.forEach((section) => {
+  getPublishedSections(data.sections).forEach((section) => {
     main.appendChild(buildSection(section));
   });
 
@@ -51,6 +56,7 @@ async function init() {
   initHeroStatement(data.site);
 
   const scroll = initSmoothScroll();
+  portfolioScroll = scroll;
   // Hero click ritual paused — keep project bleed visible by default while portfolio work continues.
   const ENABLE_HERO_INTRO = false;
   if (ENABLE_HERO_INTRO && data.site?.intro) {
@@ -212,7 +218,12 @@ function measureHeroStatementPosition() {
     top = Math.round(stickyTop + gap);
   } else {
     const bandTop = stickyTop;
-    const bandBottom = getHeroFoldDividerTop();
+    const firstProject = document.querySelector(".project");
+    const foldFallback = window.innerHeight - readCssPx("--fold-peek", 143);
+    const meta = firstProject?.querySelector(".project__meta");
+    const bandBottom = meta
+      ? Math.round(meta.getBoundingClientRect().top)
+      : foldFallback;
     const bandHeight = Math.max(0, bandBottom - bandTop);
     top = Math.round(bandTop + Math.max(0, (bandHeight - statementHeight) / 2));
   }
@@ -323,6 +334,32 @@ function getSectionLandingYs() {
   return sectionLandingYs;
 }
 
+function getTerminalScrollY() {
+  const lastProject = getLastProject();
+  if (!lastProject) return null;
+
+  const landingY = parseFloat(lastProject.dataset.landingScrollY);
+  return Number.isFinite(landingY) ? landingY : null;
+}
+
+function getLastProject(projects = [...document.querySelectorAll(".project")]) {
+  return projects.length ? projects[projects.length - 1] : null;
+}
+
+function isTerminalLandingY(y) {
+  const terminalY = getTerminalScrollY();
+  return terminalY != null && Math.abs(y - terminalY) <= LANDING_STEP.landTolerance;
+}
+
+function showLastFoldFooter() {
+  const footerShell = document.querySelector(".footer-shell");
+  if (!footerShell) return;
+
+  footerShell.classList.add("is-visible");
+  document.documentElement.classList.add("is-last-fold");
+  measureFooterChrome();
+}
+
 function findNextLanding(scrollY, direction) {
   const landings = getSectionLandingYs();
   if (!landings.length || !direction) return null;
@@ -357,6 +394,21 @@ function createLandingStepController() {
     return false;
   };
 
+  const pinAtLanding = (targetY) => {
+    lenis.scrollTo(targetY, { immediate: true, force: true });
+    lenis.targetScroll = targetY;
+    lenis.animatedScroll = targetY;
+    lenis.velocity = 0;
+    lenis.lastVelocity = 0;
+    lenis.animate?.stop?.();
+  };
+
+  const pinAtTerminal = (targetY) => {
+    pinAtLanding(targetY);
+    notifyLandingSettle(targetY);
+    if (isTerminalLandingY(targetY)) showLastFoldFooter();
+  };
+
   const finishAtTarget = (targetY) => {
     scrollSession = null;
     isSettling = true;
@@ -370,6 +422,7 @@ function createLandingStepController() {
       onComplete: () => {
         isSettling = false;
         notifyLandingSettle(targetY);
+        if (isTerminalLandingY(targetY)) showLastFoldFooter();
       },
     });
   };
@@ -394,9 +447,29 @@ function createLandingStepController() {
       const direction = Math.sign(deltaY);
       if (!direction) return;
 
+      const terminalY = getTerminalScrollY();
+      if (
+        terminalY != null &&
+        direction > 0 &&
+        lenis.animatedScroll >= terminalY - LANDING_STEP.landTolerance
+      ) {
+        scrollSession = null;
+        pinAtTerminal(terminalY);
+        return blockWheel(event);
+      }
+
       if (!scrollSession) {
         const target = findNextLanding(lenis.animatedScroll, direction);
-        if (!target) return;
+        if (!target) {
+          const onLanding = getSectionLandingYs().find(
+            (landing) => Math.abs(landing.y - lenis.animatedScroll) <= LANDING_STEP.landTolerance
+          );
+          if (onLanding && direction > 0) {
+            pinAtTerminal(onLanding.y);
+            return blockWheel(event);
+          }
+          return;
+        }
         scrollSession = { targetY: target.y, direction };
       } else if (direction !== scrollSession.direction) {
         scrollSession = null;
@@ -409,7 +482,16 @@ function createLandingStepController() {
     },
 
     onFrame() {
-      if (!lenis || !scrollSession || isSettling) return;
+      if (!lenis || isSettling) return;
+
+      const terminalY = getTerminalScrollY();
+      if (terminalY != null && lenis.animatedScroll > terminalY + LANDING_STEP.landTolerance) {
+        scrollSession = null;
+        pinAtTerminal(terminalY);
+        return;
+      }
+
+      if (!scrollSession) return;
 
       const { targetY, direction } = scrollSession;
 
@@ -552,11 +634,12 @@ function initProjectIndex(scroll) {
   setOdometerValue(valueEl, projects[0].dataset.projectIndex, false);
 
   let activeIndex = 0;
-  let lastScrollY = window.scrollY;
+  let lastScrollY = getActiveScrollY(scroll);
 
   const update = () => {
-    const scrollingDown = window.scrollY >= lastScrollY;
-    lastScrollY = window.scrollY;
+    const scrollY = getActiveScrollY(scroll);
+    const scrollingDown = scrollY >= lastScrollY;
+    lastScrollY = scrollY;
     activeIndex = updateProjectIndexValue(indexEl, projects, activeIndex, scrollingDown);
     updateFooterShell(projects);
   };
@@ -576,6 +659,8 @@ function initProjectIndex(scroll) {
     updateFooterShell(projects);
   });
   scroll.onFrame(() => {
+    updateFooterShell(projects);
+
     if (!indexEl.classList.contains("is-visible")) return;
     const currentActive = projects.findIndex((project) =>
       project.classList.contains("is-index-active")
@@ -838,6 +923,11 @@ const LANDING_STEP = {
 };
 
 let sectionLandingYs = [];
+let portfolioScroll = null;
+
+function getActiveScrollY(scroll = portfolioScroll) {
+  return scroll?.lenis?.animatedScroll ?? window.scrollY;
+}
 
 function getStickyLine() {
   return parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--sticky-top")) || 40;
@@ -1150,16 +1240,18 @@ function getFooterChromeHeight() {
 }
 
 function isLastFoldActive(projects) {
-  if (!projects.length) return false;
+  const lastProject = getLastProject(projects);
+  if (!lastProject) return false;
 
-  const lastProject = projects[projects.length - 1];
+  // Footer appears as soon as the last project lands in the fold — including snap arrival.
+  if (isSectionHeaderLanded(lastProject)) return true;
+
   const landingY = parseFloat(lastProject.dataset.landingScrollY);
-
   if (Number.isFinite(landingY)) {
-    return window.scrollY >= landingY - HEADER_LAND_TOLERANCE;
+    return getActiveScrollY() >= landingY - HEADER_LAND_TOLERANCE;
   }
 
-  return isSectionHeaderLanded(lastProject);
+  return false;
 }
 
 function updateFooterShell(projects) {
@@ -1438,10 +1530,10 @@ function findDesktopComposedScrollY(project) {
 function findComposedPeekLandingScrollY(project) {
   const projects = [...document.querySelectorAll(".project")];
   const index = projects.indexOf(project);
-  const nextProject = index >= 0 ? projects[index + 1] : null;
+  const isLast = index >= 0 && index === projects.length - 1;
 
-  if (!nextProject) {
-    return findLastProjectLandingScrollY(project);
+  if (isLast) {
+    return findLastProjectLandingScrollY(project) ?? findDesktopComposedScrollY(project);
   }
 
   return findDesktopComposedScrollY(project);
@@ -1528,6 +1620,22 @@ function ensureLastSectionScrollPad(project) {
   }
 }
 
+/** Remove runway below the terminal landing so the last fold cannot scroll past its snap. */
+function trimLastSectionScrollPad(project, landingY) {
+  if (!Number.isFinite(landingY)) return;
+
+  const targetScrollHeight = landingY + getViewportHeight();
+  let pad = parseFloat(getComputedStyle(project).getPropertyValue("--last-section-scroll-pad")) || 0;
+
+  for (let attempt = 0; attempt < 12; attempt += 1) {
+    const excess = document.documentElement.scrollHeight - targetScrollHeight;
+    if (excess <= 1) break;
+
+    pad = Math.max(0, pad - excess);
+    project.style.setProperty("--last-section-scroll-pad", `${pad}px`);
+  }
+}
+
 function measureFoldHold(projects) {
   if (!projects.length) return;
 
@@ -1549,7 +1657,10 @@ function measureFoldHold(projects) {
     // Same title/rule landing as every other section — including the last one.
     // (footerBottom was pulling 08 away from the index snap.)
     const landing = cacheSectionLandingY(project);
-    if (landing) cachedLandings.push(landing);
+    if (landing) {
+      if (isLastProject) trimLastSectionScrollPad(project, landing.y);
+      cachedLandings.push(landing);
+    }
   });
 
   sectionLandingYs = [{ y: 0 }, ...cachedLandings].sort((a, b) => a.y - b.y);
