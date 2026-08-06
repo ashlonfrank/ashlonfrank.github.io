@@ -1014,6 +1014,15 @@ function shouldTrackFirstFold(projects) {
   return titleTop >= stickyLine - 12 && titleTop <= window.innerHeight + 40;
 }
 
+/** Last fold only — track the live title row when the final project is active and landed. */
+function shouldTrackLastFold(projects, activeIndex) {
+  const lastIndex = projects.length - 1;
+  if (activeIndex !== lastIndex || lastIndex < 0) return false;
+
+  const lastProject = projects[lastIndex];
+  return isSectionHeaderLanded(lastProject) || isSectionStickyHold(lastProject);
+}
+
 function positionProjectIndex(indexEl, projects, activeIndex = 0) {
   const spacer =
     projects[0]?.querySelector(".project__index-spacer") ||
@@ -1028,6 +1037,14 @@ function positionProjectIndex(indexEl, projects, activeIndex = 0) {
 
   if (shouldTrackFirstFold(projects)) {
     const titleRow = projects[0].querySelector(".project__title-row");
+    if (titleRow) {
+      indexEl.style.top = `${titleRow.getBoundingClientRect().top}px`;
+      return;
+    }
+  }
+
+  if (shouldTrackLastFold(projects, activeIndex)) {
+    const titleRow = projects[activeIndex]?.querySelector(".project__title-row");
     if (titleRow) {
       indexEl.style.top = `${titleRow.getBoundingClientRect().top}px`;
       return;
