@@ -135,42 +135,42 @@
       "media": [
         {
           "type": "image",
-          "src": "./assets/Onboarding/01.png?v=424",
+          "src": "./assets/Onboarding/01.png?v=426",
           "alt": "Guided Multi-Product Activation — 01"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/02.png?v=424",
+          "src": "./assets/Onboarding/02.png?v=426",
           "alt": "Guided Multi-Product Activation — 02"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/03.png?v=424",
+          "src": "./assets/Onboarding/03.png?v=426",
           "alt": "Guided Multi-Product Activation — 03"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/04.png?v=425",
+          "src": "./assets/Onboarding/04.png?v=426",
           "alt": "Guided Multi-Product Activation — 04"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/05.png?v=425",
+          "src": "./assets/Onboarding/05.png?v=426",
           "alt": "Guided Multi-Product Activation — 05"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/06.png?v=425",
+          "src": "./assets/Onboarding/06.png?v=426",
           "alt": "Guided Multi-Product Activation — 06"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/07.png?v=424",
+          "src": "./assets/Onboarding/07.png?v=426",
           "alt": "Guided Multi-Product Activation — 07"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/08.png?v=424",
+          "src": "./assets/Onboarding/08.png?v=426",
           "alt": "Guided Multi-Product Activation — 08"
         }
       ]
