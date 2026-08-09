@@ -1,0 +1,7 @@
+# URL routing (user preference)
+
+- **Public routes only:** `/home/` (portfolio) and `/about.html`. Root `/` redirects to `/home/`.
+- **Do not** put project slugs in the URL — no `#runway-ai`, `#samsung`, `#chase-travel-redesign`, etc.
+- Project `<article>` elements must **not** use `id={section.id}` (fragments would expose slugs). Use classes or `data-*` for styling/JS hooks instead.
+- Do not add `history.pushState` / hash updates for scroll position or active project.
+- When linking the live site, use `https://ashlonfrank.github.io/home/` or `/about.html` only.

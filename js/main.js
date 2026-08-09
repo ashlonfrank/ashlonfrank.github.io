@@ -18,8 +18,19 @@ function getPublishedSections(sections) {
   return sections.filter((section) => section.published !== false);
 }
 
+function initCleanUrl() {
+  const stripHash = () => {
+    if (!window.location.hash) return;
+    history.replaceState(null, "", window.location.pathname + window.location.search);
+  };
+
+  stripHash();
+  window.addEventListener("hashchange", stripHash);
+}
+
 async function init() {
   beginCalibration();
+  initCleanUrl();
 
   const main = document.getElementById("projects");
   if (!main) {
@@ -27,7 +38,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=runway-reupload-1");
+  const response = await fetch("./data/projects.json?v=runway-reupload-2");
   const data = await response.json();
 
   getPublishedSections(data.sections).forEach((section) => {
@@ -1750,7 +1761,9 @@ function renderMetaTags(metadata) {
 function buildSection(section) {
   const article = document.createElement("article");
   article.className = "project";
-  article.id = section.id;
+  if (section.id === "klifra-step") {
+    article.classList.add("project--klifra");
+  }
 
   article.innerHTML = `
     <div class="project__inner">
@@ -1935,7 +1948,7 @@ function createLightboxMedia(tile) {
     return placeholder;
   }
 
-  const contain = Boolean(tile.closest("#klifra-step"));
+  const contain = Boolean(tile.closest(".project--klifra"));
 
   if (source.classList.contains("tile-gif-grid")) {
     const grid = source.cloneNode(true);

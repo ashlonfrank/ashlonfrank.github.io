@@ -959,20 +959,20 @@ html.hero--bleed .hero__copy {
 }
 
 /* Klifra — black empty tiles; video letterboxed to full height */
-#klifra-step .tile-inner,
-#klifra-step .tile-inner:active,
-#klifra-step .tile-inner:focus-visible,
-#klifra-step .tile-inner__placeholder {
+.project--klifra .tile-inner,
+.project--klifra .tile-inner:active,
+.project--klifra .tile-inner:focus-visible,
+.project--klifra .tile-inner__placeholder {
   background-color: #000000;
 }
 
-#klifra-step .tile-inner__media {
+.project--klifra .tile-inner__media {
   object-fit: contain;
   object-position: center;
 }
 
 /* 6 GIFs — 3×2, zero gap, centered in the black tile with inset */
-#klifra-step .tile-inner:has(.tile-gif-grid) {
+.project--klifra .tile-inner:has(.tile-gif-grid) {
   display: flex;
   align-items: center;
   justify-content: center;
