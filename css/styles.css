@@ -586,6 +586,10 @@ html.hero--bleed .hero__copy {
   line-height: var(--text-meta-lh);
 }
 
+.project__meta-tag:not(:has(.project__meta-tag-icon)) {
+  padding-left: calc(16px + 8px);
+}
+
 .project__meta-tag-icon {
   flex: 0 0 16px;
   width: 16px;
