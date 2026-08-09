@@ -111,7 +111,7 @@
     },
     {
       "id": "column",
-      "title": "Business Banking Onboarding",
+      "title": "Business Banking Activation",
       "description": [
         "97% of new SMB customers came from Consumer Banking but entered a completely different experience. Without guidance, many missed critical setup tasks — like funding their account within 60 days to avoid closure, enrolling in fraud protection, limiting activation and product adoption."
       ],
@@ -139,42 +139,42 @@
         {
           "type": "image",
           "src": "./assets/Onboarding/01.png?v=426",
-          "alt": "Business Banking Onboarding — 01"
+          "alt": "Business Banking Activation — 01"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/02.png?v=426",
-          "alt": "Business Banking Onboarding — 02"
+          "alt": "Business Banking Activation — 02"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/03.png?v=426",
-          "alt": "Business Banking Onboarding — 03"
+          "alt": "Business Banking Activation — 03"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/04.png?v=426",
-          "alt": "Business Banking Onboarding — 04"
+          "alt": "Business Banking Activation — 04"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/05.png?v=426",
-          "alt": "Business Banking Onboarding — 05"
+          "alt": "Business Banking Activation — 05"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/06.png?v=427",
-          "alt": "Business Banking Onboarding — 06"
+          "alt": "Business Banking Activation — 06"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/07.png?v=426",
-          "alt": "Business Banking Onboarding — 07"
+          "alt": "Business Banking Activation — 07"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/08.png?v=426",
-          "alt": "Business Banking Onboarding — 08"
+          "alt": "Business Banking Activation — 08"
         }
       ]
     },
