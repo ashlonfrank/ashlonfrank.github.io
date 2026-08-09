@@ -1539,7 +1539,13 @@ html.lenis body.is-lightbox-open {
 @media (hover: hover) and (pointer: fine) {
   .about__line a:hover {
     color: var(--color-text);
+    font-weight: 700;
   }
+}
+
+.about__line a:focus-visible {
+  color: var(--color-text);
+  font-weight: 700;
 }
 
 /* Same footer as index/contact — mobile About only (desktop keeps fixed stack) */
