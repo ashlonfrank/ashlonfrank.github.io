@@ -309,33 +309,43 @@
       "media": [
         {
           "type": "image",
-          "src": "./assets/Onboarding/ASM/01.png?v=450",
+          "src": "./assets/Onboarding/ASM/1.png?v=451",
           "alt": "Access & Security Manager — 01"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/ASM/02.png?v=442",
+          "src": "./assets/Onboarding/ASM/2.png?v=451",
           "alt": "Access & Security Manager — 02"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/ASM/03.png?v=442",
+          "src": "./assets/Onboarding/ASM/3.png?v=451",
           "alt": "Access & Security Manager — 03"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/ASM/04.png?v=442",
+          "src": "./assets/Onboarding/ASM/4.png?v=451",
           "alt": "Access & Security Manager — 04"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/ASM/05.png?v=442",
+          "src": "./assets/Onboarding/ASM/5.png?v=451",
           "alt": "Access & Security Manager — 05"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/ASM/06.png?v=442",
+          "src": "./assets/Onboarding/ASM/6.png?v=451",
           "alt": "Access & Security Manager — 06"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/ASM/7.png?v=451",
+          "alt": "Access & Security Manager — 07"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/ASM/8.png?v=451",
+          "alt": "Access & Security Manager — 08"
         }
       ]
     },
