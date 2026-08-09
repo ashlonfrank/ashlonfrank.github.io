@@ -659,7 +659,7 @@ html.hero--bleed .hero__copy {
   z-index: 1;
   min-width: 0;
   min-height: 0;
-  overflow: clip;
+  overflow: visible;
 }
 
 /* Title block — sticky so sections stack under the nav (ryry.io pattern) */
@@ -718,6 +718,7 @@ html.hero--bleed .hero__copy {
   flex: 1;
   min-width: 0;
   padding-right: 24px;
+  overflow: visible;
   background: transparent;
 }
 
@@ -730,9 +731,12 @@ html.hero--bleed .hero__copy {
   letter-spacing: var(--text-title-tracking);
   background: transparent;
   white-space: normal;
-  overflow-wrap: normal;
+  overflow: visible;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
   hyphens: none;
   text-wrap: wrap;
+  padding-inline-end: 0.12em;
   text-box-trim: trim-end;
   text-box-edge: cap alphabetic;
 }

@@ -42,10 +42,10 @@
       "id": "chase-travel-redesign",
       "title": "Chase Travel Home",
       "description": [
-        "Chase Travel serves 80M customers. 90% of customers we interviewed arrived with a destination already in mind and wanted to understand how to get the most from their credit card. Yet the homepage was dominated by generic editorial content with just 0.01% engagement."
+        "Chase Travel serves 80M customers. 90% of customers arrived at Chase with a destination already in mind and wanted to understand how to get the most from their credit card. Yet the homepage was dominated by generic editorial content with just 0.01% engagement."
       ],
       "description2": [
-        "I redesigned the homepage around Chase Travel’s core value proposition and competitive advantage: getting more value from their Chase card. Card benefits, next best actions, and relevant recommendations helped turn travel intent into booking action."
+        "I redesigned the homepage around Chase Travel’s value proposition and competitive advantage: getting more value from their Chase card. Surfacing card benefits, next best actions, personalized recommendations helped turn intent into bookings."
       ],
       "metadata": [
         {
@@ -113,7 +113,7 @@
       "id": "column",
       "title": "Business Banking Activation",
       "description": [
-        "97% of new SMB customers came from Consumer Banking but entered a completely different experience. Without guidance, many missed critical setup tasks like funding their account within 60 days and enrolling in fraud protection, limiting activation and product adoption."
+        "99% of business banking customers at Chase migrated from consumer accounts. Without guidance, many missed critical setup tasks like funding their account within 60 days and enrolling in fraud protection, limiting activation and product adoption."
       ],
       "description2": [
         "I designed and shipped Chase Business Banking’s first activation experience for 7.5M+ customers: a scalable framework that prioritized high-impact actions through progressive disclosure, behavioral nudges, and a reusable checklist."
@@ -182,7 +182,7 @@
       "id": "chase-sapphire-dining",
       "title": "Chase Dining",
       "description": [
-        "Dining is one of the highest-frequency card spend categories, yet Chase had no owned dining discovery experience. I helped launch a 0→1 MVP to validate whether customers would engage with a dedicated dining rewards experience."
+        "Dining is one of the highest-frequency card spend categories, so Chase's strategic goal was to own dining. I helped launch a 0→1 MVP to validate whether customers would engage with a dedicated dining rewards experience."
       ],
       "description2": [
         "3M customers engaged with the MVP, and Dining became the #2 Sapphire Reserve rewards category within four months. Strong adoption helped expand the program from 30 to 60 markets and informed the long-term product vision I drove."
@@ -322,7 +322,7 @@
       "id": "samsung",
       "title": "Access & Permissions",
       "description": [
-        "As Chase’s small business customers grow, financial management becomes a team effort. But giving employees, accountants, and partners access to business banking introduces significant risk. Complex permissions made it difficult for owners to safely delegate financial access."
+        "As Chase’s SMB customers grow, financial management becomes a team effort. But giving employees, accountants, and partners access to business banking introduces significant risk. Complex permissions made it difficult for owners to safely delegate financial access."
       ],
       "description2": [
         "I designed Chase Business Banking’s 0→1 access management platform, turning complex banking entitlements into clear decisions. Owners could see who had access, control what they could see or move, and safely delegate across accounts, cards, and payments."
@@ -394,7 +394,7 @@
         "Existing truck-bed steps were slow, cumbersome, and often bypassed altogether, leading operators to climb or jump from five-foot beds. For fleet operators, that meant preventable injuries, downtime, and workers’ compensation costs."
       ],
       "description2": [
-        "I led customer discovery, product strategy, and pricing strategy, partnering with engineers to turn those insights into Klifra. The automated system cut truck-bed access from 39 to 7 seconds, maintained three points of contact, and differentiated from cheaper manual competitors through speed, safety, and ease of use."
+        "I led customer discovery, product strategy, and pricing strategy, partnering with engineers. The design cut loading time from 39 to 7 seconds, maintained three points of contact, and differentiated from competitors through speed, safety, and ease of use."
       ],
       "metadata": [
         {
@@ -487,10 +487,10 @@
       "id": "webflow-dot-com",
       "title": "Architecture & Spatial Design",
       "description": [
-        "Seven years as a practicing architect across India, Kuwait, Japan, and Portugal. I worked across scales, from installations and interiors to homes, hospitals, institutions, and urban-scale projects, taking projects from early concepts through design development and construction."
+        "Seven years as a practicing architect across India, Kuwait, and Japan. I worked across scales, from installations and interiors to homes, hospitals, institutions, and urban-scale projects, taking projects from concepts → design development → construction."
       ],
       "description2": [
-        "As a project architect, I developed spatial concepts, computational studies, 3D models, technical drawings, material and fabrication systems, and construction documentation. I coordinated with engineers, consultants, contractors, and clients to resolve constraints and get projects built."
+        "I developed spatial concepts, computational studies, 3D models, technical drawings, and material and fabrication systems. I coordinated with engineers, consultants, contractors, and clients to get projects built."
       ],
       "metadata": [
         {

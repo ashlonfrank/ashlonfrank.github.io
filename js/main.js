@@ -38,7 +38,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=chase-travel-home-1");
+  const response = await fetch("./data/projects.json?v=architecture-no-portugal-1");
   const data = await response.json();
 
   getPublishedSections(data.sections).forEach((section) => {
