@@ -2014,7 +2014,7 @@ function initTileLightbox(scroll) {
 
   const lenis = scroll?.lenis ?? null;
   let activeTile = null;
-  let mobileRenderToken = 0;
+  let renderToken = 0;
 
   /** Tiles in the open project only — never cross into another case study. */
   const projectTiles = () => {
@@ -2035,41 +2035,22 @@ function initTileLightbox(scroll) {
     });
   };
 
-  const mountStageFrame = (tile) => {
-    stage.innerHTML = "";
-
-    const frame = document.createElement("div");
-    frame.className = "lightbox__frame";
-    frame.appendChild(createLightboxMedia(tile));
-    attachFrameNavigation(frame);
-    stage.appendChild(frame);
-
-    const video = frame.querySelector("video.lightbox__media");
-    if (video) video.play().catch(() => {});
-  };
-
-  const renderStage = (tile) => {
-    mountStageFrame(tile);
-  };
-
-  const renderStageMobile = async (tile, { animate = false } = {}) => {
-    const token = ++mobileRenderToken;
+  const renderStage = async (tile, { animate = false } = {}) => {
+    const token = ++renderToken;
     const media = createLightboxMedia(tile);
     await prepareLightboxMedia(media);
-    if (token !== mobileRenderToken) return;
+    if (token !== renderToken) return;
 
     const frame = document.createElement("div");
     frame.className = animate ? "lightbox__frame is-entering" : "lightbox__frame";
     frame.appendChild(media);
     attachFrameNavigation(frame);
+    stage.replaceChildren(frame);
 
-    if (animate && stage.firstElementChild) {
-      stage.replaceChildren(frame);
+    if (animate) {
       requestAnimationFrame(() => {
         frame.classList.remove("is-entering");
       });
-    } else {
-      stage.replaceChildren(frame);
     }
 
     const video = frame.querySelector("video.lightbox__media");
@@ -2088,12 +2069,8 @@ function initTileLightbox(scroll) {
   const openLightbox = async (tile) => {
     activeTile = tile;
     tile.classList.add("is-lightbox-source");
-    if (isCoarseLightbox()) {
-      await renderStageMobile(tile);
-      preloadAdjacentTiles(tile);
-    } else {
-      renderStage(tile);
-    }
+    await renderStage(tile);
+    preloadAdjacentTiles(tile);
     lightbox.hidden = false;
     document.body.classList.add("is-lightbox-open");
     lenis?.stop();
@@ -2102,7 +2079,7 @@ function initTileLightbox(scroll) {
   const closeLightbox = () => {
     if (!activeTile) return;
 
-    mobileRenderToken += 1;
+    renderToken += 1;
     activeTile.classList.remove("is-lightbox-source");
     activeTile = null;
     lightbox.hidden = true;
@@ -2125,13 +2102,8 @@ function initTileLightbox(scroll) {
     activeTile.classList.remove("is-lightbox-source");
     activeTile = all[nextIndex];
     activeTile.classList.add("is-lightbox-source");
-
-    if (isCoarseLightbox()) {
-      preloadAdjacentTiles(activeTile);
-      await renderStageMobile(activeTile, { animate: true });
-    } else {
-      renderStage(activeTile);
-    }
+    preloadAdjacentTiles(activeTile);
+    await renderStage(activeTile, { animate: true });
   };
 
   document.addEventListener("click", (event) => {

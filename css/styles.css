@@ -1131,13 +1131,21 @@ html.hero--bleed .hero__copy {
   touch-action: manipulation;
 }
 
+.lightbox__control:focus,
+.lightbox__control:focus-visible {
+  outline: none;
+}
+
+.lightbox__frame {
+  transition: opacity 180ms var(--ease-out);
+}
+
+.lightbox__frame.is-entering {
+  opacity: 0;
+}
+
 /* Touch devices — explicit prev/next; taps outside the frame hit backdrop */
 @media (pointer: coarse) {
-  .lightbox__control:focus,
-  .lightbox__control:focus-visible {
-    outline: none;
-  }
-
   .lightbox__nav {
     display: flex;
     align-items: center;
@@ -1154,14 +1162,6 @@ html.hero--bleed .hero__copy {
   .lightbox__control--next {
     position: static;
     border-radius: 50%;
-  }
-
-  .lightbox__frame {
-    transition: opacity 180ms var(--ease-out);
-  }
-
-  .lightbox__frame.is-entering {
-    opacity: 0;
   }
 }
 
