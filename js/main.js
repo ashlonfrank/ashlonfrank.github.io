@@ -150,7 +150,7 @@ function isNavRoleVisible(role) {
 
 function getHeroStatementAboutAnchor() {
   return (
-    document.querySelector('.nav__link[href="./about.html"]') ||
+    document.querySelector('.nav__link[href="/about/"]') ||
     document.querySelector(".nav__end")
   );
 }
