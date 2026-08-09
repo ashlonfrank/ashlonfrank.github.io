@@ -27,7 +27,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=dining-reupload-1");
+  const response = await fetch("./data/projects.json?v=dining-reupload-2");
   const data = await response.json();
 
   getPublishedSections(data.sections).forEach((section) => {
