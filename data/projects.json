@@ -111,7 +111,7 @@
     },
     {
       "id": "column",
-      "title": "Guided Multi-Product Activation",
+      "title": "Business Banking Onboarding",
       "description": [
         "97% of new SMB customers came from Consumer Banking but entered a completely different experience. Without guidance, many missed critical setup tasks — like funding their account within 60 days to avoid closure, enrolling in fraud protection, limiting activation and product adoption."
       ],
@@ -139,42 +139,42 @@
         {
           "type": "image",
           "src": "./assets/Onboarding/01.png?v=426",
-          "alt": "Guided Multi-Product Activation — 01"
+          "alt": "Business Banking Onboarding — 01"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/02.png?v=426",
-          "alt": "Guided Multi-Product Activation — 02"
+          "alt": "Business Banking Onboarding — 02"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/03.png?v=426",
-          "alt": "Guided Multi-Product Activation — 03"
+          "alt": "Business Banking Onboarding — 03"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/04.png?v=426",
-          "alt": "Guided Multi-Product Activation — 04"
+          "alt": "Business Banking Onboarding — 04"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/05.png?v=426",
-          "alt": "Guided Multi-Product Activation — 05"
+          "alt": "Business Banking Onboarding — 05"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/06.png?v=427",
-          "alt": "Guided Multi-Product Activation — 06"
+          "alt": "Business Banking Onboarding — 06"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/07.png?v=426",
-          "alt": "Guided Multi-Product Activation — 07"
+          "alt": "Business Banking Onboarding — 07"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/08.png?v=426",
-          "alt": "Guided Multi-Product Activation — 08"
+          "alt": "Business Banking Onboarding — 08"
         }
       ]
     },
