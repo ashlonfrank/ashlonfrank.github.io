@@ -38,7 +38,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=hero-statement-2");
+  const response = await fetch("./data/projects.json?v=asset-icons-3");
   const data = await response.json();
 
   getPublishedSections(data.sections).forEach((section) => {
@@ -1729,18 +1729,16 @@ const TILE_COLS = 3;
 const PREVIEW_EMPTY_TILES = false;
 
 const META_ICON_SVGS = {
-  person: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="5.25" r="2" stroke="currentColor" stroke-width="1.25"/><path d="M4.25 13.25c.5-2.25 2.25-3.5 3.75-3.5s3.25 1.25 3.75 3.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>`,
-  bolt: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M9.25 2.5 5.5 8.25H8l-.75 5.25 4.75-6.5H9.25z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/></svg>`,
-  chart: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 13.5h11" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/><path d="M5 10.5 8 7.25 10.5 9 13.5 5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
-  evidence: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 2.25h4c.55 0 1 .45 1 1v.75H5v-.75c0-.55.45-1 1-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/><rect x="4" y="3.25" width="8" height="10.25" rx="1" stroke="currentColor" stroke-width="1.25"/><path d="M6 6.75h4M6 8.75h4M6 10.75h2.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>`,
-  tools: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M11.25 2.75a2.5 2.5 0 0 0-3.54 3.54L3.75 10.25l2 2 5.96-5.96A2.5 2.5 0 0 0 11.25 2.75z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/><path d="M3.75 10.25 2.5 11.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>`,
-  terminal: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M5.75 5.25 3.5 8l2.25 2.75" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/><path d="M10.25 10.75 12.5 8l-2.25-2.75" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.25 12.25 6.75 3.75" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>`,
-  innovation: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.75c-1.75 0-3.25 1.5-3.25 3.5 0 1.35.65 2.35 1.5 3v1.75h3.5V8.25c.85-.65 1.5-1.65 1.5-3 0-2-1.5-3.5-3.25-3.5z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/><path d="M6.25 12.25h3.5M7 13.75h2" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>`,
-  award: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="6" r="2.75" stroke="currentColor" stroke-width="1.25"/><path d="M6.25 8.25 5.25 13.5l2.75-1.75L10.75 13.5 9.75 8.25" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/></svg>`,
+  role: `<svg width="16" height="16" viewBox="0 0 256 256" fill="none" aria-hidden="true"><path d="M229.19,213c-15.81-27.32-40.63-46.49-69.47-54.62a70,70,0,1,0-63.44,0C67.44,166.5,42.62,185.67,26.81,213a6,6,0,1,0,10.38,6C56.4,185.81,90.34,166,128,166s71.6,19.81,90.81,53a6,6,0,1,0,10.38-6ZM70,96a58,58,0,1,1,58,58A58.07,58.07,0,0,1,70,96Z" fill="currentColor"/></svg>`,
+  work: `<svg width="16" height="16" viewBox="0 0 256 256" fill="none" aria-hidden="true"><path d="M172,76a44,44,0,1,0-44,44A44.05,44.05,0,0,0,172,76Zm-44,28a28,28,0,1,1,28-28A28,28,0,0,1,128,104Zm60,24a44,44,0,1,0,44,44A44.05,44.05,0,0,0,188,128Zm0,72a28,28,0,1,1,28-28A28,28,0,0,1,188,200ZM68,128a44,44,0,1,0,44,44A44.05,44.05,0,0,0,68,128Zm0,72a28,28,0,1,1,28-28A28,28,0,0,1,68,200Z" fill="currentColor"/></svg>`,
+  metrics: `<svg width="16" height="16" viewBox="0 0 256 256" fill="none" aria-hidden="true"><path d="M238,56v64a6,6,0,0,1-12,0V70.48l-85.76,85.76a6,6,0,0,1-8.48,0L96,120.49,28.24,188.24a6,6,0,0,1-8.48-8.48l72-72a6,6,0,0,1,8.48,0L136,143.51,217.52,62H168a6,6,0,0,1,0-12h64A6,6,0,0,1,238,56Z" fill="currentColor"/></svg>`,
+  clipboard: `<svg width="16" height="16" viewBox="0 0 256 256" fill="none" aria-hidden="true"><path d="M216,34H88a6,6,0,0,0-6,6V82H40a6,6,0,0,0-6,6V216a6,6,0,0,0,6,6H168a6,6,0,0,0,6-6V174h42a6,6,0,0,0,6-6V40A6,6,0,0,0,216,34ZM162,210H46V94H162Zm48-48H174V88a6,6,0,0,0-6-6H94V46H210Z" fill="currentColor"/></svg>`,
+  tools: `<svg width="16" height="16" viewBox="0 0 256 256" fill="none" aria-hidden="true"><path d="M224.91,69.75a6,6,0,0,0-9.63-2.16l-41.07,37.9L154.7,101.3l-4.19-19.51,37.9-41.07a6,6,0,0,0-2.16-9.63,70,70,0,0,0-89.77,94.39l-61.39,53c-.11.09-.21.19-.32.3A30,30,0,0,0,77.2,221.23c.11-.11.21-.21.3-.32l53-61.39a70,70,0,0,0,94.39-89.77ZM160,154a58,58,0,0,1-28-7.22,6,6,0,0,0-7.45,1.33L68.57,212.88a18,18,0,0,1-25.45-25.45l64.76-55.94A6,6,0,0,0,109.2,124a58,58,0,0,1,64-84.53L139.58,75.93a6,6,0,0,0-1.45,5.33l5.65,26.35a6,6,0,0,0,4.61,4.61l26.35,5.65a6,6,0,0,0,5.33-1.45L216.49,82.8A58.06,58.06,0,0,1,160,154Z" fill="currentColor"/></svg>`,
+  award: `<svg width="16" height="16" viewBox="0 0 256 256" fill="none" aria-hidden="true"><path d="M214,96A86,86,0,1,0,74,162.87V240a6,6,0,0,0,2.85,5.1A5.93,5.93,0,0,0,80,246a6,6,0,0,0,2.68-.63L128,222.71l45.33,22.66A6,6,0,0,0,182,240V162.87A85.87,85.87,0,0,0,214,96ZM54,96a74,74,0,1,1,74,74A74.09,74.09,0,0,1,54,96ZM170,230.29l-39.33-19.66a6,6,0,0,0-5.36,0L86,230.29V171a85.75,85.75,0,0,0,84,0ZM128,150A54,54,0,1,0,74,96,54.06,54.06,0,0,0,128,150Zm0-96A42,42,0,1,1,86,96,42,42,0,0,1,128,54Z" fill="currentColor"/></svg>`,
 };
 
 function renderMetaIcon(iconName) {
-  return META_ICON_SVGS[iconName] ?? META_ICON_SVGS.person;
+  return META_ICON_SVGS[iconName] ?? META_ICON_SVGS.role;
 }
 
 function renderMetaTags(metadata) {
