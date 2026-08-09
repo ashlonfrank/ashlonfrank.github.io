@@ -38,7 +38,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=runway-reupload-2");
+  const response = await fetch("./data/projects.json?v=runway-reupload-3");
   const data = await response.json();
 
   getPublishedSections(data.sections).forEach((section) => {
