@@ -1939,6 +1939,32 @@ function initTileVideos() {
   videos.forEach((video) => observer.observe(video));
 }
 
+function isCoarseLightbox() {
+  return window.matchMedia("(pointer: coarse)").matches;
+}
+
+async function prepareLightboxMedia(node) {
+  if (node.tagName === "IMG") {
+    if (!node.complete) {
+      await new Promise((resolve) => {
+        node.addEventListener("load", resolve, { once: true });
+        node.addEventListener("error", resolve, { once: true });
+      });
+    }
+    if (node.decode) {
+      await node.decode().catch(() => {});
+    }
+  }
+  return node;
+}
+
+function preloadTileMedia(tile) {
+  const source = tile?.querySelector(".tile-inner__media");
+  if (!source || source.tagName !== "IMG") return;
+  const img = new Image();
+  img.src = source.currentSrc || source.src;
+}
+
 function createLightboxMedia(tile) {
   const source = tile.querySelector(".tile-inner__media");
   if (!source) {
@@ -1982,10 +2008,13 @@ function initTileLightbox(scroll) {
   const stage = lightbox?.querySelector(".lightbox__stage");
   const backdrop = lightbox?.querySelector(".lightbox__backdrop");
   const backBtn = lightbox?.querySelector(".lightbox__control--close");
+  const prevBtn = lightbox?.querySelector(".lightbox__control--prev");
+  const nextBtn = lightbox?.querySelector(".lightbox__control--next");
   if (!lightbox || !stage || !backdrop) return;
 
   const lenis = scroll?.lenis ?? null;
   let activeTile = null;
+  let mobileRenderToken = 0;
 
   /** Tiles in the open project only — never cross into another case study. */
   const projectTiles = () => {
@@ -1996,22 +2025,75 @@ function initTileLightbox(scroll) {
     );
   };
 
-  const renderStage = (tile) => {
+  const attachFrameNavigation = (frame) => {
+    frame.addEventListener("click", (event) => {
+      if (isCoarseLightbox()) return;
+      event.stopPropagation();
+      const rect = frame.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      stepLightbox(x < rect.width / 2 ? -1 : 1);
+    });
+  };
+
+  const mountStageFrame = (tile) => {
     stage.innerHTML = "";
 
     const frame = document.createElement("div");
     frame.className = "lightbox__frame";
     frame.appendChild(createLightboxMedia(tile));
+    attachFrameNavigation(frame);
     stage.appendChild(frame);
 
     const video = frame.querySelector("video.lightbox__media");
     if (video) video.play().catch(() => {});
   };
 
-  const openLightbox = (tile) => {
+  const renderStage = (tile) => {
+    mountStageFrame(tile);
+  };
+
+  const renderStageMobile = async (tile, { animate = false } = {}) => {
+    const token = ++mobileRenderToken;
+    const media = createLightboxMedia(tile);
+    await prepareLightboxMedia(media);
+    if (token !== mobileRenderToken) return;
+
+    const frame = document.createElement("div");
+    frame.className = animate ? "lightbox__frame is-entering" : "lightbox__frame";
+    frame.appendChild(media);
+    attachFrameNavigation(frame);
+
+    if (animate && stage.firstElementChild) {
+      stage.replaceChildren(frame);
+      requestAnimationFrame(() => {
+        frame.classList.remove("is-entering");
+      });
+    } else {
+      stage.replaceChildren(frame);
+    }
+
+    const video = frame.querySelector("video.lightbox__media");
+    if (video) video.play().catch(() => {});
+  };
+
+  const preloadAdjacentTiles = (tile) => {
+    const all = projectTiles();
+    const index = all.indexOf(tile);
+    if (index < 0) return;
+    const total = all.length;
+    preloadTileMedia(all[(index - 1 + total) % total]);
+    preloadTileMedia(all[(index + 1) % total]);
+  };
+
+  const openLightbox = async (tile) => {
     activeTile = tile;
     tile.classList.add("is-lightbox-source");
-    renderStage(tile);
+    if (isCoarseLightbox()) {
+      await renderStageMobile(tile);
+      preloadAdjacentTiles(tile);
+    } else {
+      renderStage(tile);
+    }
     lightbox.hidden = false;
     document.body.classList.add("is-lightbox-open");
     lenis?.stop();
@@ -2020,6 +2102,7 @@ function initTileLightbox(scroll) {
   const closeLightbox = () => {
     if (!activeTile) return;
 
+    mobileRenderToken += 1;
     activeTile.classList.remove("is-lightbox-source");
     activeTile = null;
     lightbox.hidden = true;
@@ -2029,7 +2112,7 @@ function initTileLightbox(scroll) {
     lenis?.start();
   };
 
-  const stepLightbox = (direction) => {
+  const stepLightbox = async (direction) => {
     const all = projectTiles();
     const currentIndex = activeTile ? all.indexOf(activeTile) : -1;
     if (currentIndex < 0 || !all.length) return;
@@ -2042,7 +2125,13 @@ function initTileLightbox(scroll) {
     activeTile.classList.remove("is-lightbox-source");
     activeTile = all[nextIndex];
     activeTile.classList.add("is-lightbox-source");
-    renderStage(activeTile);
+
+    if (isCoarseLightbox()) {
+      preloadAdjacentTiles(activeTile);
+      await renderStageMobile(activeTile, { animate: true });
+    } else {
+      renderStage(activeTile);
+    }
   };
 
   document.addEventListener("click", (event) => {
@@ -2057,16 +2146,22 @@ function initTileLightbox(scroll) {
   backdrop.addEventListener("click", closeLightbox);
   backBtn?.addEventListener("click", closeLightbox);
 
+  prevBtn?.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    stepLightbox(-1);
+    prevBtn.blur();
+  });
+
+  nextBtn?.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    stepLightbox(1);
+    nextBtn.blur();
+  });
+
   lightbox.addEventListener("wheel", (event) => event.preventDefault(), { passive: false });
   lightbox.addEventListener("touchmove", (event) => event.preventDefault(), { passive: false });
-
-  /* Click left half → previous, right half → next (same project loop) */
-  stage.addEventListener("click", (event) => {
-    event.stopPropagation();
-    const rect = stage.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    stepLightbox(x < rect.width / 2 ? -1 : 1);
-  });
 
   document.addEventListener("keydown", (event) => {
     if (lightbox.hidden) return;

@@ -1115,9 +1115,54 @@ html.hero--bleed .hero__copy {
   }
 }
 
-/* Chevrons removed — keyboard + click-on-image handle stepping */
+/* Chevrons removed on desktop — keyboard + click-on-image handle stepping */
 .lightbox__nav {
   display: none;
+}
+
+.lightbox__backdrop,
+.lightbox__control,
+.lightbox__frame {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.lightbox__backdrop,
+.lightbox__control {
+  touch-action: manipulation;
+}
+
+/* Touch devices — explicit prev/next; taps outside the frame hit backdrop */
+@media (pointer: coarse) {
+  .lightbox__control:focus,
+  .lightbox__control:focus-visible {
+    outline: none;
+  }
+
+  .lightbox__nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    position: absolute;
+    left: 50%;
+    bottom: max(24px, env(safe-area-inset-bottom, 0px));
+    transform: translateX(-50%);
+    pointer-events: auto;
+  }
+
+  .lightbox__control--prev,
+  .lightbox__control--next {
+    position: static;
+    border-radius: 50%;
+  }
+
+  .lightbox__frame {
+    transition: opacity 180ms var(--ease-out);
+  }
+
+  .lightbox__frame.is-entering {
+    opacity: 0;
+  }
 }
 
 .lightbox__icon {
@@ -1133,8 +1178,8 @@ html.hero--bleed .hero__copy {
   justify-content: center;
   width: 100%;
   height: 100%;
-  pointer-events: auto;
-  cursor: pointer;
+  pointer-events: none;
+  cursor: default;
 }
 
 .lightbox__frame {
