@@ -40,7 +40,7 @@
   "sections": [
     {
       "id": "chase-travel-redesign",
-      "title": "Chase Travel Homepage",
+      "title": "Chase Travel Home",
       "description": [
         "Chase Travel serves 80M customers. 90% of customers we interviewed arrived with a destination already in mind and wanted to understand how to get the most from their credit card. Yet the homepage was dominated by generic editorial content with just 0.01% engagement."
       ],
@@ -57,7 +57,7 @@
           "text": "Information Architecture • Growth"
         },
         {
-          "icon": "clipboard",
+          "icon": "discovery",
           "text": "24 Customer Interviews • Competitive Analysis"
         }
       ],
@@ -65,47 +65,47 @@
         {
           "type": "image",
           "src": "./assets/Onboarding/Chase Travel/01.png?v=425",
-          "alt": "Chase Travel Homepage — 01"
+          "alt": "Chase Travel Home — 01"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/Chase Travel/02.png?v=425",
-          "alt": "Chase Travel Homepage — 02"
+          "alt": "Chase Travel Home — 02"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/Chase Travel/03.png?v=425",
-          "alt": "Chase Travel Homepage — 03"
+          "alt": "Chase Travel Home — 03"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/Chase Travel/04.png?v=425",
-          "alt": "Chase Travel Homepage — 04"
+          "alt": "Chase Travel Home — 04"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/Chase Travel/05.png?v=425",
-          "alt": "Chase Travel Homepage — 05"
+          "alt": "Chase Travel Home — 05"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/Chase Travel/06.png?v=425",
-          "alt": "Chase Travel Homepage — 06"
+          "alt": "Chase Travel Home — 06"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/Chase Travel/07.png?v=425",
-          "alt": "Chase Travel Homepage — 07"
+          "alt": "Chase Travel Home — 07"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/Chase Travel/08.png?v=426",
-          "alt": "Chase Travel Homepage — 08"
+          "alt": "Chase Travel Home — 08"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/Chase Travel/09.png?v=425",
-          "alt": "Chase Travel Homepage — 09"
+          "alt": "Chase Travel Home — 09"
         }
       ]
     },
@@ -272,7 +272,7 @@
         },
         {
           "icon": "tools",
-          "text": "Plaid • OpenAI • Claude Code"
+          "text": "Plaid API • OpenAI API • Claude Code"
         }
       ],
       "media": [
@@ -507,7 +507,7 @@
         },
         {
           "icon": "award",
-          "text": "Internationally Award-Winning Work • Dezeen • Architizer • WAF"
+          "text": "Awards: Dezeen • Architizer • WAF"
         }
       ],
       "media": [

@@ -58,6 +58,7 @@
   --hero-statement-lh: 28px;
   --text-meta: 12.6px;
   --text-meta-lh: 19.5px;
+  --meta-icon-size: 12px;
   --text-title: 56px;
   --text-title-lh: 48px;
   --text-title-tracking: -3px;
@@ -587,14 +588,14 @@ html.hero--bleed .hero__copy {
 }
 
 .project__meta-tag:not(:has(.project__meta-tag-icon)) {
-  padding-left: calc(16px + 8px);
+  padding-left: calc(var(--meta-icon-size) + 8px);
 }
 
 .project__meta-tag-icon {
-  flex: 0 0 16px;
-  width: 16px;
-  height: var(--text-meta-lh);
-  margin-top: 0;
+  flex: 0 0 var(--meta-icon-size);
+  width: var(--meta-icon-size);
+  height: var(--meta-icon-size);
+  margin-top: calc((var(--text-meta-lh) - var(--meta-icon-size)) / 2);
   color: rgba(60, 60, 67, 0.72);
   display: flex;
   align-items: center;
@@ -603,8 +604,8 @@ html.hero--bleed .hero__copy {
 
 .project__meta-tag-icon svg {
   display: block;
-  width: 16px;
-  height: 16px;
+  width: var(--meta-icon-size);
+  height: var(--meta-icon-size);
 }
 
 .project__meta-tag-text {
@@ -1321,8 +1322,9 @@ html.lenis body.is-lightbox-open {
 
 .footer__email-group {
   display: inline-flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 2px;
+  line-height: var(--text-meta-lh);
 }
 
 .footer__peek-inner .footer__credit {
@@ -1339,8 +1341,10 @@ html.lenis body.is-lightbox-open {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 2px;
-  margin: 0;
+  width: var(--meta-icon-size);
+  height: var(--meta-icon-size);
+  padding: 0;
+  margin: calc((var(--text-meta-lh) - var(--meta-icon-size)) / 2) 0 0;
   border: 0;
   background: transparent;
   color: var(--color-text);
@@ -1351,6 +1355,8 @@ html.lenis body.is-lightbox-open {
 
 .footer__copy-icon {
   display: block;
+  width: var(--meta-icon-size);
+  height: var(--meta-icon-size);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -1518,8 +1524,13 @@ html.lenis body.is-lightbox-open {
 
 .about__email-group {
   display: inline-flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 2px;
+  line-height: var(--text-nav-lh);
+}
+
+.about__email-group .footer__copy {
+  margin-top: calc((var(--text-nav-lh) - var(--meta-icon-size)) / 2);
 }
 
 .about__contact-link {
