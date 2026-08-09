@@ -1939,10 +1939,6 @@ function initTileVideos() {
   videos.forEach((video) => observer.observe(video));
 }
 
-function isCoarseLightbox() {
-  return window.matchMedia("(pointer: coarse)").matches;
-}
-
 async function prepareLightboxMedia(node) {
   if (node.tagName === "IMG") {
     if (!node.complete) {
@@ -1991,7 +1987,7 @@ function createLightboxMedia(tile) {
     video.muted = true;
     video.loop = true;
     video.playsInline = true;
-    video.controls = true;
+    video.controls = false;
     video.setAttribute("aria-label", source.getAttribute("aria-label") || "Project video");
     return video;
   }
@@ -2006,15 +2002,14 @@ function createLightboxMedia(tile) {
 function initTileLightbox(scroll) {
   const lightbox = document.getElementById("lightbox");
   const stage = lightbox?.querySelector(".lightbox__stage");
-  const backdrop = lightbox?.querySelector(".lightbox__backdrop");
+  const hitLayer = lightbox?.querySelector(".lightbox__hit");
   const backBtn = lightbox?.querySelector(".lightbox__control--close");
-  const prevBtn = lightbox?.querySelector(".lightbox__control--prev");
-  const nextBtn = lightbox?.querySelector(".lightbox__control--next");
-  if (!lightbox || !stage || !backdrop) return;
+  if (!lightbox || !stage || !hitLayer) return;
 
   const lenis = scroll?.lenis ?? null;
   let activeTile = null;
   let renderToken = 0;
+  let stepping = false;
 
   /** Tiles in the open project only — never cross into another case study. */
   const projectTiles = () => {
@@ -2023,16 +2018,6 @@ function initTileLightbox(scroll) {
     return [...project.querySelectorAll(".tile-inner")].filter((tile) =>
       tile.querySelector(".tile-inner__media")
     );
-  };
-
-  const attachFrameNavigation = (frame) => {
-    frame.addEventListener("click", (event) => {
-      if (isCoarseLightbox()) return;
-      event.stopPropagation();
-      const rect = frame.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      stepLightbox(x < rect.width / 2 ? -1 : 1);
-    });
   };
 
   const renderStage = async (tile, { animate = false } = {}) => {
@@ -2044,7 +2029,6 @@ function initTileLightbox(scroll) {
     const frame = document.createElement("div");
     frame.className = animate ? "lightbox__frame is-entering" : "lightbox__frame";
     frame.appendChild(media);
-    attachFrameNavigation(frame);
     stage.replaceChildren(frame);
 
     if (animate) {
@@ -2090,6 +2074,8 @@ function initTileLightbox(scroll) {
   };
 
   const stepLightbox = async (direction) => {
+    if (stepping) return;
+
     const all = projectTiles();
     const currentIndex = activeTile ? all.indexOf(activeTile) : -1;
     if (currentIndex < 0 || !all.length) return;
@@ -2099,11 +2085,20 @@ function initTileLightbox(scroll) {
         ? (currentIndex - 1 + all.length) % all.length
         : (currentIndex + 1) % all.length;
 
-    activeTile.classList.remove("is-lightbox-source");
-    activeTile = all[nextIndex];
-    activeTile.classList.add("is-lightbox-source");
-    preloadAdjacentTiles(activeTile);
-    await renderStage(activeTile, { animate: true });
+    stepping = true;
+    try {
+      activeTile.classList.remove("is-lightbox-source");
+      activeTile = all[nextIndex];
+      activeTile.classList.add("is-lightbox-source");
+      preloadAdjacentTiles(activeTile);
+      await renderStage(activeTile, { animate: true });
+    } finally {
+      stepping = false;
+    }
+  };
+
+  const advanceLightbox = () => {
+    stepLightbox(1);
   };
 
   document.addEventListener("click", (event) => {
@@ -2115,21 +2110,17 @@ function initTileLightbox(scroll) {
     openLightbox(tile);
   });
 
-  backdrop.addEventListener("click", closeLightbox);
-  backBtn?.addEventListener("click", closeLightbox);
-
-  prevBtn?.addEventListener("click", (event) => {
+  hitLayer.addEventListener("click", (event) => {
     event.preventDefault();
-    event.stopPropagation();
-    stepLightbox(-1);
-    prevBtn.blur();
+    advanceLightbox();
+    hitLayer.blur();
   });
 
-  nextBtn?.addEventListener("click", (event) => {
+  backBtn?.addEventListener("click", (event) => {
     event.preventDefault();
     event.stopPropagation();
-    stepLightbox(1);
-    nextBtn.blur();
+    closeLightbox();
+    backBtn.blur();
   });
 
   lightbox.addEventListener("wheel", (event) => event.preventDefault(), { passive: false });

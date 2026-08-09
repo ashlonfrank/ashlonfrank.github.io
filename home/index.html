@@ -99,7 +99,8 @@
     </div>
 
     <div id="lightbox" class="lightbox" hidden>
-      <button type="button" class="lightbox__backdrop" aria-label="Close preview"></button>
+      <div class="lightbox__backdrop" aria-hidden="true"></div>
+      <button type="button" class="lightbox__hit" aria-label="Next preview"></button>
       <div class="lightbox__chrome" aria-hidden="false">
         <button type="button" class="lightbox__control lightbox__control--close" aria-label="Close preview">
           <svg class="lightbox__icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
@@ -112,36 +113,10 @@
             />
           </svg>
         </button>
-        <div class="lightbox__nav" role="group" aria-label="Preview navigation">
-          <button type="button" class="lightbox__control lightbox__control--prev" aria-label="Previous preview">
-            <svg class="lightbox__icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
-              <path
-                d="M3.5 10 8 5.5 12.5 10"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </button>
-          <button type="button" class="lightbox__control lightbox__control--next" aria-label="Next preview">
-            <svg class="lightbox__icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
-              <path
-                d="M3.5 6 8 10.5 12.5 6"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </button>
-        </div>
       </div>
       <div class="lightbox__stage" role="dialog" aria-modal="true" aria-label="Project preview"></div>
     </div>
 
-    <script src="./js/main.js?v=lightbox-unified-1" type="module"></script>
+    <script src="./js/main.js?v=lightbox-tap-next-1" type="module"></script>
   </body>
 </html>
