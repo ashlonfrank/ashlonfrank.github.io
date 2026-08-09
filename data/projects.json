@@ -116,7 +116,7 @@
         "97% of new SMB customers came from Consumer Banking but entered a completely different experience. Without guidance, many missed critical setup tasks — like funding their account within 60 days to avoid closure, enrolling in fraud protection, limiting activation and product adoption."
       ],
       "description2": [
-        "Partnering with product, marketing, finance, and engineering teams, I designed onboarding, driving SMB customers to adopt products that were valuable to them and led to higher revenue for Chase — driving product activation and increased fraud protection enrollment."
+        "I designed and shipped Chase Business Banking’s first activation experience: a scalable framework that prioritized high-impact actions through progressive disclosure, behavioral nudges, and a reusable checklist. It launched to all SMB customers and increased checklist engagement by 38%."
       ],
       "metadata": [
         {
