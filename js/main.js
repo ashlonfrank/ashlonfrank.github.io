@@ -27,7 +27,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=runway-ai-2");
+  const response = await fetch("./data/projects.json?v=travel-reupload-1");
   const data = await response.json();
 
   getPublishedSections(data.sections).forEach((section) => {
