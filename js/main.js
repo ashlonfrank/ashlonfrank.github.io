@@ -38,7 +38,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=runway-reupload-3");
+  const response = await fetch("./data/projects.json?v=hero-statement-2");
   const data = await response.json();
 
   getPublishedSections(data.sections).forEach((section) => {
@@ -1732,6 +1732,11 @@ const META_ICON_SVGS = {
   person: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="5.25" r="2" stroke="currentColor" stroke-width="1.25"/><path d="M4.25 13.25c.5-2.25 2.25-3.5 3.75-3.5s3.25 1.25 3.75 3.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>`,
   bolt: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M9.25 2.5 5.5 8.25H8l-.75 5.25 4.75-6.5H9.25z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/></svg>`,
   chart: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 13.5h11" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/><path d="M5 10.5 8 7.25 10.5 9 13.5 5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  evidence: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 2.25h4c.55 0 1 .45 1 1v.75H5v-.75c0-.55.45-1 1-1z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/><rect x="4" y="3.25" width="8" height="10.25" rx="1" stroke="currentColor" stroke-width="1.25"/><path d="M6 6.75h4M6 8.75h4M6 10.75h2.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>`,
+  tools: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M11.25 2.75a2.5 2.5 0 0 0-3.54 3.54L3.75 10.25l2 2 5.96-5.96A2.5 2.5 0 0 0 11.25 2.75z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/><path d="M3.75 10.25 2.5 11.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>`,
+  terminal: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M5.75 5.25 3.5 8l2.25 2.75" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/><path d="M10.25 10.75 12.5 8l-2.25-2.75" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.25 12.25 6.75 3.75" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>`,
+  innovation: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.75c-1.75 0-3.25 1.5-3.25 3.5 0 1.35.65 2.35 1.5 3v1.75h3.5V8.25c.85-.65 1.5-1.65 1.5-3 0-2-1.5-3.5-3.25-3.5z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/><path d="M6.25 12.25h3.5M7 13.75h2" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>`,
+  award: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="6" r="2.75" stroke="currentColor" stroke-width="1.25"/><path d="M6.25 8.25 5.25 13.5l2.75-1.75L10.75 13.5 9.75 8.25" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/></svg>`,
 };
 
 function renderMetaIcon(iconName) {

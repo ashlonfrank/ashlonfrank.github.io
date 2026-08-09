@@ -7,7 +7,7 @@
     "location": "New York",
     "statement": [
       "Product designer, systems thinker, and sometimes a PM: honestly, whatever the work calls for. My experience spans systems-heavy spaces: fintech, loyalty rewards, travel, dining, SMB tools, and architecture + construction.",
-      "I thrive in 0-to-1 product development, and in work that demands strong product thinking and craft. I've done this at companies from 10 to 300,000+ people, across startups and enterprises."
+      "I thrive in 0-to-1 product development and work that demands both product strategy and design craft. I've done this at companies from 10 to 300,000+ people, across startups and enterprises."
     ],
     "hero": [
       "I work on hard problems in complex domains — using design craft",
@@ -40,12 +40,12 @@
   "sections": [
     {
       "id": "chase-travel-redesign",
-      "title": "Chase Travel Redesign",
+      "title": "Chase Travel Homepage",
       "description": [
-        "Chase Travel's homepage was built for exploration, but most visitors arrived with a destination already in mind, exploring in Expedia, Google Flights, etc. Most of the page was discovery content — yet it drove under 0.01% engagement, and 90% of customers said in testing they didn't want it."
+        "Chase Travel serves 80M customers. 90% of customers we interviewed arrived with a destination already in mind and wanted to understand how to get the most from their credit card. Yet the homepage was dominated by generic editorial content with just 0.01% engagement."
       ],
       "description2": [
-        "Working with product and marketing, I redesigned the homepage around value: a hero leading with rewards and redemption, personalized to each customer's card. The redesign also showed the full breadth of what Chase offered — connecting every offering back to the card rewards at the center of Chase Travel's value prop."
+        "I redesigned the homepage around Chase Travel’s core value proposition and competitive advantage: getting more value from their Chase card. Card benefits, next best actions, and relevant recommendations helped turn travel intent into booking action."
       ],
       "metadata": [
         {
@@ -54,58 +54,58 @@
         },
         {
           "icon": "bolt",
-          "text": "Information Architecture / Redesign / Repositioning"
+          "text": "Information Architecture • Growth"
         },
         {
-          "icon": "chart",
-          "text": "—"
+          "icon": "evidence",
+          "text": "24 Customer Interviews • Competitive Analysis"
         }
       ],
       "media": [
         {
           "type": "image",
           "src": "./assets/Onboarding/Chase Travel/01.png?v=425",
-          "alt": "Chase Travel Redesign — 01"
+          "alt": "Chase Travel Homepage — 01"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/Chase Travel/02.png?v=425",
-          "alt": "Chase Travel Redesign — 02"
+          "alt": "Chase Travel Homepage — 02"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/Chase Travel/03.png?v=425",
-          "alt": "Chase Travel Redesign — 03"
+          "alt": "Chase Travel Homepage — 03"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/Chase Travel/04.png?v=425",
-          "alt": "Chase Travel Redesign — 04"
+          "alt": "Chase Travel Homepage — 04"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/Chase Travel/05.png?v=425",
-          "alt": "Chase Travel Redesign — 05"
+          "alt": "Chase Travel Homepage — 05"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/Chase Travel/06.png?v=425",
-          "alt": "Chase Travel Redesign — 06"
+          "alt": "Chase Travel Homepage — 06"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/Chase Travel/07.png?v=425",
-          "alt": "Chase Travel Redesign — 07"
+          "alt": "Chase Travel Homepage — 07"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/Chase Travel/08.png?v=426",
-          "alt": "Chase Travel Redesign — 08"
+          "alt": "Chase Travel Homepage — 08"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/Chase Travel/09.png?v=425",
-          "alt": "Chase Travel Redesign — 09"
+          "alt": "Chase Travel Homepage — 09"
         }
       ]
     },
@@ -113,10 +113,10 @@
       "id": "column",
       "title": "Business Banking Activation",
       "description": [
-        "97% of new SMB customers came from Consumer Banking but entered a completely different experience. Without guidance, many missed critical setup tasks — like funding their account within 60 days to avoid closure, enrolling in fraud protection, limiting activation and product adoption."
+        "97% of new SMB customers came from Consumer Banking but entered a completely different experience. Without guidance, many missed critical setup tasks like funding their account within 60 days and enrolling in fraud protection, limiting activation and product adoption."
       ],
       "description2": [
-        "I designed and shipped Chase Business Banking’s first activation experience: a scalable framework that prioritized high-impact actions through progressive disclosure, behavioral nudges, and a reusable checklist. It launched to all SMB customers and increased checklist engagement by 38%."
+        "I designed and shipped Chase Business Banking’s first activation experience for 7.5M+ customers: a scalable framework that prioritized high-impact actions through progressive disclosure, behavioral nudges, and a reusable checklist."
       ],
       "metadata": [
         {
@@ -129,7 +129,7 @@
         },
         {
           "icon": "chart",
-          "text": "38% Engagement"
+          "text": "38% Checklist Engagement"
         },
         {
           "text": "$5M Projected NPV"
@@ -180,12 +180,12 @@
     },
     {
       "id": "chase-sapphire-dining",
-      "title": "Dining Loyalty, from Scratch.",
+      "title": "Chase Dining",
       "description": [
-        "Chase had no dining loyalty program, even as competitors offered cardholders dedicated dining perks and discovery tools. Sapphire Reserve holders already had a $300 annual dining credit sitting largely unused, with nothing built to help them find where to spend it — a gap the Sapphire team wanted closed, with reservations handled through a network partner rather than built in-house."
+        "Dining is one of the highest-frequency card spend categories, yet Chase had no owned dining discovery experience. I helped launch a 0→1 MVP to validate whether customers would engage with a dedicated dining rewards experience."
       ],
       "description2": [
-        "As sole product designer, I mapped an 18-month vision — rich visuals, ratings, and content pulled from partners like Infatuation — then shipped a lean MVP to test demand, connecting Sapphire holders to exclusive, cardholder-only tables through OpenTable. It became the second-most-used Sapphire Reserve benefit within four months."
+        "3M customers engaged with the MVP, and Dining became the #2 Sapphire Reserve rewards category within four months. Strong adoption helped expand the program from 30 to 60 markets and informed the long-term product vision I drove."
       ],
       "metadata": [
         {
@@ -194,166 +194,196 @@
         },
         {
           "icon": "bolt",
-          "text": "0–1 Product Design"
+          "text": "0→1 • Growth • Product Strategy"
         },
         {
           "icon": "chart",
-          "text": "3M users, second-most-used Sapphire benefit in 4 months. Scaled from 30 to 60 cities in 2 months"
+          "text": "3M Customers Engaged"
+        },
+        {
+          "text": "#2 Rewards Category in 4 Months"
         }
       ],
       "media": [
         {
           "type": "image",
           "src": "./assets/Onboarding/Dining/01.png?v=442",
-          "alt": "Dining Loyalty — 01"
+          "alt": "Chase Dining — 01"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/Dining/2.png?v=442",
-          "alt": "Dining Loyalty — 02"
+          "alt": "Chase Dining — 02"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/Dining/3.png?v=443",
-          "alt": "Dining Loyalty — 03"
+          "alt": "Chase Dining — 03"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/Dining/4.png?v=442",
-          "alt": "Dining Loyalty — 04"
+          "alt": "Chase Dining — 04"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/Dining/5.png?v=442",
-          "alt": "Dining Loyalty — 05"
+          "alt": "Chase Dining — 05"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/Dining/6.png?v=442",
-          "alt": "Dining Loyalty — 06"
+          "alt": "Chase Dining — 06"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/Dining/7.png?v=442",
-          "alt": "Dining Loyalty — 07"
+          "alt": "Chase Dining — 07"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/Dining/8.png?v=442",
-          "alt": "Dining Loyalty — 08"
+          "alt": "Chase Dining — 08"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/Dining/9.png?v=442",
-          "alt": "Dining Loyalty — 09"
+          "alt": "Chase Dining — 09"
         }
       ]
     },
     {
       "id": "runway-ai",
-      "title": "Runway AI",
+      "title": "Building an AI Financial Copilot",
       "description": [
-        "Product design work for Runway — AI-powered creative tools for",
-        "video, image, and generative workflows."
+        "After speaking with hundreds of small business owners, one challenge surfaced repeatedly: predicting cash flow. Financial data was available, but interpreting numbers and graphs wasn’t easy for everyone. I built Runway AI to make that data easier to understand, question, and act on."
       ],
       "description2": [
-        "Product Design / AI /",
-        "UX / Etc."
+        "I took Runway from idea to working product, embedding AI directly into the financial context instead of building another chatbot. Contextual prompts narrow the model’s scope, complex insights expose their reasoning, and AI recommends actions while keeping every financial decision with the user."
+      ],
+      "metadata": [
+        {
+          "icon": "person",
+          "text": "Solo Product Builder"
+        },
+        {
+          "icon": "bolt",
+          "text": "AI Product Design • 0→1 • Full-Stack Build"
+        },
+        {
+          "icon": "terminal",
+          "text": "Plaid • OpenAI • Claude Code"
+        }
       ],
       "media": [
         {
           "type": "image",
           "src": "./assets/Onboarding/RunwayAI/1.png?v=4",
-          "alt": "Runway AI — 01"
+          "alt": "Building an AI Financial Copilot — 01"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/RunwayAI/2.png?v=4",
-          "alt": "Runway AI — 02"
+          "alt": "Building an AI Financial Copilot — 02"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/RunwayAI/3.png?v=4",
-          "alt": "Runway AI — 03"
+          "alt": "Building an AI Financial Copilot — 03"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/RunwayAI/4.png?v=4",
-          "alt": "Runway AI — 04"
+          "alt": "Building an AI Financial Copilot — 04"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/RunwayAI/5.png?v=4",
-          "alt": "Runway AI — 05"
+          "alt": "Building an AI Financial Copilot — 05"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/RunwayAI/6.png?v=4",
-          "alt": "Runway AI — 06"
+          "alt": "Building an AI Financial Copilot — 06"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/RunwayAI/7.png?v=4",
-          "alt": "Runway AI — 07"
+          "alt": "Building an AI Financial Copilot — 07"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/RunwayAI/8.png?v=4",
-          "alt": "Runway AI — 08"
+          "alt": "Building an AI Financial Copilot — 08"
         }
       ]
     },
     {
       "id": "samsung",
-      "title": "Access and Security Manager",
+      "title": "Access & Permissions",
       "description": [
-        "Collection of some old websites I designed for Samsung,",
-        "typically for the launch of their flagship phones, and typically in",
-        "a couple of days from an undisclosed secure location."
+        "As Chase’s small business customers grow, financial management becomes a team effort. But giving employees, accountants, and partners access to business banking introduces significant risk. Complex permissions made it difficult for owners to safely delegate financial access."
       ],
       "description2": [
-        "Web Design"
+        "I designed Chase Business Banking’s 0→1 access management platform, turning complex banking entitlements into clear decisions. Owners could see who had access, control what they could see or move, and safely delegate across accounts, cards, and payments."
+      ],
+      "metadata": [
+        {
+          "icon": "person",
+          "text": "Sole Product Designer"
+        },
+        {
+          "icon": "bolt",
+          "text": "0→1 • Information Architecture"
+        },
+        {
+          "icon": "chart",
+          "text": "73% faster access setup"
+        },
+        {
+          "text": "24% higher task completion"
+        }
       ],
       "media": [
         {
           "type": "image",
           "src": "./assets/Onboarding/ASM/1.png?v=451",
-          "alt": "Access & Security Manager — 01"
+          "alt": "Access & Permissions — 01"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/ASM/2.png?v=451",
-          "alt": "Access & Security Manager — 02"
+          "alt": "Access & Permissions — 02"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/ASM/3.png?v=451",
-          "alt": "Access & Security Manager — 03"
+          "alt": "Access & Permissions — 03"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/ASM/4.png?v=451",
-          "alt": "Access & Security Manager — 04"
+          "alt": "Access & Permissions — 04"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/ASM/5.png?v=451",
-          "alt": "Access & Security Manager — 05"
+          "alt": "Access & Permissions — 05"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/ASM/6.png?v=452",
-          "alt": "Access & Security Manager — 06"
+          "alt": "Access & Permissions — 06"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/ASM/7.png?v=452",
-          "alt": "Access & Security Manager — 07"
+          "alt": "Access & Permissions — 07"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/ASM/8.png?v=451",
-          "alt": "Access & Security Manager — 08"
+          "alt": "Access & Permissions — 08"
         }
       ]
     },
@@ -361,12 +391,24 @@
       "id": "klifra-step",
       "title": "Klifra Step",
       "description": [
-        "A collection of random sites and side projects from over the",
-        "years. Some client work, some personal, some just for fun."
+        "Existing truck-bed steps were slow, cumbersome, and often bypassed altogether, leading operators to climb or jump from five-foot beds. For fleet operators, that meant preventable injuries, downtime, and workers’ compensation costs."
       ],
       "description2": [
-        "Web Design / Brand / Illustration /",
-        "Etc."
+        "I led customer discovery, product strategy, and pricing strategy, partnering with engineers to turn those insights into Klifra. The automated system cut truck-bed access from 39 to 7 seconds, maintained three points of contact, and differentiated from cheaper manual competitors through speed, safety, and ease of use."
+      ],
+      "metadata": [
+        {
+          "icon": "person",
+          "text": "Product Manager"
+        },
+        {
+          "icon": "bolt",
+          "text": "Customer Discovery • Product Strategy • 0→1 Product Development"
+        },
+        {
+          "icon": "innovation",
+          "text": "Patented • US 12,233,818 B2"
+        }
       ],
       "media": [
         {
@@ -443,60 +485,76 @@
     },
     {
       "id": "webflow-dot-com",
-      "title": "Spatial Design",
+      "title": "Architecture & Spatial Design",
       "description": [
-        "Marketing site work for webflow.com — landing pages, feature",
-        "sections, and campaign pages built in Webflow."
+        "Seven years as a practicing architect across India, Kuwait, Japan, and Portugal. I worked across scales, from installations and interiors to homes, hospitals, institutions, and urban-scale projects, taking projects from early concepts through design development and construction."
       ],
       "description2": [
-        "Web Design / Marketing /",
-        "Animation / Etc."
+        "As a project architect, I developed spatial concepts, computational studies, 3D models, technical drawings, material and fabrication systems, and construction documentation. I coordinated with engineers, consultants, contractors, and clients to resolve constraints and get projects built."
+      ],
+      "metadata": [
+        {
+          "icon": "person",
+          "text": "Licensed Project Architect"
+        },
+        {
+          "icon": "bolt",
+          "text": "Concept → Construction"
+        },
+        {
+          "icon": "tools",
+          "text": "Revit • AutoCAD • Rhino • ArchiCAD • SketchUp"
+        },
+        {
+          "icon": "award",
+          "text": "Internationally Award-Winning Work • Dezeen • Architizer • WAF"
+        }
       ],
       "media": [
         {
           "type": "image",
           "src": "./assets/Onboarding/architecture-graphics/1.png?v=460",
-          "alt": "Spatial Design — 1"
+          "alt": "Architecture & Spatial Design — 1"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/architecture-graphics/2.png?v=460",
-          "alt": "Spatial Design — 2"
+          "alt": "Architecture & Spatial Design — 2"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/architecture-graphics/3.png?v=460",
-          "alt": "Spatial Design — 3"
+          "alt": "Architecture & Spatial Design — 3"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/architecture-graphics/4.png?v=460",
-          "alt": "Spatial Design — 4"
+          "alt": "Architecture & Spatial Design — 4"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/architecture-graphics/5.png?v=460",
-          "alt": "Spatial Design — 5"
+          "alt": "Architecture & Spatial Design — 5"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/architecture-graphics/6.png?v=460",
-          "alt": "Spatial Design — 6"
+          "alt": "Architecture & Spatial Design — 6"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/architecture-graphics/7.png?v=460",
-          "alt": "Spatial Design — 7"
+          "alt": "Architecture & Spatial Design — 7"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/architecture-graphics/8.png?v=460",
-          "alt": "Spatial Design — 8"
+          "alt": "Architecture & Spatial Design — 8"
         },
         {
           "type": "image",
           "src": "./assets/Onboarding/architecture-graphics/9.png?v=460",
-          "alt": "Spatial Design — 9"
+          "alt": "Architecture & Spatial Design — 9"
         }
       ]
     },
