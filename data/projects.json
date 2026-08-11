@@ -40,7 +40,7 @@
   "sections": [
     {
       "id": "chase-travel-redesign",
-      "title": "Chase Travel Home",
+      "title": "Travel Platform Redesign",
       "description": [
         "Chase Travel serves 80M customers. 90% of customers arrived at Chase with a destination already in mind and wanted to understand how to get the most from their credit card. Yet the homepage was dominated by generic editorial content with just 0.01% engagement."
       ],
@@ -54,7 +54,7 @@
         },
         {
           "icon": "work",
-          "text": "Information Architecture • Growth"
+          "text": "Platform Redesign • Product Strategy"
         },
         {
           "icon": "discovery",
@@ -111,7 +111,7 @@
     },
     {
       "id": "column",
-      "title": "Business Banking Activation",
+      "title": "Banking Onboarding",
       "description": [
         "99% of business banking customers at Chase migrated from consumer accounts. Without guidance, many missed critical setup tasks like funding their account within 60 days and enrolling in fraud protection, limiting activation and product adoption."
       ],
@@ -180,7 +180,7 @@
     },
     {
       "id": "chase-sapphire-dining",
-      "title": "Chase Dining",
+      "title": "Dining Discovery",
       "description": [
         "Dining is one of the highest-frequency card spend categories, and Chase had not owned dining. I helped launch a 0→1 MVP to validate whether customers would engage with a dedicated dining rewards experience."
       ],
@@ -194,7 +194,7 @@
         },
         {
           "icon": "work",
-          "text": "0→1 • Growth • Product Strategy"
+          "text": "0→1 • Product Strategy"
         },
         {
           "icon": "metrics",
@@ -334,7 +334,7 @@
         },
         {
           "icon": "work",
-          "text": "0→1 • Information Architecture"
+          "text": "0→1 • Platform Redesign"
         },
         {
           "icon": "metrics",
