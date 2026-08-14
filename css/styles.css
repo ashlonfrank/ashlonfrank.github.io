@@ -1553,7 +1553,7 @@ html.lenis body.is-lightbox-open {
   text-decoration: none;
   cursor: pointer;
   opacity: 1;
-  transition: opacity 160ms var(--ease-out), transform 120ms var(--ease-out);
+  transition: opacity 160ms var(--ease-out);
 }
 
 .about__contact-link[hidden] {
@@ -1572,10 +1572,6 @@ html.lenis body.is-lightbox-open {
   .about__contact-link:hover {
     opacity: 0.55;
   }
-}
-
-.about__contact-link:active {
-  transform: scale(0.92);
 }
 
 .about__line {

@@ -38,7 +38,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=project-titles-1");
+  const response = await fetch("./data/projects.json?v=access-permissions-copy-1");
   const data = await response.json();
 
   getPublishedSections(data.sections).forEach((section) => {
