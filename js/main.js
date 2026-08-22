@@ -38,7 +38,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=youtube-tile-1");
+  const response = await fetch("./data/projects.json?v=youtube-poster-1");
   const data = await response.json();
 
   getPublishedSections(data.sections).forEach((section) => {
@@ -1872,7 +1872,9 @@ function buildYoutubeTileHtml(media, label) {
   }
 
   const alt = escapeHtml(media.alt || label);
-  const thumb = escapeHtml(`https://i.ytimg.com/vi/${id}/hqdefault.jpg`);
+  const thumb = media.poster
+    ? escapeHtml(media.poster)
+    : escapeHtml(`https://i.ytimg.com/vi/${id}/hqdefault.jpg`);
 
   return `
     <div class="tile-inner__media tile-youtube" data-youtube-id="${escapeHtml(id)}" role="img" aria-label="${alt}">
