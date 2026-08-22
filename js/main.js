@@ -38,7 +38,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=access-permissions-copy-1");
+  const response = await fetch("./data/projects.json?v=youtube-tile-1");
   const data = await response.json();
 
   getPublishedSections(data.sections).forEach((section) => {
@@ -1765,8 +1765,8 @@ function renderMetaTags(metadata) {
 function buildSection(section) {
   const article = document.createElement("article");
   article.className = "project";
-  if (section.id === "klifra-step") {
-    article.classList.add("project--klifra");
+  if (section.id === "kap-klimber") {
+    article.classList.add("project--kap-klimber");
   }
 
   article.innerHTML = `
@@ -1830,9 +1830,20 @@ function getTileMediaItem(section, index) {
   return section.media?.[index] ?? null;
 }
 
+function extractYoutubeId(media) {
+  if (!media) return null;
+  if (media.youtubeId) return String(media.youtubeId).trim();
+  if (!media.src) return null;
+  const match = String(media.src).match(
+    /(?:youtube\.com\/(?:watch\?.*v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/,
+  );
+  return match?.[1] ?? null;
+}
+
 function resolveMediaType(item) {
   if (!item) return null;
   if (item.type === "gif-grid") return "gif-grid";
+  if (item.type === "youtube" || extractYoutubeId(item)) return "youtube";
   if (!item.src) return null;
   if (item.type === "video") return "video";
   if (item.type === "image") return "image";
@@ -1854,6 +1865,23 @@ function buildGifGridHtml(media, label) {
   return `<div class="tile-inner__media tile-gif-grid" role="img" aria-label="${alt}"><div class="tile-gif-grid__inner">${cells}</div></div>`;
 }
 
+function buildYoutubeTileHtml(media, label) {
+  const id = extractYoutubeId(media);
+  if (!id) {
+    return '<span class="tile-inner__placeholder" aria-hidden="true"></span>';
+  }
+
+  const alt = escapeHtml(media.alt || label);
+  const thumb = escapeHtml(`https://i.ytimg.com/vi/${id}/hqdefault.jpg`);
+
+  return `
+    <div class="tile-inner__media tile-youtube" data-youtube-id="${escapeHtml(id)}" role="img" aria-label="${alt}">
+      <img class="tile-youtube__thumb" src="${thumb}" alt="" loading="lazy" decoding="async" />
+      <span class="tile-youtube__play" aria-hidden="true"></span>
+    </div>
+  `.trim();
+}
+
 function buildTileMediaHtml(media, label) {
   if (!media) {
     return '<span class="tile-inner__placeholder" aria-hidden="true"></span>';
@@ -1862,6 +1890,10 @@ function buildTileMediaHtml(media, label) {
   const type = resolveMediaType(media);
   if (type === "gif-grid") {
     return buildGifGridHtml(media, label);
+  }
+
+  if (type === "youtube") {
+    return buildYoutubeTileHtml(media, label);
   }
 
   if (!media.src) {
@@ -1882,6 +1914,7 @@ function buildTileMediaHtml(media, label) {
 function hasTileMedia(item) {
   if (!item) return false;
   if (item.type === "gif-grid") return Array.isArray(item.items) && item.items.length > 0;
+  if (item.type === "youtube" || extractYoutubeId(item)) return Boolean(extractYoutubeId(item));
   return Boolean(item.src);
 }
 
@@ -1960,9 +1993,11 @@ async function prepareLightboxMedia(node) {
 
 function preloadTileMedia(tile) {
   const source = tile?.querySelector(".tile-inner__media");
-  if (!source || source.tagName !== "IMG") return;
-  const img = new Image();
-  img.src = source.currentSrc || source.src;
+  if (!source) return;
+  const img = source.tagName === "IMG" ? source : source.querySelector("img");
+  if (!img) return;
+  const preload = new Image();
+  preload.src = img.currentSrc || img.src;
 }
 
 function createLightboxMedia(tile) {
@@ -1974,12 +2009,27 @@ function createLightboxMedia(tile) {
     return placeholder;
   }
 
-  const contain = Boolean(tile.closest(".project--klifra"));
+  const contain = Boolean(tile.closest(".project--kap-klimber"));
 
   if (source.classList.contains("tile-gif-grid")) {
     const grid = source.cloneNode(true);
     grid.classList.add("lightbox__media", "lightbox__media--contain");
     return grid;
+  }
+
+  if (source.classList.contains("tile-youtube")) {
+    const id = source.dataset.youtubeId;
+    const wrapper = document.createElement("div");
+    wrapper.className = "lightbox__media lightbox__media--youtube";
+    const iframe = document.createElement("iframe");
+    iframe.src = `https://www.youtube.com/embed/${encodeURIComponent(id)}?autoplay=1&rel=0&modestbranding=1`;
+    iframe.allow =
+      "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    iframe.referrerPolicy = "strict-origin-when-cross-origin";
+    iframe.allowFullscreen = true;
+    iframe.title = source.getAttribute("aria-label") || "YouTube video";
+    wrapper.appendChild(iframe);
+    return wrapper;
   }
 
   if (source.tagName === "VIDEO") {

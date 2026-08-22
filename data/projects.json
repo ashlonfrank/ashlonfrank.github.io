@@ -388,8 +388,8 @@
       ]
     },
     {
-      "id": "klifra-step",
-      "title": "Klifra Step",
+      "id": "kap-klimber",
+      "title": "Kap Klimber",
       "description": [
         "Existing truck-bed steps were slow, cumbersome, and often bypassed altogether, leading operators to climb or jump from five-foot beds. For fleet operators, that meant preventable injuries, downtime, and workers’ compensation costs."
       ],
@@ -413,73 +413,73 @@
       "media": [
         {
           "type": "video",
-          "src": "./assets/Onboarding/Klifra/01.mp4?v=448",
-          "alt": "Klifra Step — 01"
+          "src": "./assets/Onboarding/Kap Klimber/01.mp4?v=448",
+          "alt": "Kap Klimber — 01"
+        },
+        {
+          "type": "youtube",
+          "youtubeId": "bgexuQ71t2E",
+          "alt": "Kap Klimber — 02"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/Klifra/02.png?v=448",
-          "alt": "Klifra Step — 02"
+          "src": "./assets/Onboarding/Kap Klimber/03.png?v=448",
+          "alt": "Kap Klimber — 03"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/Klifra/03.png?v=448",
-          "alt": "Klifra Step — 03"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/Klifra/04.png?v=448",
-          "alt": "Klifra Step — 04"
+          "src": "./assets/Onboarding/Kap Klimber/04.png?v=448",
+          "alt": "Kap Klimber — 04"
         },
         {
           "type": "gif-grid",
-          "alt": "Klifra Step — 05",
+          "alt": "Kap Klimber — 05",
           "items": [
             {
-              "src": "./assets/Onboarding/Klifra/gif-01.gif?v=448",
-              "alt": "Klifra Step — gif 01"
+              "src": "./assets/Onboarding/Kap Klimber/gif-01.gif?v=448",
+              "alt": "Kap Klimber — gif 01"
             },
             {
-              "src": "./assets/Onboarding/Klifra/gif-02.gif?v=448",
-              "alt": "Klifra Step — gif 02"
+              "src": "./assets/Onboarding/Kap Klimber/gif-02.gif?v=448",
+              "alt": "Kap Klimber — gif 02"
             },
             {
-              "src": "./assets/Onboarding/Klifra/gif-03.gif?v=448",
-              "alt": "Klifra Step — gif 03"
+              "src": "./assets/Onboarding/Kap Klimber/gif-03.gif?v=448",
+              "alt": "Kap Klimber — gif 03"
             },
             {
-              "src": "./assets/Onboarding/Klifra/gif-04.gif?v=448",
-              "alt": "Klifra Step — gif 04"
+              "src": "./assets/Onboarding/Kap Klimber/gif-04.gif?v=448",
+              "alt": "Kap Klimber — gif 04"
             },
             {
-              "src": "./assets/Onboarding/Klifra/gif-05.gif?v=448",
-              "alt": "Klifra Step — gif 05"
+              "src": "./assets/Onboarding/Kap Klimber/gif-05.gif?v=448",
+              "alt": "Kap Klimber — gif 05"
             },
             {
-              "src": "./assets/Onboarding/Klifra/gif-06.gif?v=448",
-              "alt": "Klifra Step — gif 06"
+              "src": "./assets/Onboarding/Kap Klimber/gif-06.gif?v=448",
+              "alt": "Kap Klimber — gif 06"
             }
           ]
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/Klifra/06.png?v=448",
-          "alt": "Klifra Step — 06"
+          "src": "./assets/Onboarding/Kap Klimber/06.png?v=448",
+          "alt": "Kap Klimber — 06"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/Klifra/07.png?v=475",
-          "alt": "Klifra Step — 07"
+          "src": "./assets/Onboarding/Kap Klimber/07.png?v=475",
+          "alt": "Kap Klimber — 07"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/Klifra/08.png?v=475",
-          "alt": "Klifra Step — 08"
+          "src": "./assets/Onboarding/Kap Klimber/08.png?v=475",
+          "alt": "Kap Klimber — 08"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/Klifra/09.png?v=449",
-          "alt": "Klifra Step — 09"
+          "src": "./assets/Onboarding/Kap Klimber/09.png?v=449",
+          "alt": "Kap Klimber — 09"
         }
       ]
     },

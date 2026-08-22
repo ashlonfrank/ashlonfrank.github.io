@@ -979,21 +979,67 @@ html.hero--bleed .hero__copy {
   background-color: var(--color-tile-fill);
 }
 
-/* Klifra — black empty tiles; video letterboxed to full height */
-.project--klifra .tile-inner,
-.project--klifra .tile-inner:active,
-.project--klifra .tile-inner:focus-visible,
-.project--klifra .tile-inner__placeholder {
+/* Kap Klimber — black empty tiles; video letterboxed to full height */
+.project--kap-klimber .tile-inner,
+.project--kap-klimber .tile-inner:active,
+.project--kap-klimber .tile-inner:focus-visible,
+.project--kap-klimber .tile-inner__placeholder {
   background-color: #000000;
 }
 
-.project--klifra .tile-inner__media {
+.project--kap-klimber .tile-inner__media {
   object-fit: contain;
   object-position: center;
 }
 
+.project--kap-klimber .tile-youtube__thumb {
+  object-fit: contain;
+  object-position: center;
+}
+
+/* YouTube tile — thumbnail + play affordance in grid; iframe in lightbox */
+.tile-youtube {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: #000000;
+}
+
+.tile-youtube__thumb {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+}
+
+.tile-youtube__play {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.58);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+  pointer-events: none;
+}
+
+.tile-youtube__play::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 54%;
+  transform: translate(-50%, -50%);
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-left: 11px solid rgba(255, 255, 255, 0.94);
+}
+
 /* 6 GIFs — 3×2, zero gap, centered in the black tile with inset */
-.project--klifra .tile-inner:has(.tile-gif-grid) {
+.project--kap-klimber .tile-inner:has(.tile-gif-grid) {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1212,7 +1258,8 @@ html.hero--bleed .hero__copy {
 }
 
 .lightbox__frame:has(video),
-.lightbox__frame:has(.lightbox__media--contain) {
+.lightbox__frame:has(.lightbox__media--contain),
+.lightbox__frame:has(.lightbox__media--youtube) {
   background: #000000;
 }
 
@@ -1228,6 +1275,25 @@ html.hero--bleed .hero__copy {
 .lightbox video.lightbox__media {
   object-fit: contain;
   background-color: #000000;
+}
+
+.lightbox__media--youtube {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: #000000;
+  pointer-events: auto;
+}
+
+.lightbox__media--youtube iframe {
+  border: 0;
+  aspect-ratio: 16 / 9;
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .lightbox__placeholder {
