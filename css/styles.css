@@ -52,18 +52,19 @@
 
   /* Typography */
   --font-sans: "Untitled Sans", system-ui, sans-serif;
-  --text-nav: 13px;
-  --text-nav-lh: 13px;
+  --text-nav: 14px;
+  --text-nav-lh: 14px;
   --hero-statement-size: 24px;
   --hero-statement-lh: 28px;
-  --text-meta: 12.6px;
+  --text-meta: 13px;
   --text-meta-lh: 19.5px;
   --meta-icon-size: 12px;
   --text-title: 56px;
   --text-title-lh: 48px;
   --text-title-tracking: -3px;
   --text-switcher: 24px;
-  --text-footer: 12.8px;
+  --text-footer: 12px;
+  --text-footer-lh: 12px;
 
   /* Motion — instant for high-frequency switcher (Emil: no anim on repeated actions) */
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
@@ -218,10 +219,18 @@ button:focus-visible {
   align-items: center;
 }
 
-.nav__brand {
-  grid-column: 1 / span var(--sidebar-cols);
+.nav__brand,
+.nav__role,
+.nav__link {
   font-size: var(--text-nav);
   line-height: var(--text-nav-lh);
+  margin: 0;
+  padding: 0;
+}
+
+.nav__brand {
+  grid-column: 1 / span var(--sidebar-cols);
+  align-self: center;
   color: var(--color-text);
   text-decoration: none;
   cursor: pointer;
@@ -232,14 +241,14 @@ button:focus-visible {
 .nav__role {
   grid-column: 5;
   justify-self: start;
+  align-self: center;
   width: max-content;
-  font-size: var(--text-nav);
-  line-height: var(--text-nav-lh);
 }
 
 .nav__end {
   grid-column: 9 / -1;
   justify-self: end;
+  align-self: center;
   display: flex;
   align-items: center;
   gap: 24px;
@@ -247,6 +256,7 @@ button:focus-visible {
 
 .nav__links {
   display: flex;
+  align-items: center;
   justify-content: flex-end;
   gap: 24px;
   list-style: none;
@@ -254,13 +264,19 @@ button:focus-visible {
   padding: 0;
 }
 
+.nav__links li {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  line-height: var(--text-nav-lh);
+}
+
 .nav__item--deferred[hidden] {
   display: none !important;
 }
 
 .nav__link {
-  font-size: var(--text-nav);
-  line-height: var(--text-nav-lh);
   color: var(--color-text);
   text-decoration: none;
   cursor: pointer;
@@ -359,6 +375,16 @@ button:focus-visible {
 
 .hero__statement p:last-child {
   margin-bottom: 0;
+}
+
+/* Hero statement experiment — revert: set HERO_STATEMENT_FULLWIDTH_EXPERIMENT = false in main.js */
+html.hero-statement--fullwidth {
+  --hero-statement-size: 14px;
+  --hero-statement-lh: 1.5;
+}
+
+html.hero-statement--fullwidth .hero__statement p:first-child {
+  font-weight: 400;
 }
 
 .hero__hit {
@@ -1360,7 +1386,7 @@ html.lenis body.is-lightbox-open {
   justify-self: start;
   align-self: start;
   font-size: var(--text-footer);
-  line-height: var(--text-meta-lh);
+  line-height: var(--text-footer-lh);
 }
 
 .footer__peek-inner .footer__social-link {
@@ -1369,7 +1395,7 @@ html.lenis body.is-lightbox-open {
   justify-self: center;
   align-self: start;
   font-size: var(--text-footer);
-  line-height: var(--text-meta-lh);
+  line-height: var(--text-footer-lh);
   color: var(--color-text);
   opacity: 1;
   transition: opacity 160ms var(--ease-out), transform 120ms var(--ease-out);
@@ -1405,7 +1431,7 @@ html.lenis body.is-lightbox-open {
   display: inline-flex;
   align-items: flex-start;
   gap: 2px;
-  line-height: var(--text-meta-lh);
+  line-height: var(--text-footer-lh);
 }
 
 .footer__peek-inner .footer__credit {
@@ -1425,7 +1451,7 @@ html.lenis body.is-lightbox-open {
   width: var(--meta-icon-size);
   height: var(--meta-icon-size);
   padding: 0;
-  margin: calc((var(--text-meta-lh) - var(--meta-icon-size)) / 2) 0 0;
+  margin: calc((var(--text-footer-lh) - var(--meta-icon-size)) / 2) 0 0;
   border: 0;
   background: transparent;
   color: var(--color-text);
@@ -1538,12 +1564,12 @@ html.lenis body.is-lightbox-open {
 
 .footer__note {
   font-size: var(--text-footer);
-  line-height: var(--text-meta-lh);
+  line-height: var(--text-footer-lh);
 }
 
 .footer__credit {
   font-size: var(--text-footer);
-  line-height: var(--text-meta-lh);
+  line-height: var(--text-footer-lh);
   color: inherit;
   text-decoration: none;
   cursor: pointer;
@@ -1597,8 +1623,8 @@ html.lenis body.is-lightbox-open {
   flex-direction: column;
   gap: 4px;
   margin: 0;
-  font-size: var(--text-nav);
-  line-height: var(--text-nav-lh);
+  font-size: var(--text-footer);
+  line-height: var(--text-footer-lh);
   pointer-events: auto;
   transition: opacity 180ms var(--ease-out), visibility 180ms var(--ease-out);
 }
@@ -1607,11 +1633,11 @@ html.lenis body.is-lightbox-open {
   display: inline-flex;
   align-items: flex-start;
   gap: 2px;
-  line-height: var(--text-nav-lh);
+  line-height: var(--text-footer-lh);
 }
 
 .about__email-group .footer__copy {
-  margin-top: calc((var(--text-nav-lh) - var(--meta-icon-size)) / 2);
+  margin-top: calc((var(--text-footer-lh) - var(--meta-icon-size)) / 2);
 }
 
 .about__contact-link {

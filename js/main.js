@@ -7,6 +7,9 @@ import { initNavBrand } from "./site-nav.js";
 import { initFooter } from "./footer.js";
 import { initHeroIntro } from "./hero-intro.js";
 
+/** Revert experiment: set false + remove `hero-statement--fullwidth` CSS block. */
+const HERO_STATEMENT_FULLWIDTH_EXPERIMENT = true;
+
 const landingSettleHandlers = new Set();
 
 function notifyLandingSettle(targetY) {
@@ -38,7 +41,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=youtube-poster-1");
+  const response = await fetch("./data/projects.json?v=hero-copy-1");
   const data = await response.json();
 
   getPublishedSections(data.sections).forEach((section) => {
@@ -128,6 +131,11 @@ function initHeroStatement(site) {
     .map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`)
     .join("")}</div></div>`;
 
+  document.documentElement.classList.toggle(
+    "hero-statement--fullwidth",
+    HERO_STATEMENT_FULLWIDTH_EXPERIMENT
+  );
+
   measureHeroStatementPosition();
 }
 
@@ -201,6 +209,37 @@ function measureHeroStatementPosition() {
   if (!shell || !statement) return;
 
   const shellRect = shell.getBoundingClientRect();
+  const stickyTop = readCssPx("--sticky-top", 40);
+  const gap = readCssPx("--header-text-gap", 16);
+  const statementHeight = statement.offsetHeight;
+
+  if (HERO_STATEMENT_FULLWIDTH_EXPERIMENT) {
+    const leftAnchor = getHeroStatementBrandAnchor();
+    const rightAnchor = getHeroStatementAboutAnchor();
+
+    const left = leftAnchor
+      ? Math.round(leftAnchor.getBoundingClientRect().left)
+      : Math.round(shellRect.left);
+    const right = rightAnchor
+      ? Math.round(rightAnchor.getBoundingClientRect().right)
+      : Math.round(shellRect.right);
+    const width = Math.max(0, right - left);
+    const shellOffset = left - shellRect.left;
+
+    shell.style.marginLeft = shellOffset > 0 ? `${shellOffset}px` : "0";
+    shell.style.width = `${width}px`;
+    shell.style.maxWidth = `${width}px`;
+
+    document.documentElement.style.setProperty("--hero-statement-fixed-width", `${width}px`);
+    document.documentElement.style.setProperty("--hero-statement-fixed-left", `${left}px`);
+    document.documentElement.style.setProperty(
+      "--hero-statement-top",
+      `${Math.round(stickyTop + gap)}px`
+    );
+    shell.style.minHeight = `${statementHeight}px`;
+    return;
+  }
+
   const leftAnchor = getHeroStatementLeftAnchor();
   const rightAnchor = getHeroStatementRightAnchor();
 
@@ -220,9 +259,6 @@ function measureHeroStatementPosition() {
   document.documentElement.style.setProperty("--hero-statement-fixed-width", `${width}px`);
   document.documentElement.style.setProperty("--hero-statement-fixed-left", `${left}px`);
 
-  const stickyTop = readCssPx("--sticky-top", 40);
-  const gap = readCssPx("--header-text-gap", 16);
-  const statementHeight = statement.offsetHeight;
   let top;
 
   if (isStackedLayout()) {
