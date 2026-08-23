@@ -41,7 +41,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=hero-copy-1");
+  const response = await fetch("./data/projects.json?v=hero-copy-2");
   const data = await response.json();
 
   getPublishedSections(data.sections).forEach((section) => {
