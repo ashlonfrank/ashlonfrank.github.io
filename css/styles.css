@@ -383,8 +383,10 @@ html.hero-statement--fullwidth {
   --hero-statement-lh: 1.5;
 }
 
-html.hero-statement--fullwidth .hero__statement p:first-child {
-  font-weight: 400;
+html.hero-statement--fullwidth .hero__statement,
+html.hero-statement--fullwidth .hero__statement p {
+  font-family: var(--font-sans);
+  font-weight: 500;
 }
 
 .hero__hit {

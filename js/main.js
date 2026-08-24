@@ -6,6 +6,7 @@ import Lenis from "./vendor/lenis.mjs";
 import { initNavBrand } from "./site-nav.js";
 import { initFooter } from "./footer.js";
 import { initHeroIntro } from "./hero-intro.js";
+import { initHomepageAnalytics, trackProjectImageOpened } from "./analytics.js";
 
 /** Revert experiment: set false + remove `hero-statement--fullwidth` CSS block. */
 const HERO_STATEMENT_FULLWIDTH_EXPERIMENT = true;
@@ -41,7 +42,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=hero-copy-14");
+  const response = await fetch("./data/projects.json?v=hero-copy-19");
   const data = await response.json();
 
   getPublishedSections(data.sections).forEach((section) => {
@@ -92,6 +93,11 @@ async function init() {
 
   endCalibration(scroll);
   cachedLayoutMode = syncLayoutMode();
+
+  initHomepageAnalytics({
+    getScrollY: () => getActiveScrollY(scroll),
+    onScroll: (handler) => scroll.onScroll(handler),
+  });
 }
 
 function getTabletRuleTop(project) {
@@ -1801,6 +1807,8 @@ function renderMetaTags(metadata) {
 function buildSection(section) {
   const article = document.createElement("article");
   article.className = "project";
+  if (section.id) article.dataset.projectId = section.id;
+  if (section.title) article.dataset.projectName = section.title;
   if (section.id === "kap-klimber") {
     article.classList.add("project--kap-klimber");
   }
@@ -1956,6 +1964,21 @@ function hasTileMedia(item) {
   return Boolean(item.src);
 }
 
+function stableImageId(mediaItem, index) {
+  if (!mediaItem) return `tile-${index}`;
+  if (mediaItem.type === "gif-grid") return `gif-grid-${index}`;
+
+  const youtubeId = extractYoutubeId(mediaItem);
+  if (youtubeId) return `yt-${youtubeId}`;
+
+  if (mediaItem.src) {
+    const file = String(mediaItem.src).split("?")[0].split("/").pop();
+    if (file) return file;
+  }
+
+  return `tile-${index}`;
+}
+
 function renderTileWrap(index, label, mediaItem) {
   return `
       <div class="tile-wrap">
@@ -1963,6 +1986,7 @@ function renderTileWrap(index, label, mediaItem) {
           type="button"
           class="tile-inner"
           data-tile-index="${index}"
+          data-image-id="${escapeHtml(stableImageId(mediaItem, index))}"
           aria-label="View ${escapeHtml(label)}"
         >
           ${buildTileMediaHtml(mediaItem, label)}
@@ -2145,6 +2169,7 @@ function initTileLightbox(scroll) {
   const openLightbox = async (tile) => {
     activeTile = tile;
     tile.classList.add("is-lightbox-source");
+    trackProjectImageOpened(tile);
     await renderStage(tile);
     preloadAdjacentTiles(tile);
     lightbox.hidden = false;

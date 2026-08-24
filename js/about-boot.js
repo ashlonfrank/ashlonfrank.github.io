@@ -2,6 +2,7 @@ import Lenis from "./vendor/lenis.mjs";
 import { initNavBrand } from "./site-nav.js";
 import { bindCopyEmail } from "./copy-email.js";
 import { initFooter } from "./footer.js";
+import { initPageAnalytics } from "./analytics.js";
 
 const MOBILE_MQ = "(max-width: 900px)";
 
@@ -172,6 +173,7 @@ function initAboutContactScroll() {
 }
 
 async function boot() {
+  initPageAnalytics({ page: "about" });
   const contactScroll = initAboutContactScroll();
 
   try {

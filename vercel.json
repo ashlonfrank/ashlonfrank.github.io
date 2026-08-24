@@ -1,6 +1,6 @@
 {
   "installCommand": "echo 'static site — no install'",
-  "buildCommand": "echo 'static site — no build'",
+  "buildCommand": "node scripts/write-mixpanel-config.js",
   "outputDirectory": ".",
   "headers": [
     {

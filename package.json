@@ -2,6 +2,7 @@
   "name": "2026-portfolio",
   "private": true,
   "scripts": {
-    "build": "echo 'Static portfolio — no build step'"
+    "build": "node scripts/write-mixpanel-config.js",
+    "write-env": "node scripts/write-mixpanel-config.js"
   }
 }

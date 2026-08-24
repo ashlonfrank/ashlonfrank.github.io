@@ -1,3 +1,5 @@
+import { trackEmailCopied } from "./analytics.js";
+
 /** Bind a copy button to write an email address to the clipboard. */
 export function bindCopyEmail(copyBtn, email) {
   if (!copyBtn || !email) return;
@@ -7,6 +9,7 @@ export function bindCopyEmail(copyBtn, email) {
   copyBtn.addEventListener("click", async () => {
     try {
       await navigator.clipboard.writeText(email);
+      trackEmailCopied();
       copyBtn.classList.add("is-copied");
       copyBtn.setAttribute("aria-label", "Email copied");
 
