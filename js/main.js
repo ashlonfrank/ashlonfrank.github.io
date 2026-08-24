@@ -617,6 +617,49 @@ function initHeaderCover(scroll) {
   window.addEventListener("resize", update);
 }
 
+function getHeroStatementHideThreshold(statement) {
+  const bandBottom = statement.getBoundingClientRect().bottom;
+  const paragraph = statement.querySelector("p");
+  const textNode = paragraph?.firstChild;
+
+  if (!textNode || textNode.nodeType !== Node.TEXT_NODE) return bandBottom;
+
+  const range = document.createRange();
+  const text = textNode.textContent;
+  let firstLineTop = null;
+
+  for (let i = 1; i <= text.length; i += 1) {
+    range.setStart(textNode, 0);
+    range.setEnd(textNode, i);
+    const rects = range.getClientRects();
+    if (!rects.length) continue;
+
+    const top = Math.round(rects[rects.length - 1].top);
+    if (firstLineTop === null) {
+      firstLineTop = top;
+      continue;
+    }
+
+    if (top !== firstLineTop) {
+      // Hide once the divider reaches the last line — never mid-word on line 2.
+      return top;
+    }
+  }
+
+  return bandBottom;
+}
+
+function getProjectCoverTop(firstProject, titleRow) {
+  const titleTop = titleRow.getBoundingClientRect().top;
+  const meta = firstProject.querySelector(".project__meta");
+
+  if (!meta || isStackedLayout()) {
+    return titleTop - readCssPx("--header-text-gap", 16);
+  }
+
+  return Math.min(titleTop, meta.getBoundingClientRect().top);
+}
+
 function initHeroStatementCover(scroll) {
   const hero = document.getElementById("intro");
   const statement = hero?.querySelector(".hero__statement");
@@ -637,9 +680,9 @@ function initHeroStatementCover(scroll) {
       return;
     }
 
-    const titleTop = titleRow.getBoundingClientRect().top;
-    const bandBottom = getHeroStatementBandBottom();
-    const covered = titleTop <= bandBottom;
+    const coverTop = getProjectCoverTop(firstProject, titleRow);
+    const hideAt = getHeroStatementHideThreshold(statement);
+    const covered = coverTop <= hideAt;
 
     if (isStackedLayout()) {
       hero.classList.toggle("is-statement-hidden", covered);
