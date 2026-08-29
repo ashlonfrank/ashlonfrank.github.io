@@ -42,7 +42,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=hero-copy-19");
+  const response = await fetch("./data/projects.json?v=banking-97-1");
   const data = await response.json();
 
   getPublishedSections(data.sections).forEach((section) => {

@@ -112,7 +112,7 @@
       "id": "column",
       "title": "Banking Onboarding",
       "description": [
-        "99% of business banking customers at Chase migrated from consumer accounts. Without guidance, many missed critical setup tasks like funding their account within 60 days and enrolling in fraud protection, limiting activation and product adoption."
+        "97% of business banking customers at Chase migrated from consumer accounts. Without guidance, many missed critical setup tasks like funding their account within 60 days and enrolling in fraud protection, limiting activation and product adoption."
       ],
       "description2": [
         "I designed and shipped Chase Business Banking’s first activation experience for 7.5M+ customers: a scalable framework that prioritized high-impact actions through progressive disclosure, behavioral nudges, and a reusable checklist."
