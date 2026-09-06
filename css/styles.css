@@ -406,6 +406,27 @@ html.hero-statement--fullwidth .hero__statement {
   padding-bottom: 0;
 }
 
+@media (max-width: 1023px) {
+  html.hero-statement--fullwidth {
+    --hero-statement-size: var(--text-nav);
+    --hero-statement-lh: calc(var(--text-nav) * 1.55);
+    --hero-statement-tracking: normal;
+  }
+
+  html.hero-statement--fullwidth .hero__statement-shell {
+    grid-column: 1 / -1;
+  }
+
+  html.hero-statement--fullwidth .hero__statement,
+  html.hero-statement--fullwidth .hero__statement p {
+    font-size: var(--hero-statement-size);
+    line-height: var(--hero-statement-lh);
+    letter-spacing: normal;
+    text-box-trim: initial;
+    text-box-edge: initial;
+  }
+}
+
 .hero__hit {
   display: block;
   width: 100%;

@@ -42,7 +42,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=hero-layout-65");
+  const response = await fetch("./data/projects.json?v=hero-layout-66");
   const data = await response.json();
 
   getPublishedSections(data.sections).forEach((section) => {
@@ -277,24 +277,43 @@ function getHeroFoldDividerTop() {
   return foldFallback;
 }
 
+function getHeroStatementTopPosition(statementHeight) {
+  const stickyTop = readCssPx("--sticky-top", 40);
+  const headerGap = readCssPx("--header-text-gap", 16);
+
+  if (isStackedLayout()) {
+    return Math.round(stickyTop + headerGap);
+  }
+
+  return getHeroStatementTopAboveDivider(statementHeight);
+}
+
 function measureHeroStatementPosition() {
   const shell = document.querySelector(".hero__statement-shell");
   const statement = shell?.querySelector(".hero__statement");
   if (!shell || !statement) return;
 
   const firstProject = document.querySelector(".project");
+  const statementHeight = statement.offsetHeight;
 
   if (HERO_STATEMENT_FULLWIDTH_EXPERIMENT) {
-    applyHeroStatementHorizontalLayout(
-      shell,
-      getHeroStatementDividerLeftAnchor(firstProject),
-      getHeroStatementAboutAnchor()
-    );
+    if (isStackedLayout()) {
+      applyHeroStatementHorizontalLayout(
+        shell,
+        getHeroStatementBrandAnchor(),
+        getHeroStatementAboutAnchor()
+      );
+    } else {
+      applyHeroStatementHorizontalLayout(
+        shell,
+        getHeroStatementDividerLeftAnchor(firstProject),
+        getHeroStatementAboutAnchor()
+      );
+    }
 
-    const statementHeight = statement.offsetHeight;
     document.documentElement.style.setProperty(
       "--hero-statement-top",
-      `${getHeroStatementTopAboveDivider(statementHeight)}px`
+      `${getHeroStatementTopPosition(statementHeight)}px`
     );
     shell.style.minHeight = `${statementHeight}px`;
     return;
@@ -306,10 +325,9 @@ function measureHeroStatementPosition() {
     getHeroStatementRightAnchor()
   );
 
-  const statementHeight = statement.offsetHeight;
   document.documentElement.style.setProperty(
     "--hero-statement-top",
-    `${getHeroStatementTopAboveDivider(statementHeight)}px`
+    `${getHeroStatementTopPosition(statementHeight)}px`
   );
 
   shell.style.minHeight = `${statementHeight}px`;
