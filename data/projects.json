@@ -348,12 +348,12 @@
       "media": [
         {
           "type": "video",
-          "src": "./assets/Onboarding/imitation-ball/07.mp4?v=1",
-          "alt": "Imitation Ball AI — 07"
+          "src": "./assets/Onboarding/imitation-ball/07.mp4?v=2",
+          "alt": "Imitation Ball AI — gameplay"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/imitation-ball/05.jpg?v=1",
+          "src": "./assets/Onboarding/imitation-ball/05.jpg?v=2",
           "alt": "Imitation Ball AI — XR testing session"
         },
         {
@@ -361,51 +361,51 @@
           "alt": "Imitation Ball AI — 3D character models",
           "items": [
             {
-              "src": "./assets/Onboarding/imitation-ball/model-01.png?v=2",
+              "src": "./assets/Onboarding/imitation-ball/model-01.png?v=3",
               "alt": "Screen character model"
             },
             {
-              "src": "./assets/Onboarding/imitation-ball/model-02.jpg?v=2",
+              "src": "./assets/Onboarding/imitation-ball/model-02.jpg?v=3",
               "alt": "Monkey head model"
             }
           ]
         },
         {
           "type": "video",
-          "src": "./assets/Onboarding/imitation-ball/01.mp4?v=3",
-          "alt": "Imitation Ball AI — 01"
+          "src": "./assets/Onboarding/imitation-ball/01.mp4?v=4",
+          "alt": "Imitation Ball AI — environment"
         },
         {
           "type": "video-grid",
           "alt": "Imitation Ball AI — training modes",
           "items": [
             {
-              "src": "./assets/Onboarding/imitation-ball/grid-01.mp4?v=1",
+              "src": "./assets/Onboarding/imitation-ball/grid-01.mp4?v=2",
               "alt": "Target training"
             },
             {
-              "src": "./assets/Onboarding/imitation-ball/grid-02.mp4?v=1",
+              "src": "./assets/Onboarding/imitation-ball/grid-02.mp4?v=2",
               "alt": "Obstacle training"
             },
             {
-              "src": "./assets/Onboarding/imitation-ball/grid-03.mp4?v=1",
+              "src": "./assets/Onboarding/imitation-ball/grid-03.mp4?v=2",
               "alt": "Monkey training"
             }
           ]
         },
         {
           "type": "video",
-          "src": "./assets/Onboarding/imitation-ball/04.mp4?v=1",
-          "alt": "Imitation Ball AI — 04"
+          "src": "./assets/Onboarding/imitation-ball/04.mp4?v=2",
+          "alt": "Imitation Ball AI — rally"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/imitation-ball/06.jpg?v=1",
+          "src": "./assets/Onboarding/imitation-ball/06.jpg?v=2",
           "alt": "Imitation Ball AI — VR gameplay testing"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/imitation-ball/chart-training.png?v=1",
+          "src": "./assets/Onboarding/imitation-ball/chart-training.png?v=2",
           "alt": "Imitation Ball AI — target and monkey training metrics"
         }
       ]

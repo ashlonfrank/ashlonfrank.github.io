@@ -42,7 +42,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=imitation-ball-36");
+  const response = await fetch("./data/projects.json?v=imitation-ball-37");
   const data = await response.json();
 
   getPublishedSections(data.sections).forEach((section) => {
