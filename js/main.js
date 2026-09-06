@@ -42,7 +42,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=hero-layout-56");
+  const response = await fetch("./data/projects.json?v=hero-layout-64");
   const data = await response.json();
 
   getPublishedSections(data.sections).forEach((section) => {
@@ -134,7 +134,7 @@ function initHeroStatement(site) {
 
   // Keep the click-ritual hero markup out of the way while intro is paused.
   hero.innerHTML = `<div class="hero__statement-shell"><div class="hero__statement">${paragraphs
-    .map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`)
+    .map((paragraph) => renderHeroStatementParagraph(paragraph))
     .join("")}</div></div>`;
 
   document.documentElement.classList.toggle(
@@ -148,13 +148,21 @@ function initHeroStatement(site) {
 function normalizeHeroStatement(statement) {
   if (!Array.isArray(statement) || !statement.length) return [];
 
-  if (typeof statement[0] === "string") {
-    return statement.filter(Boolean);
+  return statement
+    .map((paragraph) => {
+      if (typeof paragraph === "string") return paragraph;
+      if (Array.isArray(paragraph)) return paragraph.filter(Boolean);
+      return null;
+    })
+    .filter(Boolean);
+}
+
+function renderHeroStatementParagraph(paragraph) {
+  if (Array.isArray(paragraph)) {
+    return `<p>${paragraph.map((line) => escapeHtml(line)).join("<br />")}</p>`;
   }
 
-  return statement
-    .filter((paragraph) => Array.isArray(paragraph) && paragraph.length)
-    .map((paragraph) => paragraph.filter(Boolean).join(" "));
+  return `<p>${escapeHtml(paragraph)}</p>`;
 }
 
 function isNavRoleVisible(role) {
@@ -205,7 +213,7 @@ function getHeroStatementDividerViewportTop() {
 function getHeroStatementTopAboveDivider(statementHeight) {
   const stickyTop = readCssPx("--sticky-top", 40);
   const headerGap = readCssPx("--header-text-gap", 16);
-  const dividerGap = readCssPx("--hero-statement-divider-gap", 54);
+  const dividerGap = readCssPx("--hero-statement-divider-gap", 32);
   const dividerTop = getHeroStatementDividerViewportTop();
   const minTop = Math.round(stickyTop + headerGap);
 
@@ -214,14 +222,16 @@ function getHeroStatementTopAboveDivider(statementHeight) {
   return Math.max(minTop, Math.round(dividerTop - statementHeight - dividerGap));
 }
 
-function getHeroStatementFullwidthLeftAnchor(firstProject) {
+function getHeroStatementDividerLeftAnchor(firstProject) {
   if (isStackedLayout()) {
     return getHeroStatementBrandAnchor();
   }
 
+  const role = document.querySelector(".nav__role");
+  if (isNavRoleVisible(role)) return role;
+
   return (
     firstProject?.querySelector(".project__meta-copy") ||
-    getHeroStatementLeftAnchor() ||
     getHeroStatementBrandAnchor()
   );
 }
@@ -277,7 +287,7 @@ function measureHeroStatementPosition() {
   if (HERO_STATEMENT_FULLWIDTH_EXPERIMENT) {
     applyHeroStatementHorizontalLayout(
       shell,
-      getHeroStatementFullwidthLeftAnchor(firstProject),
+      getHeroStatementDividerLeftAnchor(firstProject),
       getHeroStatementAboutAnchor()
     );
 
@@ -637,46 +647,25 @@ function initHeaderCover(scroll) {
 }
 
 function getHeroStatementHideThreshold(statement) {
-  const bandBottom = statement.getBoundingClientRect().bottom;
-  const paragraph = statement.querySelector("p");
-  const textNode = paragraph?.firstChild;
-
-  if (!textNode || textNode.nodeType !== Node.TEXT_NODE) return bandBottom;
-
-  const range = document.createRange();
-  const text = textNode.textContent;
-  let firstLineTop = null;
-
-  for (let i = 1; i <= text.length; i += 1) {
-    range.setStart(textNode, 0);
-    range.setEnd(textNode, i);
-    const rects = range.getClientRects();
-    if (!rects.length) continue;
-
-    const top = Math.round(rects[rects.length - 1].top);
-    if (firstLineTop === null) {
-      firstLineTop = top;
-      continue;
-    }
-
-    if (top !== firstLineTop) {
-      // Hide once the divider reaches the last line — never mid-word on line 2.
-      return top;
-    }
-  }
-
-  return bandBottom;
+  return statement.getBoundingClientRect().bottom;
 }
 
-function getProjectCoverTop(firstProject, titleRow) {
-  const titleTop = titleRow.getBoundingClientRect().top;
+function getHeroDividerCoverTop(firstProject, titleRow) {
   const meta = firstProject.querySelector(".project__meta");
 
-  if (!meta || isStackedLayout()) {
-    return titleTop - readCssPx("--header-text-gap", 16);
+  if (meta && !isStackedLayout()) {
+    return meta.getBoundingClientRect().top;
   }
 
-  return Math.min(titleTop, meta.getBoundingClientRect().top);
+  if (!titleRow) return Infinity;
+
+  return titleRow.getBoundingClientRect().top - readCssPx("--header-text-gap", 16);
+}
+
+function isHeroStatementCovered(firstProject, statement, titleRow) {
+  const coverTop = getHeroDividerCoverTop(firstProject, titleRow);
+  const hideAt = getHeroStatementHideThreshold(statement);
+  return coverTop <= hideAt;
 }
 
 function initHeroStatementCover(scroll) {
@@ -699,29 +688,32 @@ function initHeroStatementCover(scroll) {
       return;
     }
 
-    const coverTop = getProjectCoverTop(firstProject, titleRow);
-    const hideAt = getHeroStatementHideThreshold(statement);
-    const covered = coverTop <= hideAt;
+    const covered = isHeroStatementCovered(firstProject, statement, titleRow);
+
+    if (covered) {
+      hero.classList.add("is-statement-hidden");
+      return;
+    }
 
     if (isStackedLayout()) {
-      hero.classList.toggle("is-statement-hidden", covered);
+      hero.classList.remove("is-statement-hidden");
       return;
     }
 
     if (isSectionComposedLanding(firstProject) && !scrollingDown) {
       hero.classList.toggle(
         "is-statement-hidden",
-        covered || isSectionHeaderLanded(firstProject)
+        isSectionHeaderLanded(firstProject)
       );
       return;
     }
 
-    if (isSectionComposedLanding(firstProject) && !covered) {
+    if (isSectionComposedLanding(firstProject)) {
       hero.classList.remove("is-statement-hidden");
       return;
     }
 
-    hero.classList.toggle("is-statement-hidden", covered);
+    hero.classList.remove("is-statement-hidden");
   };
 
   update();

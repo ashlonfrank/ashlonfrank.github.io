@@ -27,7 +27,7 @@
   --hero-min-h: 450px;
   --header-rule-size: 2px;
   --header-text-gap: 16px;
-  --hero-statement-divider-gap: 54px;
+  --hero-statement-divider-gap: 32px;
   --header-text-offset: calc(var(--header-rule-size) + var(--header-text-gap));
   --meta-desc-lines: 7;
   --meta-desc-h: calc(var(--text-meta-lh) * var(--meta-desc-lines));
@@ -380,8 +380,9 @@ button:focus-visible {
 
 /* Hero statement experiment — revert: set HERO_STATEMENT_FULLWIDTH_EXPERIMENT = false in main.js */
 html.hero-statement--fullwidth {
-  --hero-statement-size: 24px;
+  --hero-statement-size: 20px;
   --hero-statement-lh: 28px;
+  --hero-statement-tracking: -0.2px;
 }
 
 html.hero-statement--fullwidth .hero__statement-shell {
@@ -391,7 +392,18 @@ html.hero-statement--fullwidth .hero__statement-shell {
 html.hero-statement--fullwidth .hero__statement,
 html.hero-statement--fullwidth .hero__statement p {
   font-family: var(--font-sans);
+  font-size: var(--hero-statement-size);
+  line-height: var(--hero-statement-lh);
   font-weight: 400;
+  letter-spacing: var(--hero-statement-tracking, -0.2px);
+  text-align: left;
+  margin: 0;
+  text-box-trim: trim-end;
+  text-box-edge: cap alphabetic;
+}
+
+html.hero-statement--fullwidth .hero__statement {
+  padding-bottom: 0;
 }
 
 .hero__hit {
