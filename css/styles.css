@@ -380,8 +380,8 @@ button:focus-visible {
 
 /* Hero statement experiment — revert: set HERO_STATEMENT_FULLWIDTH_EXPERIMENT = false in main.js */
 html.hero-statement--fullwidth {
-  --hero-statement-size: 14px;
-  --hero-statement-lh: 1.5;
+  --hero-statement-size: 24px;
+  --hero-statement-lh: 28px;
 }
 
 html.hero-statement--fullwidth .hero__statement-shell {
