@@ -42,7 +42,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=imitation-ball-37");
+  const response = await fetch("./data/projects.json?v=hero-layout-55");
   const data = await response.json();
 
   getPublishedSections(data.sections).forEach((section) => {
@@ -190,6 +190,64 @@ function getHeroStatementRightAnchor() {
   return getHeroStatementAboutAnchor();
 }
 
+function getHeroStatementDividerViewportTop() {
+  const firstProject = document.querySelector(".project");
+  if (!firstProject) return null;
+
+  if (isStackedLayout()) {
+    return getTabletRuleTop(firstProject);
+  }
+
+  const meta = firstProject.querySelector(".project__meta");
+  return meta ? Math.round(meta.getBoundingClientRect().top) : null;
+}
+
+function getHeroStatementTopAboveDivider(statementHeight) {
+  const stickyTop = readCssPx("--sticky-top", 40);
+  const headerGap = readCssPx("--header-text-gap", 16);
+  const dividerGap = readCssPx("--hero-statement-divider-gap", 54);
+  const dividerTop = getHeroStatementDividerViewportTop();
+  const minTop = Math.round(stickyTop + headerGap);
+
+  if (dividerTop == null) return minTop;
+
+  return Math.max(minTop, Math.round(dividerTop - statementHeight - dividerGap));
+}
+
+function getHeroStatementFullwidthLeftAnchor(firstProject) {
+  if (isStackedLayout()) {
+    return getHeroStatementBrandAnchor();
+  }
+
+  return (
+    firstProject?.querySelector(".project__meta-copy") ||
+    getHeroStatementLeftAnchor() ||
+    getHeroStatementBrandAnchor()
+  );
+}
+
+function applyHeroStatementHorizontalLayout(shell, leftAnchor, rightAnchor) {
+  const shellRect = shell.getBoundingClientRect();
+
+  const left = leftAnchor
+    ? Math.round(leftAnchor.getBoundingClientRect().left)
+    : Math.round(shellRect.left);
+  const right = rightAnchor
+    ? Math.round(rightAnchor.getBoundingClientRect().right)
+    : Math.round(shellRect.right);
+  const width = Math.max(0, right - left);
+  const shellOffset = left - shellRect.left;
+
+  shell.style.marginLeft = shellOffset > 0 ? `${shellOffset}px` : "0";
+  shell.style.width = `${width}px`;
+  shell.style.maxWidth = `${width}px`;
+
+  document.documentElement.style.setProperty("--hero-statement-fixed-width", `${width}px`);
+  document.documentElement.style.setProperty("--hero-statement-fixed-left", `${left}px`);
+
+  return width;
+}
+
 function getHeroFoldDividerTop() {
   const firstProject = document.querySelector(".project");
   const foldFallback = window.innerHeight - readCssPx("--fold-peek", 143);
@@ -214,74 +272,35 @@ function measureHeroStatementPosition() {
   const statement = shell?.querySelector(".hero__statement");
   if (!shell || !statement) return;
 
-  const shellRect = shell.getBoundingClientRect();
-  const stickyTop = readCssPx("--sticky-top", 40);
-  const gap = readCssPx("--header-text-gap", 16);
-  const statementHeight = statement.offsetHeight;
+  const firstProject = document.querySelector(".project");
 
   if (HERO_STATEMENT_FULLWIDTH_EXPERIMENT) {
-    const leftAnchor = getHeroStatementBrandAnchor();
-    const rightAnchor = getHeroStatementAboutAnchor();
+    applyHeroStatementHorizontalLayout(
+      shell,
+      getHeroStatementFullwidthLeftAnchor(firstProject),
+      getHeroStatementAboutAnchor()
+    );
 
-    const left = leftAnchor
-      ? Math.round(leftAnchor.getBoundingClientRect().left)
-      : Math.round(shellRect.left);
-    const right = rightAnchor
-      ? Math.round(rightAnchor.getBoundingClientRect().right)
-      : Math.round(shellRect.right);
-    const width = Math.max(0, right - left);
-    const shellOffset = left - shellRect.left;
-
-    shell.style.marginLeft = shellOffset > 0 ? `${shellOffset}px` : "0";
-    shell.style.width = `${width}px`;
-    shell.style.maxWidth = `${width}px`;
-
-    document.documentElement.style.setProperty("--hero-statement-fixed-width", `${width}px`);
-    document.documentElement.style.setProperty("--hero-statement-fixed-left", `${left}px`);
+    const statementHeight = statement.offsetHeight;
     document.documentElement.style.setProperty(
       "--hero-statement-top",
-      `${Math.round(stickyTop + gap)}px`
+      `${getHeroStatementTopAboveDivider(statementHeight)}px`
     );
     shell.style.minHeight = `${statementHeight}px`;
     return;
   }
 
-  const leftAnchor = getHeroStatementLeftAnchor();
-  const rightAnchor = getHeroStatementRightAnchor();
+  applyHeroStatementHorizontalLayout(
+    shell,
+    getHeroStatementLeftAnchor(),
+    getHeroStatementRightAnchor()
+  );
 
-  const left = leftAnchor
-    ? Math.round(leftAnchor.getBoundingClientRect().left)
-    : Math.round(shellRect.left);
-  const right = rightAnchor
-    ? Math.round(rightAnchor.getBoundingClientRect().right)
-    : Math.round(shellRect.right);
-  const width = Math.max(0, right - left);
-  const shellOffset = left - shellRect.left;
-
-  shell.style.marginLeft = shellOffset > 0 ? `${shellOffset}px` : "0";
-  shell.style.width = `${width}px`;
-  shell.style.maxWidth = `${width}px`;
-
-  document.documentElement.style.setProperty("--hero-statement-fixed-width", `${width}px`);
-  document.documentElement.style.setProperty("--hero-statement-fixed-left", `${left}px`);
-
-  let top;
-
-  if (isStackedLayout()) {
-    top = Math.round(stickyTop + gap);
-  } else {
-    const bandTop = stickyTop;
-    const firstProject = document.querySelector(".project");
-    const foldFallback = window.innerHeight - readCssPx("--fold-peek", 143);
-    const meta = firstProject?.querySelector(".project__meta");
-    const bandBottom = meta
-      ? Math.round(meta.getBoundingClientRect().top)
-      : foldFallback;
-    const bandHeight = Math.max(0, bandBottom - bandTop);
-    top = Math.round(bandTop + Math.max(0, (bandHeight - statementHeight) / 2));
-  }
-
-  document.documentElement.style.setProperty("--hero-statement-top", `${top}px`);
+  const statementHeight = statement.offsetHeight;
+  document.documentElement.style.setProperty(
+    "--hero-statement-top",
+    `${getHeroStatementTopAboveDivider(statementHeight)}px`
+  );
 
   shell.style.minHeight = `${statementHeight}px`;
 }
