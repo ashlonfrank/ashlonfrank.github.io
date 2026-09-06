@@ -1025,6 +1025,229 @@ html.hero--bleed .hero__copy {
   object-position: center;
 }
 
+/* Imitation Ball AI — uniform video frames on light media bed */
+.project--imitation-ball {
+  --imitation-ball-media-bg: #f7f7f7;
+  /* 75% of tile width and height, centered */
+  --imitation-ball-media-scale: 0.6;
+  --imitation-ball-image-grid-scale: 0.45;
+}
+
+.project--imitation-ball .tile-inner,
+.project--imitation-ball .tile-inner:active,
+.project--imitation-ball .tile-inner:focus-visible,
+.project--imitation-ball .tile-inner__placeholder {
+  background-color: var(--imitation-ball-media-bg);
+}
+
+.project--imitation-ball .tile-inner__media:not(.tile-video-grid):not(.tile-image-grid)[src*="chart-"] {
+  object-fit: contain;
+}
+
+.project--imitation-ball .tile-inner__media:not(.tile-video-grid):not(.tile-image-grid) {
+  object-fit: cover;
+  object-position: center;
+  width: calc(100% * var(--imitation-ball-media-scale));
+  height: calc(100% * var(--imitation-ball-media-scale));
+  flex: 0 0 auto;
+}
+
+.project--imitation-ball .tile-inner:has(.tile-inner__media:not(.tile-video-grid):not(.tile-image-grid)) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background-color: var(--imitation-ball-media-bg);
+}
+
+.project--imitation-ball .tile-inner:has(.tile-video-grid),
+.project--imitation-ball .tile-inner:has(.tile-image-grid) {
+  container-type: size;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background-color: var(--imitation-ball-media-bg);
+}
+
+.project--imitation-ball .tile-video-grid,
+.lightbox .tile-video-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: var(--imitation-ball-media-bg, #f7f7f7);
+  pointer-events: none;
+}
+
+.project--imitation-ball .tile-video-grid__stack,
+.lightbox .tile-video-grid__stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.project--imitation-ball .tile-video-grid__inner,
+.lightbox .tile-video-grid__inner {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: minmax(0, 1fr);
+  align-items: stretch;
+  gap: 12px;
+  width: calc(100% * var(--imitation-ball-media-scale, 0.6));
+  height: calc(100% * var(--imitation-ball-media-scale, 0.6));
+  min-height: 0;
+  flex: 0 0 auto;
+  overflow: hidden;
+}
+
+.lightbox .tile-video-grid__inner {
+  max-height: calc(82vh * var(--imitation-ball-media-scale, 0.6));
+}
+
+.project--imitation-ball .tile-video-grid__cell,
+.lightbox .tile-video-grid__cell {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: cover;
+  object-position: center;
+  background: var(--imitation-ball-media-bg, #f7f7f7);
+}
+
+.project--imitation-ball .tile-image-grid,
+.lightbox .tile-image-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: var(--imitation-ball-media-bg, #f7f7f7);
+  pointer-events: none;
+}
+
+.project--imitation-ball .tile-image-grid__stack,
+.lightbox .tile-image-grid__stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.project--imitation-ball .tile-image-grid__inner,
+.lightbox .tile-image-grid__inner {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: minmax(0, 1fr);
+  align-items: stretch;
+  gap: 12px;
+  width: calc(100% * var(--imitation-ball-image-grid-scale, 0.45));
+  height: calc(100% * var(--imitation-ball-image-grid-scale, 0.45));
+  min-height: 0;
+  flex: 0 0 auto;
+  overflow: hidden;
+}
+
+.project--imitation-ball .tile-image-grid__cell,
+.lightbox .tile-image-grid__cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.project--imitation-ball .tile-image-grid__img,
+.lightbox .tile-image-grid__img {
+  display: block;
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  flex: 0 0 auto;
+  object-fit: contain;
+  object-position: center;
+}
+
+.tile-video-grid {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.tile-video-grid__stack {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.tile-video-grid__inner {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: 1fr;
+  gap: var(--tile-gap);
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.tile-video-grid__cell {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  background: #000;
+}
+
+.tile-caption {
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 8px 10px 10px;
+  font-size: 12px;
+  line-height: 1.35;
+  font-style: italic;
+  font-weight: 400;
+  text-align: center;
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+.lightbox .tile-video-grid {
+  width: min(92vw, 1100px);
+  max-height: 82vh;
+}
+
+.lightbox .tile-video-grid__stack {
+  max-height: 82vh;
+}
+
+.lightbox .tile-caption {
+  background: #000;
+  color: #fff;
+}
+
+.lightbox__frame:has(.tile-video-grid),
+.lightbox__frame:has(.tile-image-grid) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--imitation-ball-media-bg, #f7f7f7);
+}
+
 /* YouTube tile — thumbnail + play affordance in grid; iframe in lightbox */
 .tile-youtube {
   position: relative;
@@ -1220,13 +1443,6 @@ html.hero--bleed .hero__copy {
   border-radius: 50%;
 }
 
-/* Desktop: hide X — Esc closes; tap anywhere advances */
-@media (hover: hover) and (pointer: fine) {
-  .lightbox__control--close {
-    display: none;
-  }
-}
-
 .lightbox__backdrop,
 .lightbox__hit,
 .lightbox__control,
@@ -1303,6 +1519,86 @@ html.hero--bleed .hero__copy {
 .lightbox video.lightbox__media {
   object-fit: contain;
   background-color: #000000;
+}
+
+/* Imitation Ball lightbox — same outer frame as other projects; full media inside */
+.lightbox__frame--imitation-ball:has(video),
+.lightbox__frame--imitation-ball:has(.lightbox__media--contain),
+.lightbox__frame--imitation-ball:has(.tile-video-grid),
+.lightbox__frame--imitation-ball:has(.tile-image-grid) {
+  --imitation-ball-media-scale: 1;
+  --imitation-ball-image-grid-scale: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f7f7f7;
+}
+
+.lightbox__frame--imitation-ball .lightbox__media--contain,
+.lightbox__frame--imitation-ball .tile-video-grid.lightbox__media,
+.lightbox__frame--imitation-ball .tile-image-grid.lightbox__media {
+  background-color: #f7f7f7;
+}
+
+.lightbox__frame--imitation-ball img.lightbox__media[src*="chart-"] {
+  object-fit: contain;
+}
+
+.lightbox__frame--imitation-ball video.lightbox__media,
+.lightbox__frame--imitation-ball img.lightbox__media {
+  object-fit: cover;
+  background-color: #f7f7f7;
+  width: 100%;
+  height: 100%;
+  flex: 1 1 auto;
+}
+
+.lightbox__frame--imitation-ball .tile-video-grid {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  background: #f7f7f7;
+}
+
+.lightbox__frame--imitation-ball .tile-image-grid {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  background: #f7f7f7;
+}
+
+.lightbox__frame--imitation-ball .tile-video-grid__stack {
+  max-height: none;
+}
+
+.lightbox__frame--imitation-ball .tile-image-grid__stack {
+  max-height: none;
+}
+
+.lightbox__frame--imitation-ball .tile-video-grid__inner {
+  width: 100%;
+  height: 100%;
+  max-height: none;
+}
+
+.lightbox__frame--imitation-ball .tile-image-grid__inner {
+  width: 100%;
+  height: 100%;
+  max-height: none;
+}
+
+.lightbox__frame--imitation-ball .tile-video-grid__cell {
+  object-fit: cover;
+  background: #f7f7f7;
+}
+
+.lightbox__frame--imitation-ball .tile-image-grid__img {
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
 }
 
 .lightbox__media--youtube {

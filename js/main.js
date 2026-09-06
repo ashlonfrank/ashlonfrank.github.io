@@ -42,7 +42,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=banking-97-1");
+  const response = await fetch("./data/projects.json?v=imitation-ball-35");
   const data = await response.json();
 
   getPublishedSections(data.sections).forEach((section) => {
@@ -1855,6 +1855,9 @@ function buildSection(section) {
   if (section.id === "kap-klimber") {
     article.classList.add("project--kap-klimber");
   }
+  if (section.id === "imitation-ball") {
+    article.classList.add("project--imitation-ball");
+  }
 
   article.innerHTML = `
     <div class="project__inner">
@@ -1930,12 +1933,48 @@ function extractYoutubeId(media) {
 function resolveMediaType(item) {
   if (!item) return null;
   if (item.type === "gif-grid") return "gif-grid";
+  if (item.type === "video-grid") return "video-grid";
+  if (item.type === "image-grid") return "image-grid";
   if (item.type === "youtube" || extractYoutubeId(item)) return "youtube";
   if (!item.src) return null;
   if (item.type === "video") return "video";
   if (item.type === "image") return "image";
   if (/\.(mp4|webm|mov|m4v)(\?|$)/i.test(item.src)) return "video";
   return "image";
+}
+
+function buildVideoGridHtml(media, label) {
+  const items = Array.isArray(media.items) ? media.items : [];
+  const alt = escapeHtml(media.alt || label);
+  const cells = items
+    .map((item, i) => {
+      const src = escapeHtml(item.src || "");
+      const cellAlt = escapeHtml(item.alt || `${label} — ${i + 1}`);
+      return `<video class="tile-video-grid__cell" src="${src}" autoplay muted loop playsinline preload="metadata" aria-label="${cellAlt}"></video>`;
+    })
+    .join("");
+  const caption = media.caption
+    ? `<p class="tile-caption">${escapeHtml(media.caption)}</p>`
+    : "";
+
+  return `<div class="tile-inner__media tile-video-grid" role="img" aria-label="${alt}"><div class="tile-video-grid__stack"><div class="tile-video-grid__inner">${cells}</div>${caption}</div></div>`;
+}
+
+function buildImageGridHtml(media, label) {
+  const items = Array.isArray(media.items) ? media.items : [];
+  const alt = escapeHtml(media.alt || label);
+  const cells = items
+    .map((item, i) => {
+      const src = escapeHtml(item.src || "");
+      const cellAlt = escapeHtml(item.alt || `${label} — ${i + 1}`);
+      return `<div class="tile-image-grid__cell"><img class="tile-image-grid__img" src="${src}" alt="${cellAlt}" loading="lazy" decoding="async"></div>`;
+    })
+    .join("");
+  const caption = media.caption
+    ? `<p class="tile-caption">${escapeHtml(media.caption)}</p>`
+    : "";
+
+  return `<div class="tile-inner__media tile-image-grid" role="img" aria-label="${alt}"><div class="tile-image-grid__stack"><div class="tile-image-grid__inner">${cells}</div>${caption}</div></div>`;
 }
 
 function buildGifGridHtml(media, label) {
@@ -1977,6 +2016,12 @@ function buildTileMediaHtml(media, label) {
   }
 
   const type = resolveMediaType(media);
+  if (type === "video-grid") {
+    return buildVideoGridHtml(media, label);
+  }
+  if (type === "image-grid") {
+    return buildImageGridHtml(media, label);
+  }
   if (type === "gif-grid") {
     return buildGifGridHtml(media, label);
   }
@@ -2003,6 +2048,8 @@ function buildTileMediaHtml(media, label) {
 function hasTileMedia(item) {
   if (!item) return false;
   if (item.type === "gif-grid") return Array.isArray(item.items) && item.items.length > 0;
+  if (item.type === "video-grid") return Array.isArray(item.items) && item.items.length > 0;
+  if (item.type === "image-grid") return Array.isArray(item.items) && item.items.length > 0;
   if (item.type === "youtube" || extractYoutubeId(item)) return Boolean(extractYoutubeId(item));
   return Boolean(item.src);
 }
@@ -2010,6 +2057,8 @@ function hasTileMedia(item) {
 function stableImageId(mediaItem, index) {
   if (!mediaItem) return `tile-${index}`;
   if (mediaItem.type === "gif-grid") return `gif-grid-${index}`;
+  if (mediaItem.type === "video-grid") return `video-grid-${index}`;
+  if (mediaItem.type === "image-grid") return `image-grid-${index}`;
 
   const youtubeId = extractYoutubeId(mediaItem);
   if (youtubeId) return `yt-${youtubeId}`;
@@ -2059,9 +2108,10 @@ function buildTiles(section) {
 }
 
 function initTileVideos() {
-  const videos = [...document.querySelectorAll(".tile-inner__media")].filter(
-    (el) => el.tagName === "VIDEO"
-  );
+  const videos = [
+    ...document.querySelectorAll("video.tile-inner__media"),
+    ...document.querySelectorAll("video.tile-video-grid__cell"),
+  ];
   if (!videos.length) return;
 
   const observer = new IntersectionObserver(
@@ -2114,9 +2164,21 @@ function createLightboxMedia(tile) {
     return placeholder;
   }
 
-  const contain = Boolean(tile.closest(".project--kap-klimber"));
+  const contain = Boolean(tile.closest(".project--kap-klimber, .project--imitation-ball"));
 
   if (source.classList.contains("tile-gif-grid")) {
+    const grid = source.cloneNode(true);
+    grid.classList.add("lightbox__media", "lightbox__media--contain");
+    return grid;
+  }
+
+  if (source.classList.contains("tile-video-grid")) {
+    const grid = source.cloneNode(true);
+    grid.classList.add("lightbox__media", "lightbox__media--contain");
+    return grid;
+  }
+
+  if (source.classList.contains("tile-image-grid")) {
     const grid = source.cloneNode(true);
     grid.classList.add("lightbox__media", "lightbox__media--contain");
     return grid;
@@ -2187,6 +2249,9 @@ function initTileLightbox(scroll) {
 
     const frame = document.createElement("div");
     frame.className = animate ? "lightbox__frame is-entering" : "lightbox__frame";
+    if (tile.closest(".project--imitation-ball")) {
+      frame.classList.add("lightbox__frame--imitation-ball");
+    }
     frame.appendChild(media);
     stage.replaceChildren(frame);
 
@@ -2198,6 +2263,7 @@ function initTileLightbox(scroll) {
 
     const video = frame.querySelector("video.lightbox__media");
     if (video) video.play().catch(() => {});
+    frame.querySelectorAll("video.tile-video-grid__cell").forEach((cell) => cell.play().catch(() => {}));
   };
 
   const preloadAdjacentTiles = (tile) => {
@@ -2227,7 +2293,9 @@ function initTileLightbox(scroll) {
     activeTile.classList.remove("is-lightbox-source");
     activeTile = null;
     lightbox.hidden = true;
-    stage.querySelectorAll("video.lightbox__media").forEach((video) => video.pause());
+    stage.querySelectorAll("video.lightbox__media, video.tile-video-grid__cell").forEach((video) =>
+      video.pause()
+    );
     stage.innerHTML = "";
     document.body.classList.remove("is-lightbox-open");
     lenis?.start();

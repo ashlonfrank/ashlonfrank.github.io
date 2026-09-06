@@ -109,71 +109,68 @@
       ]
     },
     {
-      "id": "column",
-      "title": "Banking Onboarding",
+      "id": "runway-ai",
+      "title": "Building an AI Financial Copilot",
       "description": [
-        "97% of business banking customers at Chase migrated from consumer accounts. Without guidance, many missed critical setup tasks like funding their account within 60 days and enrolling in fraud protection, limiting activation and product adoption."
+        "After speaking with hundreds of small business owners, one challenge surfaced repeatedly: predicting cash flow. Financial data was available, but interpreting numbers and graphs wasn’t easy for everyone. I built Runway AI to make that data easier to understand, question, and act on."
       ],
       "description2": [
-        "I designed and shipped Chase Business Banking’s first activation experience for 7.5M+ customers: a scalable framework that prioritized high-impact actions through progressive disclosure, behavioral nudges, and a reusable checklist."
+        "I took Runway from idea to working product, embedding AI directly into the financial context instead of building another chatbot. Contextual prompts narrow the model’s scope, complex insights expose their reasoning, and AI recommends actions while keeping every financial decision with the user."
       ],
       "metadata": [
         {
           "icon": "role",
-          "text": "Sole Product Designer"
+          "text": "Solo Product Builder"
         },
         {
           "icon": "work",
-          "text": "Activation • Onboarding • Growth"
+          "text": "AI Product Design • 0→1 • Full-Stack Build"
         },
         {
-          "icon": "metrics",
-          "text": "38% Checklist Engagement"
-        },
-        {
-          "text": "$5M Projected NPV"
+          "icon": "tools",
+          "text": "Plaid API • OpenAI API • Claude Code"
         }
       ],
       "media": [
         {
           "type": "image",
-          "src": "./assets/Onboarding/01.png?v=426",
-          "alt": "Business Banking Activation — 01"
+          "src": "./assets/Onboarding/RunwayAI/1.png?v=4",
+          "alt": "Building an AI Financial Copilot — 01"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/02.png?v=426",
-          "alt": "Business Banking Activation — 02"
+          "src": "./assets/Onboarding/RunwayAI/2.png?v=4",
+          "alt": "Building an AI Financial Copilot — 02"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/03.png?v=426",
-          "alt": "Business Banking Activation — 03"
+          "src": "./assets/Onboarding/RunwayAI/3.png?v=4",
+          "alt": "Building an AI Financial Copilot — 03"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/04.png?v=426",
-          "alt": "Business Banking Activation — 04"
+          "src": "./assets/Onboarding/RunwayAI/4.png?v=4",
+          "alt": "Building an AI Financial Copilot — 04"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/05.png?v=426",
-          "alt": "Business Banking Activation — 05"
+          "src": "./assets/Onboarding/RunwayAI/5.png?v=4",
+          "alt": "Building an AI Financial Copilot — 05"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/06.png?v=427",
-          "alt": "Business Banking Activation — 06"
+          "src": "./assets/Onboarding/RunwayAI/6.png?v=4",
+          "alt": "Building an AI Financial Copilot — 06"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/07.png?v=426",
-          "alt": "Business Banking Activation — 07"
+          "src": "./assets/Onboarding/RunwayAI/7.png?v=4",
+          "alt": "Building an AI Financial Copilot — 07"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/08.png?v=426",
-          "alt": "Business Banking Activation — 08"
+          "src": "./assets/Onboarding/RunwayAI/8.png?v=4",
+          "alt": "Building an AI Financial Copilot — 08"
         }
       ]
     },
@@ -252,79 +249,13 @@
       ]
     },
     {
-      "id": "runway-ai",
-      "title": "Building an AI Financial Copilot",
+      "id": "column",
+      "title": "Banking Onboarding",
       "description": [
-        "After speaking with hundreds of small business owners, one challenge surfaced repeatedly: predicting cash flow. Financial data was available, but interpreting numbers and graphs wasn’t easy for everyone. I built Runway AI to make that data easier to understand, question, and act on."
+        "97% of business banking customers at Chase migrated from consumer accounts. Without guidance, many missed critical setup tasks like funding their account within 60 days and enrolling in fraud protection, limiting activation and product adoption."
       ],
       "description2": [
-        "I took Runway from idea to working product, embedding AI directly into the financial context instead of building another chatbot. Contextual prompts narrow the model’s scope, complex insights expose their reasoning, and AI recommends actions while keeping every financial decision with the user."
-      ],
-      "metadata": [
-        {
-          "icon": "role",
-          "text": "Solo Product Builder"
-        },
-        {
-          "icon": "work",
-          "text": "AI Product Design • 0→1 • Full-Stack Build"
-        },
-        {
-          "icon": "tools",
-          "text": "Plaid API • OpenAI API • Claude Code"
-        }
-      ],
-      "media": [
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/RunwayAI/1.png?v=4",
-          "alt": "Building an AI Financial Copilot — 01"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/RunwayAI/2.png?v=4",
-          "alt": "Building an AI Financial Copilot — 02"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/RunwayAI/3.png?v=4",
-          "alt": "Building an AI Financial Copilot — 03"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/RunwayAI/4.png?v=4",
-          "alt": "Building an AI Financial Copilot — 04"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/RunwayAI/5.png?v=4",
-          "alt": "Building an AI Financial Copilot — 05"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/RunwayAI/6.png?v=4",
-          "alt": "Building an AI Financial Copilot — 06"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/RunwayAI/7.png?v=4",
-          "alt": "Building an AI Financial Copilot — 07"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/RunwayAI/8.png?v=4",
-          "alt": "Building an AI Financial Copilot — 08"
-        }
-      ]
-    },
-    {
-      "id": "samsung",
-      "title": "Access & Permissions",
-      "description": [
-        "As small businesses grow, financial management becomes a team effort. But giving employees, accountants, and partners access to business banking introduces significant risk. Complex permissions made it difficult for owners to safely delegate financial access."
-      ],
-      "description2": [
-        "I designed Chase Business Banking’s 0→1 access management platform, turning complex banking entitlements into clear decisions. Owners could see who had access, control what they could see or move, and safely delegate across accounts, cards, and payments."
+        "I designed and shipped Chase Business Banking’s first activation experience for 7.5M+ customers: a scalable framework that prioritized high-impact actions through progressive disclosure, behavioral nudges, and a reusable checklist."
       ],
       "metadata": [
         {
@@ -333,56 +264,149 @@
         },
         {
           "icon": "work",
-          "text": "0→1 • Platform Redesign"
+          "text": "Activation • Onboarding • Growth"
         },
         {
           "icon": "metrics",
-          "text": "73% faster access setup"
+          "text": "38% Checklist Engagement"
         },
         {
-          "text": "24% higher task completion"
+          "text": "$5M Projected NPV"
         }
       ],
       "media": [
         {
           "type": "image",
-          "src": "./assets/Onboarding/ASM/1.png?v=451",
-          "alt": "Access & Permissions — 01"
+          "src": "./assets/Onboarding/01.png?v=426",
+          "alt": "Business Banking Activation — 01"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/ASM/2.png?v=451",
-          "alt": "Access & Permissions — 02"
+          "src": "./assets/Onboarding/02.png?v=426",
+          "alt": "Business Banking Activation — 02"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/ASM/3.png?v=451",
-          "alt": "Access & Permissions — 03"
+          "src": "./assets/Onboarding/03.png?v=426",
+          "alt": "Business Banking Activation — 03"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/ASM/4.png?v=451",
-          "alt": "Access & Permissions — 04"
+          "src": "./assets/Onboarding/04.png?v=426",
+          "alt": "Business Banking Activation — 04"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/ASM/5.png?v=451",
-          "alt": "Access & Permissions — 05"
+          "src": "./assets/Onboarding/05.png?v=426",
+          "alt": "Business Banking Activation — 05"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/ASM/6.png?v=452",
-          "alt": "Access & Permissions — 06"
+          "src": "./assets/Onboarding/06.png?v=427",
+          "alt": "Business Banking Activation — 06"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/ASM/7.png?v=452",
-          "alt": "Access & Permissions — 07"
+          "src": "./assets/Onboarding/07.png?v=426",
+          "alt": "Business Banking Activation — 07"
         },
         {
           "type": "image",
-          "src": "./assets/Onboarding/ASM/8.png?v=451",
-          "alt": "Access & Permissions — 08"
+          "src": "./assets/Onboarding/08.png?v=426",
+          "alt": "Business Banking Activation — 08"
+        }
+      ]
+    },
+    {
+      "id": "imitation-ball",
+      "published": true,
+      "title": "Imitation Ball AI",
+      "description": [
+        "Imitation Ball is a VR take on 3D Pong where players rally against an AI opponent. Rather than scripted behavior, agents learn to control their paddle and develop distinct play styles through reinforcement and imitation learning."
+      ],
+      "description2": [
+        "Human gameplay was recorded as demonstrations for the agents to learn from, while we experimented with targets, obstacles, movement constraints, and training conditions to see how they shaped the AI’s behavior."
+      ],
+      "metadata": [
+        {
+          "icon": "role",
+          "text": "Product Designer"
+        },
+        {
+          "icon": "work",
+          "text": "VR • Human AI IxD"
+        },
+        {
+          "icon": "discovery",
+          "text": "PPO • GAIL • Human Demonstrations"
+        },
+        {
+          "icon": "tools",
+          "text": "Unity • Blender • Unity ML-Agents"
+        }
+      ],
+      "media": [
+        {
+          "type": "video",
+          "src": "./assets/Onboarding/imitation-ball/07.mp4?v=1",
+          "alt": "Imitation Ball AI — 07"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/imitation-ball/05.jpg?v=1",
+          "alt": "Imitation Ball AI — XR testing session"
+        },
+        {
+          "type": "image-grid",
+          "alt": "Imitation Ball AI — 3D character models",
+          "items": [
+            {
+              "src": "./assets/Onboarding/imitation-ball/model-01.png?v=2",
+              "alt": "Screen character model"
+            },
+            {
+              "src": "./assets/Onboarding/imitation-ball/model-02.jpg?v=2",
+              "alt": "Monkey head model"
+            }
+          ]
+        },
+        {
+          "type": "video",
+          "src": "./assets/Onboarding/imitation-ball/01.mp4?v=3",
+          "alt": "Imitation Ball AI — 01"
+        },
+        {
+          "type": "video-grid",
+          "alt": "Imitation Ball AI — training modes",
+          "items": [
+            {
+              "src": "./assets/Onboarding/imitation-ball/grid-01.mp4?v=1",
+              "alt": "Target training"
+            },
+            {
+              "src": "./assets/Onboarding/imitation-ball/grid-02.mp4?v=1",
+              "alt": "Obstacle training"
+            },
+            {
+              "src": "./assets/Onboarding/imitation-ball/grid-03.mp4?v=1",
+              "alt": "Monkey training"
+            }
+          ]
+        },
+        {
+          "type": "video",
+          "src": "./assets/Onboarding/imitation-ball/04.mp4?v=1",
+          "alt": "Imitation Ball AI — 04"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/imitation-ball/06.jpg?v=1",
+          "alt": "Imitation Ball AI — VR gameplay testing"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/imitation-ball/chart-training.png?v=1",
+          "alt": "Imitation Ball AI — target and monkey training metrics"
         }
       ]
     },
@@ -480,6 +504,75 @@
           "type": "image",
           "src": "./assets/Onboarding/Kap Klimber/09.png?v=449",
           "alt": "Kap Klimber — 09"
+        }
+      ]
+    },
+    {
+      "id": "samsung",
+      "title": "Access & Permissions",
+      "description": [
+        "As small businesses grow, financial management becomes a team effort. But giving employees, accountants, and partners access to business banking introduces significant risk. Complex permissions made it difficult for owners to safely delegate financial access."
+      ],
+      "description2": [
+        "I designed Chase Business Banking’s 0→1 access management platform, turning complex banking entitlements into clear decisions. Owners could see who had access, control what they could see or move, and safely delegate across accounts, cards, and payments."
+      ],
+      "metadata": [
+        {
+          "icon": "role",
+          "text": "Sole Product Designer"
+        },
+        {
+          "icon": "work",
+          "text": "0→1 • Platform Redesign"
+        },
+        {
+          "icon": "metrics",
+          "text": "73% faster access setup"
+        },
+        {
+          "text": "24% higher task completion"
+        }
+      ],
+      "media": [
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/ASM/1.png?v=451",
+          "alt": "Access & Permissions — 01"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/ASM/2.png?v=451",
+          "alt": "Access & Permissions — 02"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/ASM/3.png?v=451",
+          "alt": "Access & Permissions — 03"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/ASM/4.png?v=451",
+          "alt": "Access & Permissions — 04"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/ASM/5.png?v=451",
+          "alt": "Access & Permissions — 05"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/ASM/6.png?v=452",
+          "alt": "Access & Permissions — 06"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/ASM/7.png?v=452",
+          "alt": "Access & Permissions — 07"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/ASM/8.png?v=451",
+          "alt": "Access & Permissions — 08"
         }
       ]
     },
