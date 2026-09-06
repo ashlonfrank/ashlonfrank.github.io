@@ -42,7 +42,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=hero-layout-64");
+  const response = await fetch("./data/projects.json?v=hero-layout-65");
   const data = await response.json();
 
   getPublishedSections(data.sections).forEach((section) => {
@@ -213,7 +213,7 @@ function getHeroStatementDividerViewportTop() {
 function getHeroStatementTopAboveDivider(statementHeight) {
   const stickyTop = readCssPx("--sticky-top", 40);
   const headerGap = readCssPx("--header-text-gap", 16);
-  const dividerGap = readCssPx("--hero-statement-divider-gap", 32);
+  const dividerGap = readCssPx("--hero-statement-divider-gap", 64);
   const dividerTop = getHeroStatementDividerViewportTop();
   const minTop = Math.round(stickyTop + headerGap);
 

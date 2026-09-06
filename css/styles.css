@@ -27,7 +27,7 @@
   --hero-min-h: 450px;
   --header-rule-size: 2px;
   --header-text-gap: 16px;
-  --hero-statement-divider-gap: 32px;
+  --hero-statement-divider-gap: 64px;
   --header-text-offset: calc(var(--header-rule-size) + var(--header-text-gap));
   --meta-desc-lines: 7;
   --meta-desc-h: calc(var(--text-meta-lh) * var(--meta-desc-lines));
