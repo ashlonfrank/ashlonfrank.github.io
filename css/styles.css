@@ -1082,6 +1082,11 @@ html.hero--bleed .hero__copy {
   object-fit: contain;
 }
 
+.project--imitation-ball .tile-inner__media:not(.tile-video-grid):not(.tile-image-grid)[src*="agents"] {
+  object-fit: contain;
+  background: transparent;
+}
+
 .project--imitation-ball .tile-inner__media:not(.tile-video-grid):not(.tile-image-grid) {
   object-fit: cover;
   object-position: center;
@@ -1590,6 +1595,16 @@ html.hero--bleed .hero__copy {
   width: 100%;
   height: 100%;
   flex: 1 1 auto;
+}
+
+.lightbox__frame--imitation-ball img.lightbox__media[src*="agents"] {
+  object-fit: contain;
+  width: 60%;
+  height: 60%;
+  max-width: 60%;
+  max-height: 60%;
+  flex: 0 0 auto;
+  background: transparent;
 }
 
 .lightbox__frame--imitation-ball .tile-video-grid {
@@ -2224,6 +2239,8 @@ body.page-contact {
   }
 
   .hero__statement {
+    /* Stacked: always pin under nav (original mobile/tablet behavior). */
+    top: calc(var(--sticky-top) + var(--header-text-gap));
     width: var(--hero-statement-fixed-width, 100%);
     max-width: var(--hero-statement-fixed-width, 100%);
   }

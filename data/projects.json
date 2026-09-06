@@ -357,18 +357,9 @@
           "alt": "Imitation Ball AI — XR testing session"
         },
         {
-          "type": "image-grid",
-          "alt": "Imitation Ball AI — 3D character models",
-          "items": [
-            {
-              "src": "./assets/Onboarding/imitation-ball/model-01.png?v=3",
-              "alt": "Screen character model"
-            },
-            {
-              "src": "./assets/Onboarding/imitation-ball/model-02.jpg?v=3",
-              "alt": "Monkey head model"
-            }
-          ]
+          "type": "image",
+          "src": "./assets/Onboarding/imitation-ball/agents-cutout.png?v=1",
+          "alt": "Imitation Ball AI — agent character models"
         },
         {
           "type": "video",

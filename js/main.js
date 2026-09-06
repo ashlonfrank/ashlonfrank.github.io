@@ -42,7 +42,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=hero-layout-66");
+  const response = await fetch("./data/projects.json?v=hero-layout-68");
   const data = await response.json();
 
   getPublishedSections(data.sections).forEach((section) => {
@@ -277,15 +277,16 @@ function getHeroFoldDividerTop() {
   return foldFallback;
 }
 
-function getHeroStatementTopPosition(statementHeight) {
-  const stickyTop = readCssPx("--sticky-top", 40);
-  const headerGap = readCssPx("--header-text-gap", 16);
-
+function applyHeroStatementTopPosition(statementHeight) {
   if (isStackedLayout()) {
-    return Math.round(stickyTop + headerGap);
+    document.documentElement.style.removeProperty("--hero-statement-top");
+    return;
   }
 
-  return getHeroStatementTopAboveDivider(statementHeight);
+  document.documentElement.style.setProperty(
+    "--hero-statement-top",
+    `${getHeroStatementTopAboveDivider(statementHeight)}px`
+  );
 }
 
 function measureHeroStatementPosition() {
@@ -311,10 +312,7 @@ function measureHeroStatementPosition() {
       );
     }
 
-    document.documentElement.style.setProperty(
-      "--hero-statement-top",
-      `${getHeroStatementTopPosition(statementHeight)}px`
-    );
+    applyHeroStatementTopPosition(statementHeight);
     shell.style.minHeight = `${statementHeight}px`;
     return;
   }
@@ -325,10 +323,7 @@ function measureHeroStatementPosition() {
     getHeroStatementRightAnchor()
   );
 
-  document.documentElement.style.setProperty(
-    "--hero-statement-top",
-    `${getHeroStatementTopPosition(statementHeight)}px`
-  );
+  applyHeroStatementTopPosition(statementHeight);
 
   shell.style.minHeight = `${statementHeight}px`;
 }
