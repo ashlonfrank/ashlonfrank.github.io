@@ -1439,7 +1439,8 @@ html.hero--bleed .hero__copy {
 .lightbox__control--close {
   position: absolute;
   top: var(--lightbox-chrome-top);
-  left: max(16px, var(--page-padding));
+  right: max(16px, var(--page-padding));
+  left: auto;
   border-radius: 50%;
 }
 
