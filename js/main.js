@@ -42,7 +42,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=hero-layout-68");
+  const response = await fetch("./data/projects.json?v=project-order-2");
   const data = await response.json();
 
   getPublishedSections(data.sections).forEach((section) => {

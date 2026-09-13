@@ -175,6 +175,81 @@
       ]
     },
     {
+      "id": "webflow-dot-com",
+      "title": "Architecture & Spatial Design",
+      "description": [
+        "Seven years as a practicing architect across India, Kuwait, and Japan. I worked across scales, from installations and interiors to homes, hospitals, institutions, and urban-scale projects, taking projects from concepts → design development → construction."
+      ],
+      "description2": [
+        "I developed spatial concepts, computational studies, 3D models, technical drawings, and material and fabrication systems. I coordinated with engineers, consultants, contractors, and clients to get projects built."
+      ],
+      "metadata": [
+        {
+          "icon": "role",
+          "text": "Licensed Project Architect"
+        },
+        {
+          "icon": "work",
+          "text": "Concept → Construction"
+        },
+        {
+          "icon": "tools",
+          "text": "Revit • AutoCAD • Rhino • ArchiCAD • SketchUp"
+        },
+        {
+          "icon": "award",
+          "text": "Awards: Dezeen • Architizer • WAF"
+        }
+      ],
+      "media": [
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/architecture-graphics/1.png?v=460",
+          "alt": "Architecture & Spatial Design — 1"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/architecture-graphics/2.png?v=460",
+          "alt": "Architecture & Spatial Design — 2"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/architecture-graphics/3.png?v=460",
+          "alt": "Architecture & Spatial Design — 3"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/architecture-graphics/4.png?v=460",
+          "alt": "Architecture & Spatial Design — 4"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/architecture-graphics/5.png?v=460",
+          "alt": "Architecture & Spatial Design — 5"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/architecture-graphics/6.png?v=460",
+          "alt": "Architecture & Spatial Design — 6"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/architecture-graphics/7.png?v=460",
+          "alt": "Architecture & Spatial Design — 7"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/architecture-graphics/8.png?v=460",
+          "alt": "Architecture & Spatial Design — 8"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/architecture-graphics/9.png?v=460",
+          "alt": "Architecture & Spatial Design — 9"
+        }
+      ]
+    },
+    {
       "id": "chase-sapphire-dining",
       "title": "Dining Discovery",
       "description": [
@@ -245,159 +320,6 @@
           "type": "image",
           "src": "./assets/Onboarding/Dining/9.png?v=442",
           "alt": "Chase Dining — 09"
-        }
-      ]
-    },
-    {
-      "id": "column",
-      "title": "Banking Onboarding",
-      "description": [
-        "97% of business banking customers at Chase migrated from consumer accounts. Without guidance, many missed critical setup tasks like funding their account within 60 days and enrolling in fraud protection, limiting activation and product adoption."
-      ],
-      "description2": [
-        "I designed and shipped Chase Business Banking’s first activation experience for 7.5M+ customers: a scalable framework that prioritized high-impact actions through progressive disclosure, behavioral nudges, and a reusable checklist."
-      ],
-      "metadata": [
-        {
-          "icon": "role",
-          "text": "Sole Product Designer"
-        },
-        {
-          "icon": "work",
-          "text": "Activation • Onboarding • Growth"
-        },
-        {
-          "icon": "metrics",
-          "text": "38% Checklist Engagement"
-        },
-        {
-          "text": "$5M Projected NPV"
-        }
-      ],
-      "media": [
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/01.png?v=426",
-          "alt": "Business Banking Activation — 01"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/02.png?v=426",
-          "alt": "Business Banking Activation — 02"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/03.png?v=426",
-          "alt": "Business Banking Activation — 03"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/04.png?v=426",
-          "alt": "Business Banking Activation — 04"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/05.png?v=426",
-          "alt": "Business Banking Activation — 05"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/06.png?v=427",
-          "alt": "Business Banking Activation — 06"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/07.png?v=426",
-          "alt": "Business Banking Activation — 07"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/08.png?v=426",
-          "alt": "Business Banking Activation — 08"
-        }
-      ]
-    },
-    {
-      "id": "imitation-ball",
-      "published": true,
-      "title": "Imitation Ball AI",
-      "description": [
-        "Imitation Ball is a VR take on 3D Pong where players rally against an AI opponent. Rather than scripted behavior, agents learn to control their paddle and develop distinct play styles through reinforcement and imitation learning."
-      ],
-      "description2": [
-        "Human gameplay was recorded as demonstrations for the agents to learn from, while we experimented with targets, obstacles, movement constraints, and training conditions to see how they shaped the AI’s behavior."
-      ],
-      "metadata": [
-        {
-          "icon": "role",
-          "text": "Product Designer"
-        },
-        {
-          "icon": "work",
-          "text": "VR • Human AI IxD"
-        },
-        {
-          "icon": "discovery",
-          "text": "PPO • GAIL • Human Demonstrations"
-        },
-        {
-          "icon": "tools",
-          "text": "Unity • Blender • Unity ML-Agents"
-        }
-      ],
-      "media": [
-        {
-          "type": "video",
-          "src": "./assets/Onboarding/imitation-ball/07.mp4?v=2",
-          "alt": "Imitation Ball AI — gameplay"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/imitation-ball/05.jpg?v=2",
-          "alt": "Imitation Ball AI — XR testing session"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/imitation-ball/agents-cutout.png?v=1",
-          "alt": "Imitation Ball AI — agent character models"
-        },
-        {
-          "type": "video",
-          "src": "./assets/Onboarding/imitation-ball/01.mp4?v=4",
-          "alt": "Imitation Ball AI — environment"
-        },
-        {
-          "type": "video-grid",
-          "alt": "Imitation Ball AI — training modes",
-          "items": [
-            {
-              "src": "./assets/Onboarding/imitation-ball/grid-01.mp4?v=2",
-              "alt": "Target training"
-            },
-            {
-              "src": "./assets/Onboarding/imitation-ball/grid-02.mp4?v=2",
-              "alt": "Obstacle training"
-            },
-            {
-              "src": "./assets/Onboarding/imitation-ball/grid-03.mp4?v=2",
-              "alt": "Monkey training"
-            }
-          ]
-        },
-        {
-          "type": "video",
-          "src": "./assets/Onboarding/imitation-ball/04.mp4?v=2",
-          "alt": "Imitation Ball AI — rally"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/imitation-ball/06.jpg?v=2",
-          "alt": "Imitation Ball AI — VR gameplay testing"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/imitation-ball/chart-training.png?v=2",
-          "alt": "Imitation Ball AI — target and monkey training metrics"
         }
       ]
     },
@@ -499,6 +421,159 @@
       ]
     },
     {
+      "id": "imitation-ball",
+      "published": true,
+      "title": "Imitation Ball AI",
+      "description": [
+        "Imitation Ball is a VR take on 3D Pong where players rally against an AI opponent. Rather than scripted behavior, agents learn to control their paddle and develop distinct play styles through reinforcement and imitation learning."
+      ],
+      "description2": [
+        "Human gameplay was recorded as demonstrations for the agents to learn from, while we experimented with targets, obstacles, movement constraints, and training conditions to see how they shaped the AI’s behavior."
+      ],
+      "metadata": [
+        {
+          "icon": "role",
+          "text": "Product Designer"
+        },
+        {
+          "icon": "work",
+          "text": "VR • Human AI IxD"
+        },
+        {
+          "icon": "discovery",
+          "text": "PPO • GAIL • Human Demonstrations"
+        },
+        {
+          "icon": "tools",
+          "text": "Unity • Blender • Unity ML-Agents"
+        }
+      ],
+      "media": [
+        {
+          "type": "video",
+          "src": "./assets/Onboarding/imitation-ball/07.mp4?v=2",
+          "alt": "Imitation Ball AI — gameplay"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/imitation-ball/05.jpg?v=2",
+          "alt": "Imitation Ball AI — XR testing session"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/imitation-ball/agents-cutout.png?v=1",
+          "alt": "Imitation Ball AI — agent character models"
+        },
+        {
+          "type": "video",
+          "src": "./assets/Onboarding/imitation-ball/01.mp4?v=4",
+          "alt": "Imitation Ball AI — environment"
+        },
+        {
+          "type": "video-grid",
+          "alt": "Imitation Ball AI — training modes",
+          "items": [
+            {
+              "src": "./assets/Onboarding/imitation-ball/grid-01.mp4?v=2",
+              "alt": "Target training"
+            },
+            {
+              "src": "./assets/Onboarding/imitation-ball/grid-02.mp4?v=2",
+              "alt": "Obstacle training"
+            },
+            {
+              "src": "./assets/Onboarding/imitation-ball/grid-03.mp4?v=2",
+              "alt": "Monkey training"
+            }
+          ]
+        },
+        {
+          "type": "video",
+          "src": "./assets/Onboarding/imitation-ball/04.mp4?v=2",
+          "alt": "Imitation Ball AI — rally"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/imitation-ball/06.jpg?v=2",
+          "alt": "Imitation Ball AI — VR gameplay testing"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/imitation-ball/chart-training.png?v=2",
+          "alt": "Imitation Ball AI — target and monkey training metrics"
+        }
+      ]
+    },
+    {
+      "id": "column",
+      "title": "Banking Onboarding",
+      "description": [
+        "97% of business banking customers at Chase migrated from consumer accounts. Without guidance, many missed critical setup tasks like funding their account within 60 days and enrolling in fraud protection, limiting activation and product adoption."
+      ],
+      "description2": [
+        "I designed and shipped Chase Business Banking’s first activation experience for 7.5M+ customers: a scalable framework that prioritized high-impact actions through progressive disclosure, behavioral nudges, and a reusable checklist."
+      ],
+      "metadata": [
+        {
+          "icon": "role",
+          "text": "Sole Product Designer"
+        },
+        {
+          "icon": "work",
+          "text": "Activation • Onboarding • Growth"
+        },
+        {
+          "icon": "metrics",
+          "text": "38% Checklist Engagement"
+        },
+        {
+          "text": "$5M Projected NPV"
+        }
+      ],
+      "media": [
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/01.png?v=426",
+          "alt": "Business Banking Activation — 01"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/02.png?v=426",
+          "alt": "Business Banking Activation — 02"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/03.png?v=426",
+          "alt": "Business Banking Activation — 03"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/04.png?v=426",
+          "alt": "Business Banking Activation — 04"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/05.png?v=426",
+          "alt": "Business Banking Activation — 05"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/06.png?v=427",
+          "alt": "Business Banking Activation — 06"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/07.png?v=426",
+          "alt": "Business Banking Activation — 07"
+        },
+        {
+          "type": "image",
+          "src": "./assets/Onboarding/08.png?v=426",
+          "alt": "Business Banking Activation — 08"
+        }
+      ]
+    },
+    {
       "id": "samsung",
       "title": "Access & Permissions",
       "description": [
@@ -564,81 +639,6 @@
           "type": "image",
           "src": "./assets/Onboarding/ASM/8.png?v=451",
           "alt": "Access & Permissions — 08"
-        }
-      ]
-    },
-    {
-      "id": "webflow-dot-com",
-      "title": "Architecture & Spatial Design",
-      "description": [
-        "Seven years as a practicing architect across India, Kuwait, and Japan. I worked across scales, from installations and interiors to homes, hospitals, institutions, and urban-scale projects, taking projects from concepts → design development → construction."
-      ],
-      "description2": [
-        "I developed spatial concepts, computational studies, 3D models, technical drawings, and material and fabrication systems. I coordinated with engineers, consultants, contractors, and clients to get projects built."
-      ],
-      "metadata": [
-        {
-          "icon": "role",
-          "text": "Licensed Project Architect"
-        },
-        {
-          "icon": "work",
-          "text": "Concept → Construction"
-        },
-        {
-          "icon": "tools",
-          "text": "Revit • AutoCAD • Rhino • ArchiCAD • SketchUp"
-        },
-        {
-          "icon": "award",
-          "text": "Awards: Dezeen • Architizer • WAF"
-        }
-      ],
-      "media": [
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/architecture-graphics/1.png?v=460",
-          "alt": "Architecture & Spatial Design — 1"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/architecture-graphics/2.png?v=460",
-          "alt": "Architecture & Spatial Design — 2"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/architecture-graphics/3.png?v=460",
-          "alt": "Architecture & Spatial Design — 3"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/architecture-graphics/4.png?v=460",
-          "alt": "Architecture & Spatial Design — 4"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/architecture-graphics/5.png?v=460",
-          "alt": "Architecture & Spatial Design — 5"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/architecture-graphics/6.png?v=460",
-          "alt": "Architecture & Spatial Design — 6"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/architecture-graphics/7.png?v=460",
-          "alt": "Architecture & Spatial Design — 7"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/architecture-graphics/8.png?v=460",
-          "alt": "Architecture & Spatial Design — 8"
-        },
-        {
-          "type": "image",
-          "src": "./assets/Onboarding/architecture-graphics/9.png?v=460",
-          "alt": "Architecture & Spatial Design — 9"
         }
       ]
     },
