@@ -2063,7 +2063,7 @@ html.lenis body.is-lightbox-open {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .about__contact-link:hover {
+  .about__contact-link:hover:not(:has(.text-shimmer)) {
     opacity: 0.55;
   }
 }
