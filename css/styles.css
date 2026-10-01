@@ -66,6 +66,8 @@
   --text-switcher: 24px;
   --text-footer: 12px;
   --text-footer-lh: 12px;
+  --text-contact: 14px;
+  --text-contact-lh: calc(var(--text-contact) * 1.5);
 
   /* Motion — instant for high-frequency switcher (Emil: no anim on repeated actions) */
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
@@ -1779,8 +1781,8 @@ html.lenis body.is-lightbox-open {
   margin: 0;
   justify-self: start;
   align-self: start;
-  font-size: var(--text-footer);
-  line-height: var(--text-footer-lh);
+  font-size: var(--text-contact);
+  line-height: var(--text-contact-lh);
 }
 
 .footer__peek-inner .footer__social-link {
@@ -1788,8 +1790,8 @@ html.lenis body.is-lightbox-open {
   grid-row: 1;
   justify-self: center;
   align-self: start;
-  font-size: var(--text-footer);
-  line-height: var(--text-footer-lh);
+  font-size: var(--text-contact);
+  line-height: var(--text-contact-lh);
   color: var(--color-text);
   opacity: 1;
   transition: opacity 160ms var(--ease-out), transform 120ms var(--ease-out);
@@ -1825,12 +1827,18 @@ html.lenis body.is-lightbox-open {
   display: inline-flex;
   align-items: flex-start;
   gap: 2px;
-  line-height: var(--text-footer-lh);
+  line-height: var(--text-contact-lh);
+}
+
+.footer__email-group .footer__copy {
+  margin-top: calc((var(--text-contact-lh) - var(--meta-icon-size)) / 2);
 }
 
 .footer__peek-inner .footer__credit {
   margin: 0;
   text-align: left;
+  font-size: var(--text-contact);
+  line-height: var(--text-contact-lh);
 }
 
 .social-icon {
@@ -1962,8 +1970,8 @@ html.lenis body.is-lightbox-open {
 }
 
 .footer__credit {
-  font-size: var(--text-footer);
-  line-height: var(--text-footer-lh);
+  font-size: var(--text-contact);
+  line-height: var(--text-contact-lh);
   color: inherit;
   text-decoration: none;
   cursor: pointer;
@@ -2011,14 +2019,14 @@ html.lenis body.is-lightbox-open {
 .about__contact {
   position: fixed;
   left: max(var(--page-padding), calc((100vw - var(--page-max)) / 2 + var(--page-padding)));
-  bottom: 16px;
+  bottom: 20px;
   z-index: 50;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
   margin: 0;
-  font-size: var(--text-footer);
-  line-height: var(--text-footer-lh);
+  font-size: var(--text-contact);
+  line-height: var(--text-contact-lh);
   pointer-events: auto;
   transition: opacity 180ms var(--ease-out), visibility 180ms var(--ease-out);
 }
@@ -2027,11 +2035,11 @@ html.lenis body.is-lightbox-open {
   display: inline-flex;
   align-items: flex-start;
   gap: 2px;
-  line-height: var(--text-footer-lh);
+  line-height: var(--text-contact-lh);
 }
 
 .about__email-group .footer__copy {
-  margin-top: calc((var(--text-footer-lh) - var(--meta-icon-size)) / 2);
+  margin-top: calc((var(--text-contact-lh) - var(--meta-icon-size)) / 2);
 }
 
 .about__contact-link {
@@ -2484,7 +2492,7 @@ body.page-contact {
   .footer__peek-inner {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     gap: 8px;
   }
