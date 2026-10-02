@@ -1825,13 +1825,9 @@ html.lenis body.is-lightbox-open {
 
 .footer__email-group {
   display: inline-flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 2px;
   line-height: var(--text-contact-lh);
-}
-
-.footer__email-group .footer__copy {
-  margin-top: calc((var(--text-contact-lh) - var(--meta-icon-size)) / 2);
 }
 
 .footer__peek-inner .footer__credit {
@@ -1845,41 +1841,81 @@ html.lenis body.is-lightbox-open {
   display: block;
 }
 
-.footer__copy {
+/* Spell UI copy-button — ported; icons use currentColor (black on this site) */
+.footer__copy.copy-button {
   flex-shrink: 0;
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: var(--meta-icon-size);
   height: var(--meta-icon-size);
   padding: 0;
-  margin: calc((var(--text-footer-lh) - var(--meta-icon-size)) / 2) 0 0;
+  margin: 0;
   border: 0;
+  border-radius: 4px;
   background: transparent;
   color: var(--color-text);
   cursor: pointer;
   opacity: 1;
-  transition: opacity 160ms var(--ease-out), transform 120ms var(--ease-out);
+  transition: opacity 160ms var(--ease-out), transform 200ms ease-out;
 }
 
-.footer__copy-icon {
+.footer__copy.copy-button:disabled {
+  pointer-events: none;
+  opacity: 1;
+}
+
+.copy-button__layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    transform 200ms ease-out,
+    opacity 200ms ease-out,
+    filter 200ms ease-out;
+}
+
+.copy-button__layer--copy {
+  transform: scale(1);
+  opacity: 1;
+  filter: blur(0);
+}
+
+.copy-button__layer--check {
+  transform: scale(0.7);
+  opacity: 0;
+  filter: blur(2px);
+}
+
+.copy-button.is-copied .copy-button__layer--copy {
+  transform: scale(0);
+  opacity: 0;
+  filter: blur(2px);
+}
+
+.copy-button.is-copied .copy-button__layer--check {
+  transform: scale(1);
+  opacity: 1;
+  filter: blur(0);
+}
+
+.copy-button__icon {
   display: block;
   width: var(--meta-icon-size);
   height: var(--meta-icon-size);
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .footer__copy:hover {
+  .footer__copy.copy-button:hover:not(:disabled) {
     opacity: 0.55;
   }
 }
 
-.footer__copy:active {
-  transform: scale(0.92);
-}
-
-.footer__copy.is-copied {
-  opacity: 0.85;
+.footer__copy.copy-button:active:not(:disabled) {
+  transform: scale(0.97);
 }
 
 .footer__grid {
@@ -2033,13 +2069,9 @@ html.lenis body.is-lightbox-open {
 
 .about__email-group {
   display: inline-flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 2px;
   line-height: var(--text-contact-lh);
-}
-
-.about__email-group .footer__copy {
-  margin-top: calc((var(--text-contact-lh) - var(--meta-icon-size)) / 2);
 }
 
 .about__contact-link {
