@@ -49,6 +49,8 @@ async function init() {
     main.appendChild(buildSection(section));
   });
 
+  const mediaPrefetch = prefetchAllProjectMedia(main);
+
   if (document.fonts?.ready) {
     await document.fonts.ready;
   }
@@ -90,6 +92,8 @@ async function init() {
   initProjectIndex(scroll);
   initHeaderCover(scroll);
   initHeroStatementCover(scroll);
+
+  await mediaPrefetch;
 
   endCalibration(scroll);
   cachedLayoutMode = syncLayoutMode();
@@ -1991,7 +1995,7 @@ function buildImageGridHtml(media, label) {
     .map((item, i) => {
       const src = escapeHtml(item.src || "");
       const cellAlt = escapeHtml(item.alt || `${label} — ${i + 1}`);
-      return `<div class="tile-image-grid__cell"><img class="tile-image-grid__img" src="${src}" alt="${cellAlt}" loading="lazy" decoding="async"></div>`;
+      return `<div class="tile-image-grid__cell"><img class="tile-image-grid__img" src="${src}" alt="${cellAlt}" loading="eager" decoding="async"></div>`;
     })
     .join("");
   const caption = media.caption
@@ -2011,7 +2015,7 @@ function buildGifGridHtml(media, label) {
       if (/\.(mp4|webm|mov|m4v)(\?|$)/i.test(item.src || "")) {
         return `<video class="tile-gif-grid__cell" src="${src}" autoplay muted loop playsinline preload="metadata" aria-label="${cellAlt}"></video>`;
       }
-      return `<img class="tile-gif-grid__cell" src="${src}" alt="${cellAlt}" loading="lazy" decoding="async">`;
+      return `<img class="tile-gif-grid__cell" src="${src}" alt="${cellAlt}" loading="eager" decoding="async">`;
     })
     .join("");
 
@@ -2031,7 +2035,7 @@ function buildYoutubeTileHtml(media, label) {
 
   return `
     <div class="tile-inner__media tile-youtube" data-youtube-id="${escapeHtml(id)}" role="img" aria-label="${alt}">
-      <img class="tile-youtube__thumb" src="${thumb}" alt="" loading="lazy" decoding="async" />
+      <img class="tile-youtube__thumb" src="${thumb}" alt="" loading="eager" decoding="async" />
       <span class="tile-youtube__play" aria-hidden="true"></span>
     </div>
   `.trim();
@@ -2069,7 +2073,7 @@ function buildTileMediaHtml(media, label) {
     return `<video class="tile-inner__media" src="${src}"${poster} autoplay muted loop playsinline preload="metadata" aria-label="${alt}"></video>`;
   }
 
-  return `<img class="tile-inner__media" src="${src}" alt="${alt}" loading="lazy" decoding="async">`;
+  return `<img class="tile-inner__media" src="${src}" alt="${alt}" loading="eager" decoding="async">`;
 }
 
 function hasTileMedia(item) {
@@ -2132,6 +2136,32 @@ function buildTiles(section) {
       return renderTileWrap(index, label, mediaItem);
     })
     .join("");
+}
+
+function prefetchAllProjectMedia(root) {
+  const imgs = root ? [...root.querySelectorAll("img[src]")] : [];
+  if (!imgs.length) return Promise.resolve();
+
+  imgs.forEach((img) => {
+    img.loading = "eager";
+  });
+
+  const jobs = imgs.map((img) => {
+    if (img.complete && img.naturalWidth > 0) {
+      return img.decode?.().catch(() => {}) ?? Promise.resolve();
+    }
+
+    return new Promise((resolve) => {
+      const finish = () => {
+        const decoded = img.decode?.().catch(() => {}) ?? Promise.resolve();
+        decoded.finally(resolve);
+      };
+      img.addEventListener("load", finish, { once: true });
+      img.addEventListener("error", finish, { once: true });
+    });
+  });
+
+  return Promise.allSettled(jobs).then(() => {});
 }
 
 function initTileVideos() {
