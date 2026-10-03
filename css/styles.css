@@ -1531,6 +1531,26 @@ html.hero--bleed .hero__copy {
   border-radius: 50%;
 }
 
+.lightbox__control--prev,
+.lightbox__control--next {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  z-index: 4;
+}
+
+.lightbox__control--prev:active,
+.lightbox__control--next:active {
+  transform: translateY(-50%) scale(0.96);
+}
+
+.lightbox__control--prev[hidden],
+.lightbox__control--next[hidden] {
+  display: none;
+}
+
 .lightbox__backdrop,
 .lightbox__hit,
 .lightbox__control,

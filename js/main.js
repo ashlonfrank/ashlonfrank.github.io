@@ -42,7 +42,7 @@ async function init() {
     return;
   }
 
-  const response = await fetch("./data/projects.json?v=project-order-2");
+  const response = await fetch("./data/projects.json?v=mp4-opt-1");
   const data = await response.json();
 
   getPublishedSections(data.sections).forEach((section) => {
@@ -2008,6 +2008,9 @@ function buildGifGridHtml(media, label) {
     .map((item, i) => {
       const src = escapeHtml(item.src || "");
       const cellAlt = escapeHtml(item.alt || `${label} — gif ${i + 1}`);
+      if (/\.(mp4|webm|mov|m4v)(\?|$)/i.test(item.src || "")) {
+        return `<video class="tile-gif-grid__cell" src="${src}" autoplay muted loop playsinline preload="metadata" aria-label="${cellAlt}"></video>`;
+      }
       return `<img class="tile-gif-grid__cell" src="${src}" alt="${cellAlt}" loading="lazy" decoding="async">`;
     })
     .join("");
@@ -2135,6 +2138,7 @@ function initTileVideos() {
   const videos = [
     ...document.querySelectorAll("video.tile-inner__media"),
     ...document.querySelectorAll("video.tile-video-grid__cell"),
+    ...document.querySelectorAll("video.tile-gif-grid__cell"),
   ];
   if (!videos.length) return;
 
@@ -2249,6 +2253,8 @@ function initTileLightbox(scroll) {
   const stage = lightbox?.querySelector(".lightbox__stage");
   const hitLayer = lightbox?.querySelector(".lightbox__hit");
   const backBtn = lightbox?.querySelector(".lightbox__control--close");
+  const prevBtn = lightbox?.querySelector(".lightbox__control--prev");
+  const nextBtn = lightbox?.querySelector(".lightbox__control--next");
   if (!lightbox || !stage || !hitLayer) return;
 
   const lenis = scroll?.lenis ?? null;
@@ -2287,7 +2293,9 @@ function initTileLightbox(scroll) {
 
     const video = frame.querySelector("video.lightbox__media");
     if (video) video.play().catch(() => {});
-    frame.querySelectorAll("video.tile-video-grid__cell").forEach((cell) => cell.play().catch(() => {}));
+    frame
+      .querySelectorAll("video.tile-video-grid__cell, video.tile-gif-grid__cell")
+      .forEach((cell) => cell.play().catch(() => {}));
   };
 
   const preloadAdjacentTiles = (tile) => {
@@ -2299,15 +2307,56 @@ function initTileLightbox(scroll) {
     preloadTileMedia(all[(index + 1) % total]);
   };
 
+  const LIGHTBOX_NAV_GAP = 32;
+  const LIGHTBOX_CONTROL_SIZE = 44;
+
+  const syncLightboxChrome = () => {
+    const all = projectTiles();
+    const index = activeTile ? all.indexOf(activeTile) : -1;
+    const multi = all.length > 1;
+    const atStart = index <= 0;
+    const atEnd = index >= all.length - 1;
+
+    if (prevBtn) prevBtn.hidden = !multi || atStart;
+    if (nextBtn) nextBtn.hidden = !multi || atEnd;
+    hitLayer.hidden = !multi || atEnd;
+  };
+
+  const layoutLightboxNav = () => {
+    const frame = stage.querySelector(".lightbox__frame");
+    if (!frame) return;
+
+    const rect = frame.getBoundingClientRect();
+    const centerY = rect.top + rect.height / 2;
+    const minEdge = Math.max(16, parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--page-padding")) || 16);
+
+    if (prevBtn && !prevBtn.hidden) {
+      const left = Math.max(minEdge, rect.left - LIGHTBOX_NAV_GAP - LIGHTBOX_CONTROL_SIZE);
+      prevBtn.style.top = `${centerY}px`;
+      prevBtn.style.left = `${left}px`;
+    }
+
+    if (nextBtn && !nextBtn.hidden) {
+      const left = Math.min(
+        window.innerWidth - minEdge - LIGHTBOX_CONTROL_SIZE,
+        rect.left + rect.width + LIGHTBOX_NAV_GAP
+      );
+      nextBtn.style.top = `${centerY}px`;
+      nextBtn.style.left = `${left}px`;
+    }
+  };
+
   const openLightbox = async (tile) => {
     activeTile = tile;
     tile.classList.add("is-lightbox-source");
     trackProjectImageOpened(tile);
     await renderStage(tile);
     preloadAdjacentTiles(tile);
+    syncLightboxChrome();
     lightbox.hidden = false;
     document.body.classList.add("is-lightbox-open");
     lenis?.stop();
+    requestAnimationFrame(layoutLightboxNav);
   };
 
   const closeLightbox = () => {
@@ -2317,9 +2366,9 @@ function initTileLightbox(scroll) {
     activeTile.classList.remove("is-lightbox-source");
     activeTile = null;
     lightbox.hidden = true;
-    stage.querySelectorAll("video.lightbox__media, video.tile-video-grid__cell").forEach((video) =>
-      video.pause()
-    );
+    stage
+      .querySelectorAll("video.lightbox__media, video.tile-video-grid__cell, video.tile-gif-grid__cell")
+      .forEach((video) => video.pause());
     stage.innerHTML = "";
     document.body.classList.remove("is-lightbox-open");
     lenis?.start();
@@ -2332,10 +2381,8 @@ function initTileLightbox(scroll) {
     const currentIndex = activeTile ? all.indexOf(activeTile) : -1;
     if (currentIndex < 0 || !all.length) return;
 
-    const nextIndex =
-      direction < 0
-        ? (currentIndex - 1 + all.length) % all.length
-        : (currentIndex + 1) % all.length;
+    const nextIndex = currentIndex + direction;
+    if (nextIndex < 0 || nextIndex >= all.length) return;
 
     stepping = true;
     try {
@@ -2344,6 +2391,8 @@ function initTileLightbox(scroll) {
       activeTile.classList.add("is-lightbox-source");
       preloadAdjacentTiles(activeTile);
       await renderStage(activeTile, { animate: true });
+      syncLightboxChrome();
+      requestAnimationFrame(layoutLightboxNav);
     } finally {
       stepping = false;
     }
@@ -2375,8 +2424,26 @@ function initTileLightbox(scroll) {
     backBtn.blur();
   });
 
+  prevBtn?.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    stepLightbox(-1);
+    prevBtn.blur();
+  });
+
+  nextBtn?.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    stepLightbox(1);
+    nextBtn.blur();
+  });
+
   lightbox.addEventListener("wheel", (event) => event.preventDefault(), { passive: false });
   lightbox.addEventListener("touchmove", (event) => event.preventDefault(), { passive: false });
+
+  window.addEventListener("resize", () => {
+    if (!lightbox.hidden) layoutLightboxNav();
+  });
 
   document.addEventListener("keydown", (event) => {
     if (lightbox.hidden) return;
