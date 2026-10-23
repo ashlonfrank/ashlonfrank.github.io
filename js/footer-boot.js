@@ -5,7 +5,7 @@ async function boot() {
   if (!document.getElementById("footer-email")) return;
 
   try {
-    const response = await fetch("./data/projects.json");
+    const response = await fetch("./data/projects.json?v=email-fix-1");
     const data = await response.json();
     initFooter(data);
     initNavBrand(data.site);

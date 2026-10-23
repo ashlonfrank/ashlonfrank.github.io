@@ -184,7 +184,7 @@ async function boot() {
   }
 
   try {
-    const response = await fetch("./data/projects.json");
+    const response = await fetch("./data/projects.json?v=email-fix-1");
     const data = await response.json();
     initAboutContact(data);
     initNavBrand(data.site);

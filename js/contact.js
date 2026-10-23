@@ -5,7 +5,7 @@ import { initPageAnalytics } from "./analytics.js";
 async function initContact() {
   initPageAnalytics({ page: "contact" });
   try {
-    const response = await fetch("./data/projects.json");
+    const response = await fetch("./data/projects.json?v=email-fix-1");
     const data = await response.json();
     initNavBrand(data.site);
     initFooter(data);
